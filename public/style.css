@@ -1,0 +1,90 @@
+body{
+  color: black!important;
+ font-family: 'Inter', sans-serif!important;
+font-family: 'Outfit', sans-serif!important;
+overflow-y: scroll!important;
+-ms-overflow-style: none!important; 
+scrollbar-width: none!important;  
+}
+body::-webkit-scrollbar {
+  display: none!important;
+}
+
+.logo {
+  margin-bottom: -1rem;
+}
+
+.time {
+  font-family: 'Inter';
+  font-weight: 400;
+  font-size: 19px;
+  color: #FFFFFF;
+}
+
+.x {
+  font-family: 'Ingrid Darling';
+  font-weight: 400;
+  font-size: 30px;
+  color: #FFFFFF;
+}
+
+svg path {
+  fill: none;
+  stroke: rgb(255, 255, 255);
+  stroke-width: 1px;
+}
+
+.icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+#top,
+#bottom {
+  stroke-dasharray: 30, 75.39;
+  transition: all 0.6s cubic-bezier(0.6, 0.33, 0.67, 1.29);
+}
+
+svg.active #top,
+svg.active #bottom {
+  stroke-dasharray: 75.39;
+  stroke-dashoffset: -60;
+}
+.account{
+  width: 28%!important;
+}
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .form-card {
+      -webkit-backdrop-filter: blur(15px)!important;
+      backdrop-filter: blur(15px);
+      background-color: rgba(7, 7, 7, 0.3)!important;
+      
+  }
+}
+.input-control input:focus{
+  outline: 0 !important;
+  }
+  
+  .input-control.success input{
+      border: colour #09c372!important;
+  }
+  .input-control.error input{
+      border-color: #ff3860!important;
+  }
+  .input-control .error {
+      color: #ff3860!important;
+      height: 20px;
+      font-size: 13px;
+  
+  }
+.footer{
+  height: 2.96rem;
+}
+footer p{
+  cursor: pointer;
+}
+.sidebar{
+  width: 10rem, important !important;
+}

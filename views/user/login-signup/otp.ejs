@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../../partials/head.ejs') %> 
+<body>
+
+  <%- include('../../partials/user/guest-navbar.ejs') %>
+    <section>
+        <div class="container h-100" id="register-card">
+          <div class="row h-100 d-flex justify-content-center align-items-center">
+            <div class="col-md-5">
+              <div class="login-card p-5 mb-4">
+                <div class="text-center text-black">
+                  <h1 class="my-5">Otp has sent to your PhoneNumber</h5>
+                </div>
+                <p class="text-danger">
+                   <%= message %>
+                </p>
+                <form action="/register/otp" method="post">
+                  <label class="form-label mb-2" for="form2Example27">Enter the Otp</label>
+                  <div class="error"></div>
+                    <input class="form-control form-control-lgmt-2 " type="text" name="otp" id="otp">
+                    <button class="btn btn-outline-dark btn-lg mt-2 d-flex justify-content-center" type="submit" value="submit" onclick=" validateOtp()">Sent</button>
+                </form>
+                <!-- <form id="form" action='/register/otp' method='get'>
+                  <span class="text-danger">
+                  </span>
+                  <div class="form-outline input-control mb-1 ">
+                    <label class="form-label" for="form2Example27">Enter the Otp</label>
+                    <input class="form-control form-control-lg " type="text" name="otp" id="otp"/>
+                    <div class="error"></div>
+                  </div>
+                  <button class="btn btn-outline-dark btn-lg " type="submit">Sent</button>
+                    <input type="submit" value="Submit"> 
+                      <p class="mb-5 pb-lg-2 text-primary mt-2">Already have an account? <a
+                        href="/login" class="text-primary mt-2">Signin here</a></p>
+                </form> -->
+                <!-- <form id="form" action='/register/otp' method='post'>
+                  
+                   </form> -->
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+
+     
+    
+                      
+
+
+      <%- include('../../partials/user/footer.ejs') %> 
+</body>
+</html>
