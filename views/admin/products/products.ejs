@@ -2,11 +2,11 @@
 <html lang="en">
   <html lang="en">
     <%- include('../../partials/head.ejs') %> 
-  <body>
-    <%- include('../../partials/admin/admin-navbar.ejs') %> 
-    <section class="d-flex">
-    <div class="sidebar">
-      <div class="sticky-start row vh-100  d-flex flex-column justify-content-center align-items-center g-2 bg-black">
+    <body class="admin-body">
+      <%- include('../../partials/admin/admin-navbar.ejs') %>
+        <section class="d-flex">
+          <div class="sidebar position-fixed start-0">
+            <div class="vh-100  d-flex flex-column justify-content-center align-items-center g-2 bg-black">
         <div class="col-12 m-auto p-auto text-center">
           <a class="text-decoration-none  text-white" href="/admin/home">Dashboard</a>
       </div>
@@ -22,6 +22,61 @@
     </div>
   </div>
     </section>
+
+    <div class="input-group">
+      <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+      <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Button</button>
+    </div>
+
+    <section class="container pt-5">
+      <div class="row ">
+        <div class="col-12 table-responsive ">
+          <table id="datatable" class="table display table-overflow  table-borderless table-hover">
+            <thead>
+              <tr>
+                <th class="" scope="col">#</th>
+                <th class="" scope="col">Product Name</th>
+                <th class="" scope="col">Price</th>
+                <th class="" scope="col">Category</th>
+                <th class="" scope="col">Image</th>
+                <th class="" scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody >
+              <tr>
+                <th class="" scope="row">
+                1
+                </th>
+                <td class="">
+                 fg
+                </td>
+                <td class="">
+                 fg 
+                </td>
+                <td class="">
+                 kj
+                 </td>
+                 <td class="">
+                jaioj 
+                 </td>
+                <td class="">
+                  <div>
+                    
+                      <button class="btn btn-outline-success block-button" id="unblock-button "
+                        onclick="unblockUser(this.id)" >View Product</button>
+                    
+                        <button class="btn btn-danger block-button" id="block-button"
+                          onclick="unblockUser(this.id)" >Delete</button>
+                       
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  </section>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
   crossorigin="anonymous"></script>

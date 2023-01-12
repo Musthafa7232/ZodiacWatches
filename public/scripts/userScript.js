@@ -1,3 +1,4 @@
+
 const form = document.getElementById('form');
 const fname = document.getElementById('fname');
 const lname = document.getElementById('lname');
@@ -6,7 +7,7 @@ const password = document.getElementById('password');
 const password2 = document.getElementById('password2');
 const phone=document.getElementById('phone')
 const otp=document.getElementById('otp')
-
+const logout=document.getElementById('logout')
 form.addEventListener('submit', (event) => {
     if (isFormValid() == true) {
         form.submit();
@@ -81,7 +82,7 @@ function validOtp(){
     console.log(otp.value.trim());
 const otpvalue=otp.value.trim()
 if (otpvalue === '') {
-    setError(otp, 'Username is Required')
+    setError(otp, 'otp is Required')
 } else {
     setSuccess(otp)
 }
@@ -151,3 +152,21 @@ function validatePassword2() {
         setSuccess(password2);
     }
 }
+
+function confirmLogout(user){
+    if(window.confirm(`are you sure ${user} `)){
+           const url="http://localhost:3000/logout";
+           fetch(url,{
+               method:'get',
+               headers:{
+                   'content-type':'application/json'
+               }
+             }).then((response)=>response.json())
+           .then((data)=>window.location.href=data.redirect)
+           .catch((err)=>console.log(err))
+          }else{
+
+    }
+}
+    
+   

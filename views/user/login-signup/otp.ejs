@@ -15,11 +15,14 @@
                 <p class="text-danger">
                    <%= message %>
                 </p>
-                <form action="/register/otp" method="post">
+                
+                <form id="form" action="/register/otp" method="post">
+                  <div class="form-outline input-control mb-1">
                   <label class="form-label mb-2" for="form2Example27">Enter the Otp</label>
                   <div class="error"></div>
                     <input class="form-control form-control-lgmt-2 " type="text" name="otp" id="otp">
-                    <button class="btn btn-outline-dark btn-lg mt-2 d-flex justify-content-center" type="submit" value="submit">Sent</button>
+                    </div>
+                    <button class="btn btn-outline-dark btn-lg mt-2 d-flex justify-content-center" type="submit" onclick="validOtp()" value="submit">Sent</button>
                 </form>
                
               </div>

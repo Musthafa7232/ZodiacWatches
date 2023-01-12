@@ -88,3 +88,10 @@ footer p{
 .sidebar{
   width: 10rem;
 }
+.admin-body{
+  margin-top: 4.3rem;
+   margin-left: 10rem;
+}
+.table-overflow{
+  overflow-x: scroll;
+}

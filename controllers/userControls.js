@@ -1,5 +1,9 @@
-const userModel = require('../Models/user')
+const userModel = require('../Models/userSchema')
 const msg = require("../utils/Twilio")
+const upload = require('../utils/fileUploads')
+const bcrypt = require('bcrypt')
+
+
 module.exports = {
 
     getLandingPage: (req, res) => {
@@ -17,7 +21,9 @@ module.exports = {
     },
 
     getHome: (req, res) => {
-        return res.render("user/home")
+        const user = req.session.user
+        console.log(user);
+        return res.render("user/home", { user })
     },
 
     getRegister: (req, res) => {
@@ -30,11 +36,12 @@ module.exports = {
         return res.render("user/login-signup/register", { message })
     },
 
-    Register: async (req, res) => {
+    register: async (req, res) => {
         try {
             const { fname, lname, phone, email, password } = req.body;
             const existing = await userModel.find({ email })
-            const user = new userModel({
+            const existingPhone = await userModel.find({ phone })
+            const user = ({
                 fname,
                 lname,
                 phone,
@@ -42,7 +49,10 @@ module.exports = {
                 password
             })
             req.session.newUser = user;
-            if (existing.length == 0) {
+            if (existingPhone.length != 0) {
+                req.session.message = "Phone Number already exists"
+                return res.redirect('/register')
+            } else if (existing.length == 0) {
                 if (req.body['confirm-password'] != password) {
                     req.session.message = "Password do not match"
                     return res.redirect('/register')
@@ -76,7 +86,7 @@ module.exports = {
 
     checkotp: async (req, res) => {
         try {
-            const{fname,lname,phone,email,password}=req.session.newUser
+            const { fname, lname, phone, email, password } = req.session.newUser
             const user = new userModel({
                 fname,
                 lname,
@@ -100,17 +110,23 @@ module.exports = {
 
     },
 
-    Login: async (req, res) => {
+    login: async (req, res) => {
         try {
             const user = await userModel.find({ email: req.body.email })
+            const match = await bcrypt.compare(req.body.password, user[0].password)
             if (user.length == 0) {
                 req.session.message = "User does not exist"
                 return res.redirect('/login')
-            } else if (req.body.password != user[0].password) {
-                req.session.message = "Password is incorrect"
+            } 
+            // else if (!match) {
+            //     req.session.message = "Invalid password"
+            //     return res.redirect('/login')
+            // } 
+            else if (user[0].isBlocked) {
+                req.session.message = "You Are Blocked "
                 return res.redirect('/login')
             } else {
-                req.session.user = true;
+                req.session.user = user[0];
                 return res.redirect('/home')
             }
         } catch (err) {
@@ -119,9 +135,10 @@ module.exports = {
 
     },
 
+
     getLogout: (req, res) => {
         req.session.destroy()
-        res.redirect('/')
+        res.json({ redirect: '/' })
     }
 
 }

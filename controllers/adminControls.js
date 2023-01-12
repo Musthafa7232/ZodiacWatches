@@ -1,5 +1,7 @@
-const adminModel = require('../Models/admin')
-const userModel = require('../Models/user')
+const session = require('express-session');
+const adminModel = require('../Models/adminSchema');
+const { find } = require('../Models/userSchema');
+const userModel = require('../Models/userSchema')
 
 module.exports = {
     getLogin: (req, res) => {
@@ -15,7 +17,7 @@ module.exports = {
     gethome: (req, res) => {
         return res.render("admin/home")
     },
-    
+
     getproducts: (req, res) => {
         return res.render("admin/products/products")
     },
@@ -31,6 +33,70 @@ module.exports = {
 
     getCategory: (req, res) => {
         return res.render("admin/category/category")
+    },
+
+    addCategory: (req, res) => {
+        if (req.session.message) {
+            res.redirect('/admin/category')
+        } else {
+            res.redirect('/admin/category')
+        }
+    },
+
+
+    blockUser: async (req, res) => {
+        try {
+            const id = req.params.id
+            const user = await userModel.findById(id)
+            if (user.isBlocked) {
+                try {
+                    await userModel.findOneAndUpdate({ _id: id }, {
+                        $set: {
+                            isBlocked: false
+                        }
+                    })
+                    return res.json({
+                        successStatus: true,
+                        redirect: '/admin/users'
+                    })
+                } catch (error) {
+                    console.log(error)
+                    return res.json({
+                        successStatus: false
+                    })
+                }
+            } else {
+                try {
+                    await userModel.findOneAndUpdate({ _id: id }, {
+                        $set: {
+                            isBlocked: true
+                        }
+                    })
+                    return res.json({
+                        successStatus: true,
+                        redirect: '/admin/users'
+                    })
+                } catch (error) {
+                    console.log(error)
+                    return res.json({
+                        successStatus: false
+                    })
+                }
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
+    viewUser: async (req, res) => {
+        try {
+            const id = req.params.id
+            const user = await userModel.findById(id)
+            console.log(user)
+            res.render('admin/users/viewUser', {user})
+        } catch (err) {
+            console.log(err);
+        }
     },
 
     Login: async (req, res) => {

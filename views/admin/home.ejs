@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('../partials/head.ejs') %>
-<body>
+<body class="admin-body">
   <%- include('../partials/admin/admin-navbar.ejs') %> 
 
-
-<section class="d-flex">
-  <div class="sidebar">
-    <div class="sticky-start row vh-100 d-flex flex-column justify-content-center align-items-center g-2 bg-black">
+      <section class="d-flex">
+        <div class="sidebar position-fixed start-0">
+          <div class="vh-100  d-flex flex-column justify-content-center align-items-center g-2 bg-black">
       <div class="col-12 m-auto p-auto text-center">
           <a class="text-decoration-none  fw-bold text-white" href="/admin/home">Dashboard</a>
       </div>

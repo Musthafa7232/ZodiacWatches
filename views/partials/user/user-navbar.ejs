@@ -59,19 +59,19 @@
         <div class="nav-item ">
             <a class="nav-link  d-flex align-items-center w-50 text-white" href="#" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="w-50" src="icons8-favorite-64 (1).png">WishList
+                <img class="w-50" src="icons/icons8-favorite-64 (1).png">WishList
             </a>
         </div>
         <div class="nav-item ">
             <a class="nav-link  d-flex align-items-center w-50 text-white" href="#" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="w-50" src="icons8-shopping-cart-64.png">Cart
+                <img class="w-50" src="icons/icons8-shopping-cart-64.png">Cart
             </a>
         </div>
         <div class="nav-item  ">
             <a class="nav-link dropdown-toggle d-flex align-items-center w-50 text-white" href="#" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="w-50" src="icons8-account-48.png">Account
+                <img class="w-50" src="icons/icons8-account-48.png">Account
             </a>
             <div class="dropdown-menu dropdown-menu-end" data-bs-theme="dark">
                 <a class="dropdown-item" href="/login">My Account</a>
@@ -80,7 +80,7 @@
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="/register">Addresses</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/Logout">Logout</a>
+                <button class="dropdown-item"  id="logout" onclick='confirmLogout("<%= user.fname %> <%= user.lname %>")'>Logout</button>
             </div>
         </div>
     </div>
