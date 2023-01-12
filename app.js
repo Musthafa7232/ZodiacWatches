@@ -13,7 +13,7 @@ require('dotenv').config()
 app.use(middleware.Cache)
 
 app.use(session({
-  secret: process.env.secret,
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 }// 1 week

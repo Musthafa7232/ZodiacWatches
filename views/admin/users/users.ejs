@@ -3,9 +3,9 @@
   <%- include('../../partials/head.ejs') %> 
 <body>
   <%- include('../../partials/admin/admin-navbar.ejs') %> 
-
-  <div class=" w-50">
-    <div class="sticky-start row vh-100 w-50 d-flex flex-column justify-content-center align-items-center g-2 bg-black">
+  <section class="d-flex">
+  <div class="sidebar position-fixed start-0">
+    <div class=" row vh-100  d-flex flex-column justify-content-center align-items-center g-2 bg-black">
       <div class="col-12 m-auto p-auto text-center">
           <a class="text-decoration-none  text-white" href="/admin/home">Dashboard</a>
       </div>
@@ -20,10 +20,49 @@
     </div>
     </div>
   </div>
+  <div class="row mt-3 mx-auto ">
+    <div class="col-12 table-responsive ">
+      <table id="datatable" class="table table-borderless table-hover">
+        <thead >
+          <tr>
+            <th class="" scope="col">#</th>
+            <th class="" scope="col">Name</th>
+            <th class="" scope="col">Email</th>
+            <th class="" scope="col">Phone</th>
+            <th class="" scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody class="mb-3">
+          <% if(users.length>0){ %> 
+            <% var count = 1 %> 
+            <% users.forEach(item => { %> 
+                <tr >
+                  <th class="text-center" scope="row"><%= count++ %> </th>
+                  <td class="text-center"><%= item.fname + ' ' + item.lname %> </td>
+                  <td class="text-center"><%= item.email %> </td>
+                  <td class="text-center"><%= item.phone %> </td>
+                  <td class="text-center">
+                    <div>
+                      <a href="/admin/users/view/<%= item._id %> " class="btn btn-success">View User</a>
+                      <% if(item.isBlocked){ %> 
+                        <button class="btn btn-warning block-button" id="unblock-button<%= count %> " onclick="unblockUser(this.id)" data-url="<%= item._id %>">Unblock</button>
+                      <% }else{ %> 
+                        <button class="btn btn-danger block-button" id="block-button<%= count %>" onclick="unblockUser(this.id)" data-url="<%= item._id %>" >Block</button>
+                      <% } %> 
+                    </div>
+                  </td>
+                </tr>
+            <% }) %> 
+          <% } %> 
+        </tbody>
+      </table>
+    </div>
+  </div>
 
+</section>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
   crossorigin="anonymous"></script>
-<script src="../scripts/user/script.js"></script>
+  <script src="/scripts/admin/admin.js"></script>
 </body>
 </html>

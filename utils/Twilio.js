@@ -1,6 +1,7 @@
-const accountSid = "AC6c2b00bd23861c2e18e68dfd8af3b226";
-const authToken = "500b7167f749b154edb2828c901ae4a4";
-const verifySid = "VA6ecddcf42d6a2fde6e4d8e800a500907";
+require('dotenv').config()
+const accountSid =process.env.ACCOUNT
+const authToken = process.env.TOKEN;
+const verifySid = process.env.VERIFY;
 const client = require("twilio")(accountSid, authToken);
 
 module.exports={
@@ -12,14 +13,13 @@ module.exports={
  
     check: async (otpCode,number) => {
         try{
-const status = await client.verify.v2
+  const status = await client.verify.v2
             .services(verifySid)
             .verificationChecks.create({ to: `+91${number}`, code: otpCode });
-            return status
+             return status
         }catch(err){
-console.log(err);
-        }
-           
+            console.log(err);
+        }   
     }
 
 }

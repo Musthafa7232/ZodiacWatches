@@ -77,7 +77,8 @@ const validateEditUser=()=>{
     validatePassword();
     validatePassword2();
 }
-function validateOtp(){
+function validOtp(){
+    console.log(otp.value.trim());
 const otpvalue=otp.value.trim()
 if (otpvalue === '') {
     setError(otp, 'Username is Required')
