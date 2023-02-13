@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg sticky-top bg-black ">
     <div class="container-fluid text-white">
-        
+
         <button class="navbar-toggler border border-0 col" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="Toggle navigation">
@@ -59,13 +59,13 @@
         <div class="nav-item ">
             <a class="nav-link  d-flex align-items-center w-50 text-white" href="#" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="w-50" src="icons/icons8-favorite-64 (1).png">WishList
+                <img class="w-50" src="icons8-favorite-64 (1).png">WishList
             </a>
         </div>
         <div class="nav-item ">
             <a class="nav-link  d-flex align-items-center w-50 text-white" href="#" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="w-50" src="icons/icons8-shopping-cart-64.png">Cart
+                <img class="w-50" src="icons8-shopping-cart-64.png">Cart
             </a>
         </div>
         <div class="nav-item  ">
@@ -80,9 +80,37 @@
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="/register">Addresses</a>
                 <div class="dropdown-divider"></div>
-                <button class="dropdown-item"  id="logout" onclick='confirmLogout("<%= user.fname %> <%= user.lname %>")'>Logout</button>
+                <button type="button" class="btn btn-danger dropdown-item" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop">
+                    LogOut
+                </button>
+
+
             </div>
         </div>
     </div>
     </div>
 </nav>
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog  ">
+        <div class="modal-content bg-black text-white">
+            <div class="modal-header">
+                <h1 class="modal-title text-center fs-5" id="staticBackdropLabel">Do You Want To Leave <%= user.fname %>
+                        <%= user.lname %> ?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class=" border-0 d-flex justify-content-end ">
+                <button type="button" class="btn btn-secondary " data-bs-dismiss="modal">No</button>
+
+                <a type="button" href="/logout" class="btn btn-outline-success ms-2">Yes</a>
+
+            </div>
+        </div>
+    </div>
+</div>

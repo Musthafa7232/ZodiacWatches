@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-  <%- include('../../partials/head.ejs') %> 
-<body>
+<%- include('../../partials/head.ejs') %>
 
-  <%- include('../../partials/user/guest-navbar.ejs') %>
-    <section>
+  <body>
+
+    <%- include('../../partials/user/guest-navbar.ejs') %>
+      <section>
         <div class="container h-100" id="register-card">
           <div class="row h-100 d-flex justify-content-center align-items-center">
             <div class="col-md-5">
@@ -13,29 +14,35 @@
                   <h1 class="my-5">Otp has sent to your PhoneNumber</h5>
                 </div>
                 <p class="text-danger">
-                   <%= message %>
+                  <%= message %>
                 </p>
-                
+
                 <form id="form" action="/register/otp" method="post">
                   <div class="form-outline input-control mb-1">
-                  <label class="form-label mb-2" for="form2Example27">Enter the Otp</label>
-                  <div class="error"></div>
+                    <label class="form-label mb-2" for="form2Example27">Enter the Otp</label>
+                    <div class="error"></div>
                     <input class="form-control form-control-lgmt-2 " type="text" name="otp" id="otp">
-                    </div>
-                    <button class="btn btn-outline-dark btn-lg mt-2 d-flex justify-content-center" type="submit" onclick="validOtp()" value="submit">Sent</button>
+                  </div>
+                  <button class="btn btn-outline-dark btn-lg mt-2 d-flex justify-content-center" type="submit"
+                    onclick="validOtp()" value="submit">Sent</button>
+                  <div class="text-center ">
+                    <span class="d-block mobile-text" id="countdown"></span>
+                    <span class="d-block mobile-text" id="resend"></span>
+                  </div>
                 </form>
-               
               </div>
             </div>
           </div>
         </div>
-    </section>
 
-     
-    
-                      
+      </section>
 
 
-      <%- include('../../partials/user/footer.ejs') %> 
-</body>
+
+
+
+
+      <%- include('../../partials/user/footer.ejs') %>
+  </body>
+
 </html>

@@ -1,24 +1,32 @@
-const express=require('express')
-const router=express.Router()
-const userControls=require('../controllers/userControls')
-const userAuth=require('../auth/users/userAuth')
-  
-router.get('/',userAuth.isLoggedOut,userControls.getLandingPage)
+const express = require('express')
+const router = express.Router()
+const userControls = require('../controllers/userControls')
+const userAuth = require('../auth/userAuth')
+const registerAuth = require('../auth/registerAuth')
 
-router.get('/login',userAuth.isLoggedOut,userControls.getLogin)
+//guest
+router.get('/', userAuth.isLoggedOut, userControls.getLandingPage)
 
-router.post('/login',userControls.login)
+//login
+router.get('/login', userAuth.isLoggedOut, userControls.getLogin)
 
-router.get('/home',userAuth.isLoggedIn,userControls.getHome)
+router.post('/login', userControls.login)
 
-router.get('/register',userAuth.isLoggedOut,userControls.getRegister)
+//home
+router.get('/home', userAuth.isLoggedIn, userControls.getHome)
 
-router.post('/register',userControls.register)
+//register
+router.get('/register', userAuth.isLoggedOut, userControls.getRegister)
 
-router.get('/register/otp',userAuth.isLoggedOut,userControls.getotp)
+router.post('/register', userControls.register)
 
-router.post('/register/otp',userControls.checkotp)
+router.get('/register/otp', userAuth.isLoggedOut, registerAuth.isRegistered, userControls.getotp)
 
-router.get('/logout',userAuth.isLoggedIn,userControls.getLogout)
+router.post('/register/otp', userControls.checkotp)
+
+router.get('/register/resendOtp', userAuth.isLoggedOut, registerAuth.isRegistered, userControls.resendOtp)
+
+//logout
+router.get('/logout', userAuth.isLoggedIn, userControls.getLogout)
 
 module.exports = router;

@@ -4,52 +4,60 @@
 
   <body class="admin-body">
     <%- include('../../partials/admin/admin-navbar.ejs') %>
-      
-        <div class="sidebar position-fixed start-0">
-          <div class="vh-100  d-flex flex-column justify-content-center align-items-center g-2 bg-black">
-            <div class=" m-auto p-auto text-center">
-              <a class="text-decoration-none  text-white" href="/admin/home">Dashboard</a>
-            </div>
-            <div class="m-auto p-auto text-center ">
-              <a class="text-decoration-none text-white" href="/admin/products">products</a>
-            </div>
-            <div class=" m-auto p-auto text-center">
-              <a class="text-decoration-none fw-bold text-white" href="/admin/users">Users</a>
-            </div>
-            <div class=" m-auto p-auto text-center">
-              <a class="text-decoration-none  text-white" href="/admin/category">Category</a>
+
+      <div class="sidebar position-fixed start-0">
+        <div class="vh-100  d-flex flex-column justify-content-center align-items-center g-2 bg-black">
+          <div class="col-12 py-4 text-center">
+            <a class="text-decoration-none  text-white" href="/admin/home">Dashboard</a>
+          </div>
+          <div class="col-12 py-4 text-center ">
+            <a class="text-decoration-none  text-white" href="/admin/products">products</a>
+          </div>
+          <div class="col-12 py-4 text-center">
+            <a class="text-decoration-none fw-bold text-white" href="/admin/users">Users</a>
+          </div>
+          <div class="col-12 py-4 text-center">
+            <a class="text-decoration-none  text-white" href="/admin/category">Category</a>
+          </div>
+          <div class="col-12 py-4 text-center">
+            <a class="text-decoration-none  text-white" href="/admin/Coupons">Coupons</a>
+          </div>
+          <div class="col-12 py-4 text-center">
+            <a class="text-decoration-none   text-white" href="/admin/banners">Banners</a>
+          </div>
+
+        </div>
+      </div>
+      <section class="container">
+        <div class="row">
+          <div class="card form-card mt-5  mx-auto" style="width: 18rem;">
+            <div class="card-body  text-center">
+              <h5 class="card-title fw-bold text-decoration-underline ">
+                <%= users.fname + ' ' + users.lname %>
+              </h5>
+              <p class="card-text">Email:<%= users.email %>
+              </p>
+              <p class="card-text">Phone No: <%= users.phone %>
+              </p>
+              <p class="card-text">TotalOrders:<%= users.totalOrders %>
+              </p>
+              <p class="card-text">TotalSpent:<%= users.totalSpent %>
+              </p>
+              <p class="card-text details text-secondary">Account Created On: <%= users.createdOn %>
+              </p>
+              <p class="card-text details text-secondary">Last Updated: <%= users.updatedOn %>
+              </p>
+              <a href="/admin/users" class="btn border-dark  btn-outline-dark">Go Back</a>
             </div>
           </div>
         </div>
-        <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-          
-        <div class="card">
-            <% if(user.length>0){ %>
-                <% user.forEach(item=> { %>
-            <div class="card-header">
-                <%= item.fname + ' ' + item.lname %>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item"> <%= item.email %></li>
-              <li class="list-group-item"> <%= item.phone %></li>
-            </ul>
-            <% }) %>
-          <% } %>
-          </div>
-          
-        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-        <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-        <script src="/scripts/adminScript.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-          crossorigin="anonymous"></script>
-    </body>
-  
-  </html>
+      </section>
+      <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+      <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+      <script src="/scripts/adminScript.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+  </body>
+
+</html>

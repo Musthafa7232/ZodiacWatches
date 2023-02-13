@@ -1,6 +1,41 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 
+const addressSchema = new mongoose.Schema({
+    state: {
+        type: String,
+    },
+    street1: {
+        type: String
+    },
+    street2: {
+        type: String
+    },
+    city: {
+        type: String
+    },
+    landmark: {
+        type: String
+    },
+    zip: {
+        type: Number
+    }
+})
+const cartSchema = new mongoose.Schema({
+    productId: {
+      type: String,
+    },
+    quantity: {
+      type: Number
+    }
+  })
+  
+  const wishlistSchema = new mongoose.Schema({
+    productId: {
+      type: String
+    }
+  })
+
 const userSchema = new mongoose.Schema({
     fname: {
         type: String,
@@ -28,16 +63,33 @@ const userSchema = new mongoose.Schema({
     isBlocked: {
         type: Boolean,
         default: false
+    },
+    totalOrders: {
+        type: Number,
+        default: 0
+    },
+    totalSpent: {
+        type: Number,
+        default: 0
+    },
+    createdOn: {
+        type: String,
+    },
+    updatedOn:{
+        type:String
+    },
+    shippingAddress: [addressSchema],
+    cart: [cartSchema],
+    wishlist: [wishlistSchema]
+})
+userSchema.pre('save', async function (next) {
+    try {
+        hashedPassword = await bcrypt.hash(this.password, 10)
+        this.password = hashedPassword
+        next();
+    } catch (error) {
+        console.log(error)
     }
 })
-userSchema.pre('save', async function(next){
-    try {
-      hashedPassword = await bcrypt.hash(this.password, 10)
-      this.password = hashedPassword
-      next();
-    } catch (error) {
-      console.log(error)
-    }
-  })
 const User = mongoose.model('User', userSchema)
 module.exports = User

@@ -9,21 +9,48 @@ module.exports = {
     getLandingPage: (req, res) => {
         return res.render("user/landing-page")
     },
+    getHome: (req, res) => {
+        const user = req.session.user
+        return res.render("user/home", { user })
+    },
 
     getLogin: (req, res) => {
         if (req.session.message) {
             const message = req.session.message;
+            const user = req.session.loginEmail;
             req.session.message = "";
-            return res.render("user/login-signup/login", { message })
+            req.session.loginEmail = ""
+            return res.render("user/login-signup/login", { message, user })
         }
-        const message = " "
-        return res.render("user/login-signup/login", { message })
+        const message = ""
+        const user = ""
+        return res.render("user/login-signup/login", { message, user })
     },
 
-    getHome: (req, res) => {
-        const user = req.session.user
-        console.log(user);
-        return res.render("user/home", { user })
+    login: async (req, res) => {
+        try {
+            const user = await userModel.find({ email: req.body.email })
+            const match = await bcrypt.compare(req.body.password, user[0].password)
+            if (user.length == 0) {
+                req.session.message = "User does not exist"
+                return res.redirect('/login')
+            }
+            else if (!match) {
+                req.session.loginEmail = user[0].email;
+                req.session.message = "Invalid password"
+                return res.redirect('/login')
+            }
+            else if (user[0].isBlocked) {
+                req.session.message = "You Are Blocked "
+                return res.redirect('/login')
+            } else {
+                req.session.user = user[0];
+                return res.redirect('/home')
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
     },
 
     getRegister: (req, res) => {
@@ -46,22 +73,20 @@ module.exports = {
                 lname,
                 phone,
                 email,
-                password
+                password,
+                createdOn: Date(),
+                updatedOn: Date()
             })
             req.session.newUser = user;
             if (existingPhone.length != 0) {
                 req.session.message = "Phone Number already exists"
                 return res.redirect('/register')
             } else if (existing.length == 0) {
-                if (req.body['confirm-password'] != password) {
-                    req.session.message = "Password do not match"
-                    return res.redirect('/register')
-                } else if (!(phone).match(/^[789]\d{9}$/)) {
-                    req.session.message = "Invalid mobile number"
-                    return res.redirect('/register')
-                } else {
+                try {
                     await msg.sendotp(req.session.newUser.phone)
                     return res.redirect('/register/otp')
+                } catch (err) {
+                    console.log(err)
                 }
             } else {
                 req.session.message = "User already exists"
@@ -70,7 +95,6 @@ module.exports = {
         } catch (err) {
             console.log(err)
         }
-
     },
 
     getotp: (req, res) => {
@@ -85,14 +109,17 @@ module.exports = {
     },
 
     checkotp: async (req, res) => {
+
         try {
-            const { fname, lname, phone, email, password } = req.session.newUser
+            const { fname, lname, phone, email, password, createdOn, updatedOn } = req.session.newUser
             const user = new userModel({
                 fname,
                 lname,
                 phone,
                 email,
-                password
+                password,
+                createdOn,
+                updatedOn
             })
             const otp = req.body.otp
             const checking = await msg.check(otp, user.phone)
@@ -107,38 +134,20 @@ module.exports = {
         } catch (err) {
             console.log(err);
         }
-
     },
 
-    login: async (req, res) => {
+    resendOtp: async (req, res) => {
         try {
-            const user = await userModel.find({ email: req.body.email })
-            const match = await bcrypt.compare(req.body.password, user[0].password)
-            if (user.length == 0) {
-                req.session.message = "User does not exist"
-                return res.redirect('/login')
-            } 
-            // else if (!match) {
-            //     req.session.message = "Invalid password"
-            //     return res.redirect('/login')
-            // } 
-            else if (user[0].isBlocked) {
-                req.session.message = "You Are Blocked "
-                return res.redirect('/login')
-            } else {
-                req.session.user = user[0];
-                return res.redirect('/home')
-            }
+            await msg.sendotp(req.session.newUser.phone)
+            return res.redirect('/register/otp')
         } catch (err) {
             console.log(err);
         }
-
     },
 
-
     getLogout: (req, res) => {
-        req.session.destroy()
-        res.json({ redirect: '/' })
+        req.session.user = null;
+        res.redirect("/")
     }
 
 }

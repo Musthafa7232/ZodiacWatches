@@ -4,73 +4,81 @@
 
   <body class="admin-body">
     <%- include('../../partials/admin/admin-navbar.ejs') %>
-      
-        <div class="sidebar position-fixed start-0">
-          <div class="vh-100  d-flex flex-column justify-content-center align-items-center g-2 bg-black">
-            <div class=" m-auto p-auto text-center">
-              <a class="text-decoration-none  text-white" href="/admin/home">Dashboard</a>
-            </div>
-            <div class="m-auto p-auto text-center ">
-              <a class="text-decoration-none text-white" href="/admin/products">products</a>
-            </div>
-            <div class=" m-auto p-auto text-center">
-              <a class="text-decoration-none fw-bold text-white" href="/admin/users">Users</a>
-            </div>
-            <div class=" m-auto p-auto text-center">
-              <a class="text-decoration-none  text-white" href="/admin/category">Category</a>
-            </div>
+
+      <div class="sidebar position-fixed start-0">
+        <div class="vh-100  d-flex flex-column justify-content-center align-items-center g-2 bg-black">
+          <div class="col-12 py-4 text-center">
+            <a class="text-decoration-none  text-white" href="/admin/home">Dashboard</a>
+          </div>
+          <div class="col-12 py-4 text-center ">
+            <a class="text-decoration-none  text-white" href="/admin/products">products</a>
+          </div>
+          <div class="col-12 py-4 text-center">
+            <a class="text-decoration-none fw-bold text-white" href="/admin/users">Users</a>
+          </div>
+          <div class="col-12 py-4 text-center">
+            <a class="text-decoration-none  text-white" href="/admin/category">Category</a>
+          </div>
+          <div class="col-12 py-4 text-center">
+            <a class="text-decoration-none  text-white" href="/admin/Coupons">Coupons</a>
+          </div>
+          <div class="col-12 py-4 text-center">
+            <a class="text-decoration-none   text-white" href="/admin/banners">Banners</a>
+          </div>
+
+        </div>
+      </div>
+      <section class="container pt-5">
+        <div class="row ">
+          <div class="col-12 table-responsive ">
+            <table id="datatable" class="table display table-overflow  table-borderless table-hover">
+              <thead>
+                <tr>
+                  <th class="" scope="col">#</th>
+                  <th class="" scope="col">Name</th>
+                  <th class="" scope="col">Email</th>
+                  <th class="" scope="col">Phone</th>
+                  <th class="" scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(users.length>0){ %>
+                  <% var count=1 %>
+                    <% users.forEach(item=> { %>
+                      <tr>
+                        <th class="text-center" scope="row">
+                          <%= count++ %>
+                        </th>
+                        <td class="text-center">
+                          <%= item.fname + ' ' + item.lname %>
+                        </td>
+                        <td class="text-center">
+                          <%= item.email %>
+                        </td>
+                        <td class="text-center">
+                          <%= item.phone %>
+                        </td>
+                        <td class="text-center">
+                          <div>
+                            <a href="/admin/users/view/<%= item._id %>" class="text-decoration-none"> <button
+                                class="btn border-0 btn-outline-info">View</button></a>
+                            <% if(item.isBlocked){ %>
+                              <button class="btn border-0 btn-outline-success" id="button<%= count %> "
+                                onclick="blockUser(this.id)" data-url="<%= item._id %>">Unblock</button>
+                              <% }else{ %>
+                                <button class="btn border-0 btn-outline-danger" id="button<%= count %>"
+                                  onclick="blockUser(this.id)" data-url="<%= item._id %>">Block</button>
+                                <% } %>
+                          </div>
+                        </td>
+                      </tr>
+                      <% }) %>
+                        <% } %>
+              </tbody>
+            </table>
           </div>
         </div>
-        <section class="container pt-5">
-          <div class="row ">
-            <div class="col-12 table-responsive ">
-              <table id="datatable" class="table display table-overflow  table-borderless table-hover">
-                <thead>
-                  <tr>
-                    <th class="" scope="col">#</th>
-                    <th class="" scope="col">Name</th>
-                    <th class="" scope="col">Email</th>
-                    <th class="" scope="col">Phone</th>
-                    <th class="" scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody >
-                  <% if(users.length>0){ %>
-                    <% var count=1 %>
-                      <% users.forEach(item=> { %>
-                        <tr>
-                          <th class="text-center" scope="row">
-                            <%= count++ %>
-                          </th>
-                          <td class="text-center">
-                            <%= item.fname + ' ' + item.lname %>
-                          </td>
-                          <td class="text-center">
-                            <%= item.email %>
-                          </td>
-                          <td class="text-center">
-                            <%= item.phone %>
-                          </td>
-                          <td class="text-center">
-                            <div>
-                             <a href="/admin/users/view/<%= item._id %>" class="text-decoration-none"> <button class="btn btn-info block-button">View</button></a>
-                              <% if(item.isBlocked){ %>
-                                <button class="btn btn-success block-button" id="button<%= count %> "
-                                  onclick="blockUser(this.id)" data-url="<%= item._id %>">Unblock</button>
-                                <% }else{ %>
-                                  <button class="btn btn-danger block-button" id="button<%= count %>"
-                                    onclick="blockUser(this.id)" data-url="<%= item._id %>">Block</button>
-                                  <% } %>
-                            </div>
-                          </td>
-                        </tr>
-                        <% }) %>
-                          <% } %>
-                </tbody>
-              </table>
-            </div>
-          </div>
-      </section> 
+      </section>
       <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
       <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
       <script src="/scripts/adminScript.js"></script>

@@ -1,13 +1,12 @@
-
 const form = document.getElementById('form');
 const fname = document.getElementById('fname');
 const lname = document.getElementById('lname');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
 const password2 = document.getElementById('password2');
-const phone=document.getElementById('phone')
-const otp=document.getElementById('otp')
-const logout=document.getElementById('logout')
+const phone = document.getElementById('phone')
+const otp = document.getElementById('otp')
+const logout = document.getElementById('logout')
 form.addEventListener('submit', (event) => {
     if (isFormValid() == true) {
         form.submit();
@@ -47,7 +46,7 @@ const isValidEmail = () => {
     return re.test((email.value));
 }
 const isValidPhone = () => {
-    const re = /^[789]\d{9}$/;
+    const re = /^[6-9]\d{9}$/;
     return re.test((phone.value));
 }
 const validateRegister = () => {
@@ -58,34 +57,34 @@ const validateRegister = () => {
     validatePassword();
     validatePassword2();
 }
-const validateLogin=()=>{
+const validateLogin = () => {
     validateEmail();
     validatePassword();
 }
-const validateAdminLogin=()=>{
+const validateAdminLogin = () => {
     validateName();
     validatePassword();
 }
-const validateAddUser=()=>{
-    validateName();
-    validateEmail();
-    validatePassword();
-    validatePassword2();
-}
-const validateEditUser=()=>{
+const validateAddUser = () => {
     validateName();
     validateEmail();
     validatePassword();
     validatePassword2();
 }
-function validOtp(){
+const validateEditUser = () => {
+    validateName();
+    validateEmail();
+    validatePassword();
+    validatePassword2();
+}
+function validOtp() {
     console.log(otp.value.trim());
-const otpvalue=otp.value.trim()
-if (otpvalue === '') {
-    setError(otp, 'otp is Required')
-} else {
-    setSuccess(otp)
-}
+    const otpvalue = otp.value.trim()
+    if (otpvalue === '') {
+        setError(otp, 'otp is Required')
+    } else {
+        setSuccess(otp)
+    }
 }
 function validateFname() {
     const usernamevalue = fname.value.trim()
@@ -118,9 +117,9 @@ function validatePhone() {
     const phonevalue = phone.value.trim()
     if (phonevalue === '') {
         setError(phone, 'Phone no is Required')
-    }  else if (phonevalue.length < 10) {
+    } else if (phonevalue.length < 10) {
         setError(phone, 'Phone Number Must be 10 digits')
-    }else if (!isValidPhone(phonevalue)) {
+    } else if (!isValidPhone(phonevalue)) {
         setError(phone, 'Provide a valid Phone Number')
     } else {
         setSuccess(phone)
@@ -153,20 +152,28 @@ function validatePassword2() {
     }
 }
 
-function confirmLogout(user){
-    if(window.confirm(`are you sure ${user} `)){
-           const url="http://localhost:3000/logout";
-           fetch(url,{
-               method:'get',
-               headers:{
-                   'content-type':'application/json'
-               }
-             }).then((response)=>response.json())
-           .then((data)=>window.location.href=data.redirect)
-           .catch((err)=>console.log(err))
-          }else{
 
+let timerOn = true;
+function timer(remaining) {
+    var m = Math.floor(remaining / 60);
+    var s = remaining % 60;
+    m = m < 10 ? "0" + m : m;
+    s = s < 10 ? "0" + s : s;
+    document.getElementById("countdown").innerHTML = `Time left: ${m} : ${s}`;
+    remaining -= 1;
+    if (remaining >= 0 && timerOn) {
+        setTimeout(function () {
+            timer(remaining);
+        }, 1000);
+        document.getElementById("resend").innerHTML = `
+    `;
+        return;
     }
+    if (!timerOn) {
+        return;
+    }
+    document.getElementById("resend").innerHTML = `Don't receive the code? 
+  <span class="font-weight-bold text-secondary cursor" onclick="timer(20)"><a class="text-decoration-none text-secondary" href="/register/resendOtp">Resend<a>
+  </span>`;
 }
-    
-   
+timer(10);
