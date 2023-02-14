@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+
+  <body>
+
+    <%- include('../partials/user/user-navbar.ejs') %>
+      <div class="container-fluid  ">
+        <div class="row mb-5">
+          <div class="col-12 col-lg-3">
+            <div class=" row text-center   " id="navbar-example3">
+              <div class="col-12   mt-4 bg-light text-center border-black border border-2 mb-5 py-5">
+                <h4 class="w-100">Hi
+                  <span class="w-100 fw-bold fs-6"><%= user.name %></span>
+                </h4>
+              </div>
+              <div class="col-12 bg-light border-black border border-2 py-5"><a class="text-decoration-none fw-bold  text-black"
+                  href="/myAccount">
+                  <p>Dashboard</p>
+                </a></div>
+              <div class="col-12  bg-light border border-2 py-5"><a class="text-decoration-none text-black"
+                  href="/addresses">
+                  <p>My Address</p>
+                </a> </div>
+              <div class="col-12  bg-light border-black border border-2 py-5"><a class="text-decoration-none text-black"
+                  href="/myorders">
+                  <p>My Orders</p>
+                </a></div>
+            
+            </div>
+          </div>
+
+          <div class="col-9 mx-auto  my-5 my-lg-auto ">
+            <div class="row  mx-auto">
+              <form class=" border pt-2  mx-auto border-2 " action="/editUser" method="post">
+               
+                <div class=" py-2 "><h5 class="me-2">Name</h5>
+                <input type="text" id="form6Example1" name="name" class=" form-control bg-light"  value="<%= user.name %>" />
+              </div>
+              <div class=" py-2 "><h5 class="me-2">Phone</h5>
+                <input type="number" id="form6Example1" name="phone" class=" form-control bg-light"  value="<%= user.phone %>" />
+              </div>
+              <div class=" py-2 "><h5 class="me-2">Email</h5>
+                <input type="text" id="form6Example1" name="email" class=" form-control bg-light"  value="<%= user.email %>" />
+              </div>
+              <div class="d-flex justify-content-center">
+                <button type="submit" class="text-decoration-none rounded-pill  btn btn-outline-dark my-3 me-2 ">Save</button >
+                    <a href="/myAccount" class="text-decoration-none  rounded-pill btn btn-dark my-3 ">Cancel</a >
+                    </div>
+                    </form>
+              
+            
+            </div>
+          </div>
+        </div>
+
+      </div>
+        <%-include('../partials/user/footer.ejs') %>
+
+
+  </body>
+
+</html>

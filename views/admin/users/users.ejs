@@ -5,29 +5,7 @@
   <body class="admin-body">
     <%- include('../../partials/admin/admin-navbar.ejs') %>
 
-      <div class="sidebar position-fixed start-0">
-        <div class="vh-100  d-flex flex-column justify-content-center align-items-center g-2 bg-black">
-          <div class="col-12 py-4 text-center">
-            <a class="text-decoration-none  text-white" href="/admin/home">Dashboard</a>
-          </div>
-          <div class="col-12 py-4 text-center ">
-            <a class="text-decoration-none  text-white" href="/admin/products">products</a>
-          </div>
-          <div class="col-12 py-4 text-center">
-            <a class="text-decoration-none fw-bold text-white" href="/admin/users">Users</a>
-          </div>
-          <div class="col-12 py-4 text-center">
-            <a class="text-decoration-none  text-white" href="/admin/category">Category</a>
-          </div>
-          <div class="col-12 py-4 text-center">
-            <a class="text-decoration-none  text-white" href="/admin/Coupons">Coupons</a>
-          </div>
-          <div class="col-12 py-4 text-center">
-            <a class="text-decoration-none   text-white" href="/admin/banners">Banners</a>
-          </div>
-
-        </div>
-      </div>
+    <%- include('../../partials/admin/admin-sidebar.ejs') %>
       <section class="container pt-5">
         <div class="row ">
           <div class="col-12 table-responsive ">
@@ -50,7 +28,7 @@
                           <%= count++ %>
                         </th>
                         <td class="text-center">
-                          <%= item.fname + ' ' + item.lname %>
+                          <%= item.name  %>
                         </td>
                         <td class="text-center">
                           <%= item.email %>

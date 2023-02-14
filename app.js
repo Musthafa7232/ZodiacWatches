@@ -1,14 +1,13 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const session = require('express-session')
-const mongoose = require('mongoose')
 const userrouter = require('./router/user-router')
 const adminrouter = require('./router/admin-router')
 const db = require('./utils/dbConnection')
 const middleware = require('./middlewares/middleware')
 const path = require('path')
 const MongoStore = require('connect-mongo')
-require('dotenv').config()
 
 
 const oneWeek =1000 * 60 * 60 * 24 * 7
@@ -39,6 +38,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 //Routers
+app.use(express.static(path.join(__dirname,('./public'))));
 app.use('/admin', adminrouter)
 app.use('/', userrouter)
 
@@ -47,13 +47,10 @@ app.use('/', userrouter)
 app.set('view engine', 'ejs')
 
 //Static file
-app.use(express.static(path.join(__dirname,('./public'))));
 app.use("/uploads", express.static("uploads"));
 
-//database and server Connection 
-mongoose.set('strictQuery', true)
-db.once('open', () => {
+// server Connection 
+
   app.listen(PORT, () => {
     console.log(`server is listening on port ${PORT}`)
   })
-})

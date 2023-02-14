@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+
+    <body>
+
+        <%- include('../partials/user/user-navbar.ejs') %>
+
+            <div class="d-flex justify-content-end pe-4 ">
+
+                <button class="btn btn-outline-dark mt-5 rounded-pill btn-lg text-center" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop1">
+                    Apply Coupon
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Select Coupons</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+
+                            <div class="modal-body text-center">
+                                <% if(coupons.length>0){ %>
+                                    <% coupons.forEach(items=>{ %>
+
+                                        <button onclick="applyCoupon('<%= items._id %>')" class="btn w-100 btn-light"
+                                            <%=address.cartTotal<items.minPurchaseValue?"disabled":"" %>>
+
+                                            <h4 class="fw-bold text-black">
+                                                <%= items.code %>
+                                            </h4>
+                                            <p>
+                                                <%= items.description %>
+                                            </p>
+                                            <p>Max Discount:<%= items.discount %>
+                                                    <%= items.isPercentage?"% ":" ₹" %>
+                                            </p>
+                                            <p>Minimum Purchase value required :<%= items.minPurchaseValue %>
+                                            </p>
+                                            <p class="text-danger fw-bold">
+                                                <%= address.cartTotal<items.minPurchaseValue?"Purchase more products to get this Offer":"" %>
+                                            </p>
+                                        </button>
+                                        <% }) %>
+                                            <% } %>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="container mt-2">
+                <form action="/cashOndelivery" method="post">
+                    <div class="row">
+                        <div class="col-md-7 mt-3">
+                         <div class="d-flex flex-sm-column flex-column-reverse">
+                            <div class=" card mb-5 w-100 " style="min-height: 8rem;">
+                                <div class="card-header bg-black text-white text-center">
+                                    Delivery Address
+                                </div>
+                                <div class="card-body text-black">
+                                    <div id="liveAlertPlaceholder">
+                                        <% if(message){ %>
+                                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                                  <div><%= message %></div>
+                                                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                            <% } %>
+                                    </div>
+                                    <% address.shippingAddress.forEach(item=> { %>
+                                        <div class="m-2">
+                                            <input type="radio" id="address" value="<%= item._id %>" name="address"
+                                                checked>
+
+                                            <label>
+                                                <%= address.name %>,
+
+                                                    <%= address.phone %>,
+
+                                                        <%= item.address %>,
+
+                                                            <%= item.landmark %>,
+
+                                                                <%= item.city %>,
+
+                                                                    <%= item.state %>,
+
+                                                                        <%= item.zip %>
+
+                                            </label>
+
+
+                                        </div>
+
+
+                                        <% }) %>
+
+                                            <button type="button" onclick="window.location='/addAddress'"
+                                                class=" my-2 btn rounded-pill btn-outline-dark btn-md btn-block">
+                                                Add New address
+                                            </button>
+                                </div>
+                            </div>
+                            <div class=" card mb-5 w-100 " style="min-height: 8rem;">
+                                <div class="card-header bg-black text-white text-center">
+                                  Order Summary
+                                </div>
+                                     <div class="card-body  text-black">
+                                        <table class="table table-borderless ">
+                                            <tbody>
+                                        <% address.cart.forEach(item=> { %>
+                                            <tr>
+                                            <td class="product-thumbnail">
+                                              <img width="40" height="40" src="/<%= item.productId.images[0] %>" alt="Image"
+                                            class="img-fluid productImage">   
+                                            </td>
+                                            <td class="product-name">
+                                                <p >
+                                                  <%= item.productId.productName %>
+                                                </p>
+                                              </td>
+                                              <td>
+                                                <%= item.productId.price %>
+                                              </td>
+                                              <td>
+                                              Quantity <%= item.quantity %>
+                                              </td>
+                                           </tr>
+                                        <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                              
+                            </div>
+
+                        </div>
+
+</div>
+
+                        <div class="col-md-5 mt-3">
+                            <div class="card mb-4">
+                                <div class="card-header bg-black text-white py-3">
+                                    <h5 class="mb-0 text-center">Summary</h5>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li
+                                            class="list-group-item  d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                                            Products
+                                            <span>₹<%= address.cartTotal %></span>
+                                        </li>
+                                        <% if(discount.code){ %>
+                                            <li
+                                                class="list-group-item d-flex text-success  justify-content-between align-items-center px-0">
+                                                Coupon Applied:('<%= discount.code %>')
+                                                    <span>
+                                                        <% if(discount.isPercentage){ %>
+                                                            -₹<%= address.cartTotal * discount.discount/100 %>
+                                                                <% }else{ %>
+                                                                    -₹<%= discount.discount %>
+                                                                        <% } %>
+                                                    </span>
+                                            </li>
+                                            <% } %>
+                                                <li
+                                                    class="list-group-item d-flex  justify-content-between align-items-center px-0">
+                                                    Shipping
+                                                    <span>₹50</span>
+                                                </li>
+                                                <li
+                                                    class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                                                    <div>
+                                                        <strong>Total amount</strong>
+
+                                                    </div>
+                                                    <span><strong>₹
+                                                            <% if(discount.code){ %>
+                                                                <% if(discount.isPercentage){ %>
+                                                                    <%= address.cartTotal +50 - address.cartTotal * discount.discount/100 %>
+                                                                        <% }else{ %>
+                                                                            <%= address.cartTotal +50- discount.discount %>
+                                                                                <% } %>
+                                                                                    <% }else{ %>
+                                                                                        <%= address.cartTotal +50 %>
+                                                                                            <% } %>
+                                                        </strong>
+                                                    </span>
+                                                </li>
+                                    </ul>
+
+                                    <button type="submit"
+                                        class="btn border mb-3 rounded-pill btn-dark btn-lg btn-block w-100">
+                                        Cash On Delivery
+                                    </button>
+
+                                    <a onclick="razorPayCheckout('<%= address.name %>')" id="razorpay"
+                                        class="btn border mb-3 rounded-pill btn-light btn-lg btn-block w-100 text-decoration-none ">
+                                        <img height="21" weight="25"
+                                            src="https://cdn.worldvectorlogo.com/logos/razorpay.svg" />
+                                    </a>
+                                    <div id="paypal-button-container"></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+            </div>
+            </form>
+            </div>
+
+
+            <%- include('../partials/user/footer.ejs') %>
+            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                <script
+                    src="https://www.paypal.com/sdk/js?client-id=AcGyPBCxw5f6z4jORB6Zx0-qrHrUNv8cHSa4SyneIRqAzZXWywA9rmJVRXveIEAhmsJzUip1VjPpytAw&currency=USD"></script>
+                <!-- Set up a container element for the button -->
+                <script>
+                    const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+
+const alert = (message, type) => {
+  alertPlaceholder.innerHTML = [
+    `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+    `   <div>${message}</div>`,
+    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+    '</div>'
+  ].join('')
+
+
+}
+                    // Render the PayPal button into #paypal-button-container
+                    paypal.Buttons({
+                        style: {
+                            layout: 'vertical',
+                            color: 'gold',
+                            shape: 'pill',
+                            label: 'paypal',
+                            height: 35,
+
+                        },
+                        // Set up the transaction
+                        createOrder: function (data, actions) {
+                            const address=document.querySelector('input[name="address"]:checked')?.value
+                            if(!address){
+                                const alertTrigger = document.getElementById('paypal-button-container')
+if (alertTrigger) {
+    alert("Please add an address ",'danger')
+}
+                            }else{
+                                 return fetch("/paypal", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    address: document.querySelector('input[name="address"]:checked').value
+                                }),
+                            })
+                                .then(res => {
+                                    if (res.ok) return res.json()
+                                    else if (res.redirect) window.location = res.redirect
+                                    return res.json().then(json => Promise.reject(json))
+                                })
+                                .then(({ id }) => {
+                                    return id
+                                })
+                                .catch(e => {
+                                    console.error(e.error)
+                                })
+                            }
+                           
+                        },
+
+                        // Finalize the transaction
+                        onApprove: function (data, actions) {
+                            return actions.order.capture().then(function (orderData) {
+                                // Successful capture! For demo purposes:
+                                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+
+                                window.location = ("/paypalSuccess")
+
+                            });
+                        },
+                        // onError: function (err) {
+                        //     window.location.href = "/paymentFailed";
+                        // }
+
+
+                    }).render('#paypal-button-container');
+
+                    function razorPayCheckout(user) {
+                        console.log(user)
+                        const address=document.querySelector('input[name="address"]:checked')?.value
+                            if(!address){
+                                const alertTrigger = document.getElementById('razorpay')
+if (alertTrigger) {
+    alert("Please add an address ",'danger')
+}
+                            }else{
+                        fetch("/razorpay", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                address: document.querySelector('input[name="address"]:checked').value
+                            }),
+                        }).then((response) => response.json())
+                            .then((response) => {
+                                if(response.successStatus){
+
+                                const options = {
+                                    "key": 'rzp_test_WDR1VAx50ZaE9E', // Enter the Key ID generated from the Dashboard
+                                    "amount": response.orders.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                                    "currency": "INR",
+                                    "name": "TimeX Watches",
+                                    "description": "Test Transaction",
+                                    "image": "https://icon2.cleanpng.com/20180219/sqe/kisspng-watch-logo-promotion-advertising-dial-free-clock-images-5a8a74eee1a9b0.2432912215190233429243.jpg",
+                                    "order_id":response.orders.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                                    "handler": function (response) {
+                                        window.location = ("/razorpaySuccess")
+                                    },
+                                    "prefill": {
+                                        "name": "Gaurav Kumar",
+                                        "email": "gaurav.kumar@example.com",
+                                        "contact": "9000090000"
+                                    },
+                                    "notes": {
+                                        "address": "Razorpay Corporate Office"
+                                    },
+                                    "theme": {
+                                        "color": "#000000"
+                                    }
+                                };
+                                var rzp1 = new Razorpay(options);
+                                rzp1.open();
+                                }else{
+                window.location.href=response.redirect
+                                }
+                                
+                             
+                               
+                            })
+                            .catch((err)=>{
+console.log(err);
+                            })
+                    }
+                }
+                </script>
+
+
+
+    </body>
+
+</html>

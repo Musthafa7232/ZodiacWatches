@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../../partials/head.ejs') %>
+
+    <body class="admin-body">
+        <%- include('../../partials/admin/admin-navbar.ejs') %>
+
+            <%- include('../../partials/admin/admin-sidebar.ejs') %>
+
+                <section class="container  mt-5">
+                    <div class="row  ">
+                        <div class="col-12 mt-5 table-responsive ">
+                            <table id="datatable" class="table display table-overflow  table-borderless table-hover">
+                                <thead>
+
+                                    <tr class="table-light">
+                                        <th class="" scope="col">#</th>
+                                        <th class="" scope="col">Ordered on</th>
+                                        <th class="" scope="col">orderID</th>
+                                        <th class="" scope="col">Product Name</th>
+                                        <th class="" scope="col">Quantity</th>
+                                        <th class="" scope="col">Payment Method</th>
+                                        <th class="" scope="col">Billing address</th>
+                                        <th class="" scope="col">orderStatus </th>
+                                        <th class="" scope="col">total price</th>
+                                        <th class="" scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <% if(orders.length>0){ %>
+                                    <% var count=1 %>
+                                        <% orders.forEach(order=> { %>
+                                            <tbody>
+
+                                                <tr class="table-light">
+                                                    <th class="" scope="row">
+                                                        <%= count++ %>
+                                                    </th>
+                                                    <td class="">
+                                                        <%= order.createdAt.toString().slice(0,16) %>
+
+                                                    </td>
+                                                    <td class="">
+                                                        #<%= order._id%>
+                                                    </td>
+
+                                                    <td class="">
+                                                        <% order.items.forEach(item=> { %>
+                                                            <p class="my-5 pt-3">
+                                                                <%= item.productName %>
+                                                            </p>
+                                                            <% }) %>
+                                                    </td>
+                                                    
+                                                    <td class="">
+                                                        <% order.items.forEach(item=> { %>
+                                                            <p class="my-5 pt-3">
+                                                                <%= item.quantity %>
+                                                            </p>
+                                                            <% }) %>
+                                                    </td>
+
+                                                    <td class="">
+                                                        <%= order.paymentMethod %>
+                                                    </td>
+                                                    <td class="">
+                                                        <address>
+                                                            <strong>
+                                                                <%= order.userId?.name %>
+                                                            </strong><br>
+                                                            Address: <%= order.userAddress[0].address %> <br>
+                                                                Landmark: <%= order.userAddress[0].landmark %><br>
+                                                                    <%= order.userAddress[0].state %>, <%=
+                                                                            order.userAddress[0].city %>, <%=
+                                                                                order.userAddress[0].state %><br>
+                                                                                <abbr title="Phone">
+                                                                                    <%= order.userId?.phone %>
+                                                                                </abbr>
+                                                        </address>
+                                                    </td>
+                                                    <td class="">
+                                                        <div class="pt-auto my-5 d-flex">
+                                                            <select name="orderStatus" id="orderStatus<%= count%>"   class="btn btn-outline-primary bg-white text-primary" <%= order.orderStatus=='Delivered'?'disabled':'' %>  <%= order.isCancelled==true?'disabled':'' %>  > 
+                                                                <option <%= 'Placed'== order.orderStatus.toString()? 'selected':'' %> value="Placed"> Placed</option>
+                                                                <option <%=  'Confirmed'==order.orderStatus.toString()? 'selected':' ' %> value="Confirmed"> Confirmed </option>
+                                                                <option <%=  'Shipped'==order.orderStatus.toString()? 'selected':' ' %> value="Shipped"> Shipped </option>
+                                                                <option <%=  'Delivered'==order.orderStatus.toString()? 'selected':' ' %>  value="Delivered"> Delivered </option>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td class="">
+                                                        ₹ <%= order.totalAmount %>
+                                                    </td>
+                                                    <td class="w-100">
+                                                        <% if(order.orderStatus=='Delivered'){ %>
+
+                                                            <% }else{ %>
+                                                                 <% if(order.isCancelled==false){ %>
+<button class="btn btn-outline-success rounded-pill my-4" id="savechanges<%= count %>" data-url="<%=order._id %>" onclick="saveChanges('<%= count %>',this.id)">Save Changes</button>
+                                                                <% } %>
+                                                     
+                                                      <button class="btn btn-outline-danger rounded-pill my-3 " data-bs-target="#staticBackdrop<%= count %>" id="cancel" data-bs-toggle="modal"  <%= order.isCancelled==true?'disabled':'' %>> <%= order.isCancelled==false?'Cancel Order':'Canceled' %> </button>
+                                                   
+                                                                <% } %>
+                                                       
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                            <div class="modal fade" id="staticBackdrop<%= count %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h1 class="modal-title fs-5" id="staticBackdropLabel">Do you want to cancel this order?</h1>
+                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                  
+                                                    <div class="modal-footer">
+                                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                      <button type="button" class="btn btn-danger" onclick="cancelOrder('<%=order._id %>')">yes</button>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            <% }) %>
+                                                <% } %>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <img src="" style="height:100vh;">
+                </section>
+
+           
+                <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+                <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+                <script src="/scripts/adminScript.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+                  integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+                  crossorigin="anonymous"></script>
+    </body>
+
+</html>

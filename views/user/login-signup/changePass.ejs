@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../../partials/head.ejs') %>
+
+  <body>
+
+    <%- include('../../partials/user/guest-navbar.ejs') %>
+    <section>
+        <div class="container h-100" id="register-card">
+          <div class="row h-100 d-flex justify-content-center align-items-center">
+            <div class="col-md-5">
+              <div class="login-card p-5 mb-4">
+                <div class="text-center text-black">
+                  <h1 class="my-5">Reset Password</h5>
+                </div>
+                <div id="liveAlertPlaceholder" >
+                  <% if(message){ %>
+                      <div class="alert alert-danger alert-dismissible" role="alert">
+                            <div><%= message %></div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                      <% } %>
+              </div>
+
+                <form  action="/changePassword" method="post">
+                  <div class="form-outline input-control mb-2">
+                    <label class="form-label" for="form2Example27">Enter the new Password</label>
+                    <input class="form-control form-control-lg " type="password" name="password" id="password">
+                 <div class="error"></div>
+                 </div>
+                  <div class="form-outline input-control mb-2">
+                    <label class="form-label" for="form2Example27">Confirm Password</label>
+                     <input class="form-control form-control-lg " type="password" name="Confirmpassword">
+                    <div class="error"></div> 
+                  </div>
+                  <button class="btn btn-outline-dark btn-lg mt-2 d-flex justify-content-center" type="submit"
+                    >Submit</button>
+                 
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+
+      <%- include('../../partials/user/footer.ejs') %>
+  </body>
+
+</html>

@@ -1,28 +1,29 @@
+ScrollReveal().reveal('.widget', { interval: 200 });
+
 const form = document.getElementById('form');
-const fname = document.getElementById('fname');
-const lname = document.getElementById('lname');
+
 const email = document.getElementById('email');
 const password = document.getElementById('password');
-const password2 = document.getElementById('password2');
-const phone = document.getElementById('phone')
-const otp = document.getElementById('otp')
 const logout = document.getElementById('logout')
-form.addEventListener('submit', (event) => {
-    if (isFormValid() == true) {
-        form.submit();
+
+form.addEventListener("submit", function(event) {
+    if (validateEmail() === true && validatePhone() === true ){
+ form.submit()
     } else {
-        event.preventDefault();
+       event.preventDefault();
     }
 });
+
 function isFormValid() {
     const check = document.querySelectorAll('form div');
-    let result = false;
+   let result =false
     check.forEach(item => {
         if (item.classList.contains('success')) {
-            result = true;
+         result =true;
         }
     });
-    return result;
+
+    return result
 }
 const setSuccess = element => {
     const inputControl = element.parentElement;
@@ -35,7 +36,6 @@ const setSuccess = element => {
 const setError = (element, message) => {
     const inputControl = element.parentElement;
     const errorDisplay = inputControl.querySelector('.error')
-
     errorDisplay.innerText = message;
     inputControl.classList.add('error')
     inputControl.classList.remove('success')
@@ -49,34 +49,8 @@ const isValidPhone = () => {
     const re = /^[6-9]\d{9}$/;
     return re.test((phone.value));
 }
-const validateRegister = () => {
-    validateFname();
-    validateLname();
-    validateEmail();
-    validatePhone();
-    validatePassword();
-    validatePassword2();
-}
-const validateLogin = () => {
-    validateEmail();
-    validatePassword();
-}
-const validateAdminLogin = () => {
-    validateName();
-    validatePassword();
-}
-const validateAddUser = () => {
-    validateName();
-    validateEmail();
-    validatePassword();
-    validatePassword2();
-}
-const validateEditUser = () => {
-    validateName();
-    validateEmail();
-    validatePassword();
-    validatePassword2();
-}
+
+
 function validOtp() {
     console.log(otp.value.trim());
     const otpvalue = otp.value.trim()
@@ -86,71 +60,41 @@ function validOtp() {
         setSuccess(otp)
     }
 }
-function validateFname() {
-    const usernamevalue = fname.value.trim()
-    if (usernamevalue === '') {
-        setError(fname, 'Username is Required')
-    } else {
-        setSuccess(fname)
-    }
-}
-function validateLname() {
-    const usernamevalue = lname.value.trim()
-    if (usernamevalue === '') {
-        setError(lname, 'Username is Required')
-    } else {
-        setSuccess(lname)
-    }
-}
+
 function validateEmail() {
     const emailvalue = email.value.trim()
     if (emailvalue === '') {
         setError(email, 'Email is Required')
+        return false
     } else if (!isValidEmail(emailvalue)) {
         setError(email, 'Provide a valid Email Address')
+        return false
     } else {
         setSuccess(email)
+        return true
     }
 
 }
+
 function validatePhone() {
     const phonevalue = phone.value.trim()
     if (phonevalue === '') {
         setError(phone, 'Phone no is Required')
+        return false
     } else if (phonevalue.length < 10) {
         setError(phone, 'Phone Number Must be 10 digits')
+        return false
     } else if (!isValidPhone(phonevalue)) {
         setError(phone, 'Provide a valid Phone Number')
+        return false
     } else {
         setSuccess(phone)
+        return true
     }
 
 }
-function validatePassword() {
-    const passwordvalue = password.value.trim()
-    if (passwordvalue === '') {
-        setError(password, 'Password is Required')
-    } else if (passwordvalue.length < 4) {
-        setError(password, 'Password Must be atleast 4 character')
-    }
-    else {
-        setSuccess(password)
-    }
-}
-function validatePassword2() {
-    const passwordvalue = password.value.trim()
-    const password2value = password2.value.trim()
-    console.log('welcome')
 
-    if (password2value === '') {
-        setError(password2, 'Confirmation is Required')
-    } else if (password2value !== passwordvalue) {
-        setError(password2, "Password Doesn't Match ")
-    }
-    else {
-        setSuccess(password2);
-    }
-}
+
 
 
 let timerOn = true;
@@ -177,3 +121,241 @@ function timer(remaining) {
   </span>`;
 }
 timer(10);
+
+function addTocart(id) {
+    const url = "/addTocart/" + id;
+    const body = {
+        id: id
+    }
+    fetch(url, {
+        method: 'PATCH',
+        headers: {
+            'content-type': 'application/json'
+        }, body: JSON.stringify({ body })
+    }).then((response) => response.json())
+        .then((response) => {
+            if (response.successStatus) {
+                const addTocart = document.getElementById('addTocart').style.display = "none"
+                const goTocart = document.getElementById('goTocart')
+                goTocart.classList.remove('button')
+            }
+            else if (response.redirect) {
+                window.location.href = response.redirect
+            } else {
+                console.log(response.message)
+            }
+        }).catch((err) => console.log(err))
+}
+
+
+function addTowishlist(id) {
+    const url = "/addTowishlist/" + id;
+    const body = {
+        id: id
+    }
+    fetch(url, {
+        method: 'PATCH',
+        headers: {
+            'content-type': 'application/json'
+        }, body: JSON.stringify({ body })
+    }).then((response) => response.json())
+        .then((response) => {
+            if (response.successStatus) {
+                const message = document.getElementById('addTowishlist')
+                console.log(message.textContent);
+                if (message.innerText == "Add To Wishlist") {
+                    message.innerText = "Remove From Wishlist"
+                } else {
+                    message.innerText = "Add To Wishlist"
+                }
+            } else if (response.redirect) {
+                window.location.href = response.redirect
+            } else {
+                window.location.href = response.redirect
+                console.log(response.message)
+            }
+        }).catch((err) => console.log(err))
+}
+function removeWish(id) {
+    const data = document.getElementById(id).dataset.url;
+    const url = "/removeWishlist/" + data;
+
+    fetch(url, {
+        method: 'PATCH',
+        headers: {
+            'content-type': 'application/json'
+        }
+    }).then((response) => response.json())
+        .then((response) => {
+            if (response.successStatus) {
+                window.location.href = response.redirect
+            } else {
+                console.log(response.message)
+            }
+        }).catch((err) => console.log(err))
+}
+
+function wishTocart(id) {
+    const data = document.getElementById(id).dataset.url;
+    const wishlistId = document.getElementById(id).dataset.wishid;
+    const url = "/wishToCart/" + data;
+    const body = {
+        id: data,
+        wishlistId
+    }
+    fetch(url, {
+        method: 'PATCH',
+        headers: {
+            'content-type': 'application/json'
+        }, body: JSON.stringify({ body })
+    }).then((response) => response.json())
+        .then((response) => {
+            if (response.successStatus) {
+                window.location.href = response.redirect
+            } else {
+                console.log(response.message)
+            }
+        }).catch((err) => console.log(err))
+}
+
+
+
+function changeQuantity(id, cartId, amount, count) {
+    const addBtn = document.getElementById("inc" + count)
+    const deleteBtn = document.getElementById("dec" + count)
+    const data = document.getElementById(id).dataset.url;
+    const url = "/changeQuantity/" + data;
+    fetch(url, {
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json'
+        }, body: JSON.stringify({
+            cartId,
+            amount
+        })
+    }).then((response) => response.json())
+        .then((response) => {
+            if (response.successStatus) {
+                document.getElementById(cartId).value = response.quantity,
+                    document.getElementById('totalPrice').innerHTML = response.totalAmount
+                if (response.quantity == 1) {
+                    deleteBtn.disabled = true
+                } else if (response.quantity == response.stock) {
+                    addBtn.disabled = true
+                    document.getElementById(`error${count}`).innerHTML = "Out Of Stock"
+                } else {
+                    deleteBtn.disabled = false
+                    addBtn.disabled = false
+                    document.getElementById(`error${count}`).innerHTML = ""
+                }
+            } else {
+
+                console.log(response.message)
+            }
+        }).catch((err) => console.log(err))
+}
+
+function removeQuantity(id, cartId) {
+    const data = document.getElementById(id).dataset.url;
+    const url = "/removeQuantity/" + data;
+    const quantity = document.getElementById(cartId).value
+
+    fetch(url, {
+        method: 'delete',
+        headers: {
+            'content-type': 'application/json'
+        }, body: JSON.stringify({
+            cartId,
+            quantity
+        })
+    }).then((response) => response.json())
+        .then((response) => {
+            if (response.successStatus) {
+                window.location.href = response.redirect
+            } else {
+                console.log(response.message)
+            }
+        }).catch((err) => console.log(err))
+}
+
+function cancelOrder(id) {
+    const url = "/cancelOrder/" + id;
+    fetch(url, {
+        method: 'put',
+    }).then((response) => response.json())
+        .then((response) => {
+            if (response.successStatus) {
+                window.location.href = response.redirect
+            } else {
+                console.log(response.message)
+            }
+        }).catch((err) => console.log(err))
+}
+function returnOrder(id) {
+    const url = "/returnOrder/" + id;
+    fetch(url, {
+        method: 'put',
+    }).then((response) => response.json())
+        .then((response) => {
+            if (response.successStatus) {
+                window.location.href = response.redirect
+            } else {
+                console.log(response.message)
+            }
+        }).catch((err) => console.log(err))
+}
+function applyCoupon(id) {
+    const url = "/applyCoupon/"+id;
+    console.log('yoo');
+    fetch(url, {
+        method: 'post',
+    }).then((response) => response.json())
+        .then((response) => {
+            if (response.successStatus) {
+                window.location.href = response.redirect
+            } else {
+                console.log(response.message)
+            }
+        }).catch((err) => console.log(err))
+}
+
+function deleteAddress(id) {
+    const url = "/deleteAddress/"+ id;
+
+    const body = {
+        id: id
+    }
+    fetch(url, {
+        method: 'delete',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({ body })
+    }).then((response) => response.json())
+        .then((response) => {
+            if (response.successStatus) {
+                window.location.href = response.redirect
+            } else {
+                document.querySelector('#error').innerHTML = "An error has occured please try again"
+            }
+        }).catch((err) => console.log(err))
+}
+function forgetPass() {
+    const url = "/forgetPassword"
+
+    fetch(url, {
+        method: 'post',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({ email:document.getElementById('email1').value })
+    }).then((response) => response.json())
+        .then((response) => {
+            if (response.successStatus) {
+             window.location.href = response.redirect
+            } else {
+                window.location.href = response.redirect
+                document.querySelector('#error').innerHTML = "An error has occured please try again"
+            }
+        }).catch((err) => console.log(err))
+}

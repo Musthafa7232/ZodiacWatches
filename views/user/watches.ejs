@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../partials/head') %>
+
+  <body>
+
+    <% if(user){ %> 
+			<%- include('../partials/user/user-navbar') %>
+			<% }else{ %>
+			<%- include('../partials/user/guest-navbar') %>
+			<% } %> 
+
+
+      <section>
+        <div class="text-center container py-5">
+
+          <div class="input-group d-flex">
+            <button class="btn btn-dark rounded-pill mb-3 px-5" type="button" data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Filters</button>
+
+            <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+              id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+              <div class="offcanvas-header d-flex justify-content-end">
+                <button type="button" class="btn-close " data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-body">
+                <form action="/products" method="post">
+                <div class="card  my-3 mx-auto " style="width: 18rem;">
+                  <div class="card-body"> 
+                    <h5 class="card-title">Sort By</h5>
+                <select class="btn btn-light text-black my-2" name="sort">
+                  <option  class="text-black" value="-1">
+                    Unalphabetical order
+                    </option>
+                       <option  class="text-black" value="1">
+                       Alphabetical order
+                       </option>
+                </select>
+              </div>
+              </div>
+
+              
+                <div class="card my-3 mx-auto text-start" style="width: 18rem;">
+                  <div class="card-body">
+                 
+                    <h5 class="card-title">Categories</h5>
+                    <div class="d-flex  flex-column mt-3">
+                        
+                      <% if(category.length>0){ %>
+                        <% category.forEach(items=>{ %>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="categoryId" value="<%= items._id %>"  id="flexRadioDefault2" >
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          <%= items.categoryName %>
+                        </label>
+                      </div>
+                      <% }) %>
+                      <% } %>
+                   
+                   
+                  
+                  </div>
+                  </div>
+                  
+                </div>
+                <div class="card my-3 mx-auto " style="width: 18rem;">
+                  <div class="card-body">
+                    <h5 class="card-title">Price Range</h5>
+
+                    <div class="d-flex mt-3">
+                    <input type="text" class="form-control form-control-lg " placeholder="from" name="from" />
+                    <input type="text" class="form-control form-control-lg ms-2 " placeholder="to" name="to" />
+                  </div>
+                
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-lg btn-outline-dark">Submit</button>
+              </form>
+              </div>
+            </div>
+            <form  action="/products" method="post" class="d-flex mx-auto " >
+   
+              <input type="text" class="form-control form-control-lg mx-auto " name="search" value="<%= searched %>" placeholder="Search" />
+              <button type="submit" class=" btn-lg btn btn-outline-dark border mx-auto border-start-0 ">Search</button>
+            </form>
+             
+          </div>
+
+          <section class="shop_section ">
+            <div class="container">
+
+
+
+              <div class="row">
+
+
+                <% if(products.length>0){ %>
+                  <% products.forEach(item=> { %>
+
+
+                    <div class="col-sm-6 mb-2 widget  col-xl-3">
+                      <div class="box">
+                        <a href="/singleview/<%= item._id %>">
+                          <div class="img-box ">
+                            <img src="/<%= item.images[0] %>" alt="">
+                          </div>
+
+                          <h6 class="productName">
+                            <%= item.productName %>
+                          </h6>
+                          <div class="detail-box">
+                            <h6>
+                              <%=item.brand %>
+                            </h6>
+                            <h6>
+                              Price:
+                              <span>
+                                ₹<%= item.price %>
+                              </span>
+                            </h6>
+                          </div>
+                        </a>
+
+                      </div>
+                    </div>
+                    <% }) %>
+                   
+                    <nav class="d-flex justify-content-center my-3" aria-label="Page navigation example">
+                      <ul class="pagination">
+                        <li class="page-item">
+                          <a class="page-link"
+                          <%if(prev){ %>
+      href="?page=<%= page-1 %>&&search=<%= searched %>" 
+                         <% }else{ %>
+                    
+                       <%  }%>
+                          aria-label="Previous" >
+                            <span aria-hidden="true">&laquo;Prev</span>
+                          </a>
+                        </li>
+                        <li class="page-item"><a class="page-link"
+                           href="?page=<%= page?page:'' %>&&search=<%= searched %>"><%= page %></a></li>
+        
+                        <li class="page-item" >
+                          <a class="page-link" <%= next?'':'disabled'%>
+                            <%if(next){ %>
+                              href="?page=<%= page+1 %>&&search=<%= searched %>"
+                                                 <% }else{ %>
+                                            
+                                               <%  }%>
+                                                aria-label="Next">
+                            <span aria-hidden="true">Next&raquo;</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                      <% }else{ %>
+                      
+<lottie-player  class="mx-auto"  src="https://assets3.lottiefiles.com/private_files/lf30_gd2unfh8.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+<h3><strong>No search results Found</strong></h3>
+                                                
+                        <% } %>
+              </div>
+            </div>
+
+        </div>
+        </div>
+        </div>
+      </section>
+
+
+
+
+      <%-include('../partials/user/footer.ejs') %>
+      <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  </body>
+
+</html>

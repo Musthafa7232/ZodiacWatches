@@ -8,70 +8,68 @@
     <%- include('../../partials/user/guest-navbar.ejs') %>
 
       <section>
+
         <div class="container h-100" id="register-card">
           <div class="row h-100 d-flex justify-content-center align-items-center">
             <div class="col-md-5">
               <div class="login-card">
-                <div class="text-center text-black">
-                  <h1 class="sign-in pt-2">Sign In</h5>
+                <div class="form">
+                  <span class="form__title">Sign up</span>
+
+                  <form id="form" action='/register' method='POST'>
+                    <div id="liveAlertPlaceholder" >
+                      <% if(message){ %>
+                          <div class="alert alert-danger alert-dismissible " role="alert">
+                                <div><%= message %></div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                              </div>
+                          <% } %>
+                  </div>
+                    <div class="form__input input-control">
+                      <i class="ri-user-line"></i>
+                      <input type="text" type="text" name="name" id="Name"  value="<%= register.name %>" 
+                        placeholder="Name">
+                      <span class="bar"></span>
+                      <div class="error"></div>
+                    </div>
+                    <div class="form__input input-control ">
+                      <i class="ri-mail-line"></i>
+                      <input type="text" placeholder="Email" name="email" id="email" value="<%= register.email %>" onfocusout="validateEmail()">
+                      <span class="bar"></span>
+                      <div class="error"></div>
+                    </div>
+                    <div class="form__input input-control ">
+                      <i class="ri-phone-line"></i>
+                      <input type="tel" name="phone"   value="<%= register.phone %>" id="phone" placeholder="Phonenumber"
+                        onfocusout="validatePhone()" />
+                      <span class="bar"></span>
+                      <div class="error"> </div>
+                    </div>
+                    <div class="form__input input-control">
+                      <i class="ri-lock-line"></i>
+                      <input type="password" placeholder="Password"  name="password" id="password"
+                       >
+                      <span class="bar"></span>
+                      <div class="error"></div>
+                    </div>
+                    <div class="form__input input-control">
+                      <i class="ri-lock-line"></i>
+                      <input type="password" placeholder="Confirm password" name="confirmPassword" id="password2"
+                       >
+                      <span class="bar"></span>
+                      <div class="error"></div>
+                    </div>
+                    <button type="submit" class="form__button" id="submit" >Sign
+                      up</button>
+                    <span class="form__switch">
+                      Already have an account? <a href="/login">Login</a>
+                    </span>
+                  </form>
                 </div>
-                <p class="text-danger">
-                  <%= message %>
-                </p>
-                <form id="form" action='/register' method='POST'>
-
-                  <div class="form-outline input-control mb-1">
-                    <label class="form-label" for="form2Example17">Enter Your First Name</label>
-                    <input class="form-control form-control-lg " type="text" name="fname" id="fname"
-                      onfocusout="validateFname()" />
-                    <div class="error"></div>
-                  </div>
-                  <div class="form-outline input-control mb-1 ">
-                    <label class="form-label" for="form2Example17">Enter Your Last Name</label>
-                    <input class="form-control form-control-lg " type="text" name="lname" id="lname"
-                      onfocusout="validateLname()" />
-                    <div class="error"></div>
-                  </div>
-                  <div class="form-outline input-control mb-1 ">
-                    <label class="form-label" for="form2Example17">Enter an Email </label>
-                    <input type="text" id="email" class="form-control form-control-lg " name="email"
-                      onfocusout="validateEmail()" />
-                    <div class="error"></div>
-                  </div>
-                  <div class="form-outline input-control mb-1 ">
-                    <label class="form-label" for="form2Example17">Phone Number</label>
-                    <input class="form-control form-control-lg " type="tel" name="phone" id="phone"
-                      onfocusout="validatePhone()" />
-                    <div class="error"> </div>
-                  </div>
-
-                  <div class="form-outline input-control mb-1 ">
-                    <label class="form-label" for="form2Example27">Enter a Password</label>
-                    <input class="form-control form-control-lg " type="password" name="password" id="password"
-                      onfocusout="validatePassword()" />
-                    <div class="error"></div>
-                  </div>
-                  <div class="form-outline input-control mb-1 ">
-                    <label class="form-label" for="form2Example27"> Confirm Your
-                      Password</label>
-                    <input class="form-control form-control-lg " type="password" name="confirm-password" id="password2"
-                      onfocusout="validatePassword2()" />
-                    <div class="error"></div>
-                  </div>
-
-                  <button class="btn btn-outline-dark btn-lg " type="submit" onclick=" validateRegister()">Sign
-                    Up</button>
-
-                  <p class="my-5 pb-lg-2 text-primary ">Already have an account? <a href="/login"
-                      class="text-primary  ">Login here</a></p>
-                  <a href="#!" class="small text-muted text-center">Terms of use.</a>
-                  <a href="#!" class="small text-muted text-center">Privacy policy</a>
-                </form>
               </div>
             </div>
           </div>
         </div>
-
       </section>
 
       <%- include('../../partials/user/footer.ejs') %>

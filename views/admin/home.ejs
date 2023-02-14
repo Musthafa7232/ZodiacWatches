@@ -4,34 +4,82 @@
 
   <body class="admin-body">
     <%- include('../partials/admin/admin-navbar.ejs') %>
+    <%- include('../partials/admin/admin-sidebar.ejs') %>
+    <div class="container">
+      <div class="row  mt-5" >
 
-      <div class="sidebar position-fixed start-0">
-        <div class="vh-100  d-flex flex-column justify-content-center align-items-center g-2 bg-black">
-          <div class="col-12 py-4 text-center">
-            <a class="text-decoration-none fw-bold text-white" href="/admin/home">Dashboard</a>
+
+  <% if(totalIncome.length>0){ %>
+          <div class="col-12 col-lg-3 my-3" >
+            <div class="card rounded-pill text-center">
+              <div class="card-body" style="height:8rem;">
+                <h6 class="card-title d-flex justify-content-center align-items-center"><img src="https://img.icons8.com/bubbles/50/null/money-bag.png"/>Total Income</h6>
+                 <h6 class="ms-5 fw-bold text-success"><%= totalIncome[0].totalSpent %></h6>  
+              </div>
+            </div>
           </div>
-          <div class="col-12 py-4 text-center ">
-            <a class="text-decoration-none  text-white" href="/admin/products">products</a>
+          <% } %>
+          <% if(users.length>0){ %>
+          <div class="col-12 col-lg-3 my-3">
+            <div class="card rounded-pill text-center">
+              <div class="card-body" style="height:8rem;">
+                <h6 class="card-title d-flex justify-content-center align-items-center"><img src="https://img.icons8.com/plasticine/50/null/conference-call.png"/>Total Customers</h6>
+                <h6 class=" fw-bold text-success"><%= users[0].total %></h6>  
+              </div>
+            </div>
           </div>
-          <div class="col-12 py-4 text-center">
-            <a class="text-decoration-none  text-white" href="/admin/users">Users</a>
+          <% } %>
+          <% if(products.length>0){ %>
+          <div class="col-12 col-lg-3 my-3">
+            <div class="card rounded-pill text-center">
+              <div class="card-body" style="height:8rem;">
+                <h6 class="card-title d-flex justify-content-center align-items-center"><img src="https://img.icons8.com/external-filled-outline-perfect-kalash/50/null/external-Watches-management-filled-outline-perfect-kalash.png"/>Total Products</h6>
+                <h6 class=" fw-bold text-success"><%= products[0].total %></h6>  
+              </div>
+            </div>
           </div>
-          <div class="col-12 py-4 text-center">
-            <a class="text-decoration-none  text-white" href="/admin/category">Category</a>
-          </div>
-          <div class="col-12 py-4 text-center">
-            <a class="text-decoration-none  text-white" href="/admin/Coupons">Coupons</a>
-          </div>
-          <div class="col-12 py-4 text-center">
-            <a class="text-decoration-none   text-white" href="/admin/banners">Banners</a>
+          <% } %>
+          <% if(orders.length>0){ %>
+          <div class="col-12 col-lg-3 my-3">
+            <div class="card rounded-pill text-center">
+              <div class="card-body " style="height:8rem;">
+                <h6 class="card-title d-flex justify-content-center align-items-center"><img src="https://img.icons8.com/external-kmg-design-flat-kmg-design/50/null/external-logistics-shipping-delivery-kmg-design-flat-kmg-design-2.png"/>Total Orders</h6>
+             <h6 class=" fw-bold text-success"><%= orders[0].total %></h6>  
+              </div>
+            </div>
           </div>
 
+          <% } %>
         </div>
+      <div class="row mt-2 ">
+        
+        <div class="col-md-6 mx-auto my-5">
+      <div  class="card p-3">
+        <h4>Daily Sales</h4>
+        <canvas id="amountSpent"></canvas>
+        <a href="/admin/downloadExcell" class="btn btn-success text-docoration-none">Download Report</a>
+        <a href="/admin/downloadInvoice" class="btn btn-dark mt-2 text-docoration-none">Download Pdf</a>
       </div>
+    </div>
+
+      </div>
+    </div>
+    
+
+    <script>
+
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/scripts/dashboard.js"></script>
+   
+
+
+  
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
-      <script src="/scripts/admin/admin.js"></script>
+    
   </body>
 
 </html>

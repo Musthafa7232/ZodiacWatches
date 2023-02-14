@@ -9,11 +9,11 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: [true, "Brand is required"]
   },
-  highlights: {
+  discription: {
     type: String,
-    required: [true, 'Highlights cannot be empty']
+    required: [true, 'Discription cannot be empty']
   },
-  specifications: {
+  highlights: {
     type: String,
     required: [true, 'Highlights cannot be empty']
   },
@@ -27,7 +27,6 @@ const productSchema = new mongoose.Schema({
   },
   images: {
     type: [String],
-    required: [true, 'Images cannot be empty']
   },
   totalStock: {
     type: Number,
@@ -43,11 +42,15 @@ const productSchema = new mongoose.Schema({
   categoryId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
-    required: true
-  }
+    required: [true,'category is required']
+  },
+  offer:{
+    type:Number
+  } 
+},{
+  timestamps: true
 }
 )
-
 
 const Products = mongoose.model('Products', productSchema)
 module.exports = Products

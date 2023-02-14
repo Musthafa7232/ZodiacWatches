@@ -5,28 +5,7 @@
   <body class="admin-body">
     <%- include('../../partials/admin/admin-navbar.ejs') %>
 
-      <div class="sidebar position-fixed start-0">
-        <div class="vh-100  d-flex flex-column justify-content-center align-items-center g-2 bg-black">
-          <div class="col-12 py-4 text-center">
-            <a class="text-decoration-none text-white" href="/admin/home">Dashboard</a>
-          </div>
-          <div class="col-12 py-4 text-center ">
-            <a class="text-decoration-none text-white" href="/admin/products">products</a>
-          </div>
-          <div class="col-12 py-4 text-center">
-            <a class="text-decoration-none  text-white" href="/admin/users">Users</a>
-          </div>
-          <div class="col-12 py-4 text-center">
-            <a class="text-decoration-none  fw-bold  text-white" href="/admin/category">Category</a>
-          </div>
-          <div class="col-12 py-4 text-center">
-            <a class="text-decoration-none    text-white" href="/admin/coupons">Coupons</a>
-          </div>
-          <div class="col-12 py-4 text-center">
-            <a class="text-decoration-none   text-white" href="/admin/banners">Banners</a>
-          </div>
-        </div>
-      </div>
+    <%- include('../../partials/admin/admin-sidebar.ejs') %>
 
       <section class="container pt-5">
         <div class="row ">
@@ -55,8 +34,29 @@
                         </td>
                         <td>
                           <div>
-                            <button class="btn btn-outline-danger" id="delete<%= count %> "
-                              onclick="deleteCategory(this.id)" data-url="<%= items._id %>">Delete</button>
+                          
+                            
+                            <!-- Modal -->
+                            <div class="modal fade" id="staticBackdrop<%= count %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered modal-sm ">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Do you want to delete ?</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                   If you delete this category,Products related to this category would  also be deleted...
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                    <button type="button" class="btn btn-outline-danger " data-url="<%= items._id %>" id="delete<%= count %> "
+                                      onclick="deleteCategory(this.id)" >Yes</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <button class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#staticBackdrop<%= count %>" >Delete</button>
                           </div>
                         </td>
                       </tr>
@@ -70,13 +70,18 @@
           <div class="mt-3">
             <form action="/admin/category/add" method="post">
               <h5 class="form-label  text-info-emphasis text-center" for="form2Example17">Add New Category</h5>
-              <span class="text-danger">
-                <%= message %>
-              </span>
+              <div id="liveAlertPlaceholder" >
+                <% if(message){ %>
+                    <div class="alert alert-danger alert-dismissible w-50 d-block" role="alert">
+                          <div><%= message %></div>
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <% } %>
+            </div>
               <div class="d-flex mb-5">
-                <input class="form-control form-control-lg text-secondary" name="category" type="text"
+                <input class="form-control  form-control-lg text-secondary" id="form-validator" name="category" type="text"
                   placeholder="Category Name" />
-                <button class="btn btn-outline-info btn-sm" type="submit"> Add </button>
+                <button class="btn btn-outline-dark btn-lg" type="submit"> Add </button>
               </div>
             </form>
           </div>
@@ -89,5 +94,7 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
   </body>
-
+<script>
+  document.getElementById("form-validator").value.toString()
+</script>
 </html>

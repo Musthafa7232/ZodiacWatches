@@ -2,38 +2,147 @@
 <html lang="en">
 <%- include('../../partials/head.ejs') %>
 
-    <body class="admin-body">
-        <%- include('../../partials/admin/admin-navbar.ejs') %>
+  <body class="admin-body">
+    <%- include('../../partials/admin/admin-navbar.ejs') %>
 
-            <div class="sidebar position-fixed start-0">
-                <div class="vh-100  d-flex flex-column justify-content-center align-items-center g-2 bg-black">
-                    <div class="col-12 py-4 text-center">
-                        <a class="text-decoration-none  text-white" href="/admin/home">Dashboard</a>
-                    </div>
-                    <div class="col-12 py-4 text-center ">
-                        <a class="text-decoration-none text-white" href="/admin/products">products</a>
-                    </div>
-                    <div class="col-12 py-4 text-center">
-                        <a class="text-decoration-none  text-white" href="/admin/users">Users</a>
-                    </div>
-                    <div class="col-12 py-4 text-center">
-                        <a class="text-decoration-none  text-white" href="/admin/category">Category</a>
-                    </div>
-                    <div class="col-12 py-4 text-center">
-                        <a class="text-decoration-none fw-bold  text-white" href="/admin/Coupons">Coupons</a>
-                    </div>
-                    <div class="col-12 py-4 text-center">
-                        <a class="text-decoration-none   text-white" href="/admin/banners">Banners</a>
-                    </div>
+      <%- include('../../partials/admin/admin-sidebar.ejs') %>
 
-                </div>
+        <section class="container pt-5">
+          <div class="row ">
+            <div class="col-12 table-responsive ">
+              <table id="datatable" class="table display table-overflow  table-borderless table-hover">
+                <thead>
+                  <tr>
+                    <th class="" scope="col">#</th>
+                    <th class="" scope="col">Coupon Code</th>
+                    <th class="" scope="col">Description</th>
+                    <th class="" scope="col">Discount</th>
+                    <th class="" scope="col">Min Purchace Value</th>
+                    <th class="" scope="col">Expiry</th>
+                    <th class="" scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <% if(coupon.length>0){ %>
+                    <% var count=1 %>
+                      <% coupon.forEach(items=> { %>
+                        <tr>
+                          <th scope="row">
+                            <%= count++ %>
+                          </th>
+                          <td>
+                            <%= items.code %>
+                          </td>
+                          <td>
+                            <%= items.description %>
+                          </td>
+
+                          <td>
+                       <%= items.discount %> <%=  items.isPercentage?"% ":"₹" %>
+                          </td>
+
+                          <td>
+                            <%= items.minPurchaseValue %>
+                          </td>
+
+                          <td>
+                            <%= items.expiry.toString().slice(0,16) %>
+                          </td>
+
+                    
+                          <td>
+                            <div>
+
+                              <!-- Modal -->
+                              <div class="modal fade" id="staticBackdrop<%= count %>" data-bs-backdrop="static"
+                                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-sm ">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="staticBackdropLabel">Do you want to delete ?</h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                    </div>
+                                 
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">No</button>
+                                      <button type="button" class="btn btn-outline-danger " data-url="<%= items._id %>"
+                                        id="delete<%= count %> " onclick="deleteCoupon(this.id)">Yes</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <button class="btn btn-outline-danger" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop<%= count %>">Delete</button>
+                            </div>
+                          </td>
+                        </tr>
+                        <% }) %>
+                          <% } %>
+                </tbody>
+              </table>
             </div>
+          </div>
+          <div>
+            <div class="mt-3">
+              <form action="/admin/coupon/add" method="post">
+                <h5 class="form-label  text-info-emphasis text-center" for="form2Example17">Add New Coupon</h5>
+                <div id="liveAlertPlaceholder" >
+                  <% if(message){ %>
+                      <div class="alert alert-danger alert-dismissible w-50 d-block" role="alert">
+                            <div><%= message %></div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                      <% } %>
+              </div>
+               <div class="row mt-3  g-4">
+                <div class="col-6 ">
+                  <label for="" class="form-label">Coupon Code</label>
+                  <input class="form-control   form-control-lg text-secondary" id="form-validator" name="code"
+                    type="text" placeholder="Coupon Code" />
+                    </div>
+                    <div class="col-6 ">
+                      <label for="" class="form-label">Expiry Date</label>
+                    <input class="form-control   form-control-lg text-secondary" id="form-validator" name="expiry"
+                    type="date" placeholder="Expiry Date" />
+  
+               </div>
+               <div class="col-6 ">
+                <label for="" class="form-label">Description</label>
+                <input class="form-control   form-control-lg text-secondary" id="form-validator" name="description"
+                  type="text" placeholder="Description" />
+                  </div>
+                  <div class="col-6 ">
+                    <label for="" class="form-label">Minimum Purchase Value</label>
+                    <input class="form-control   form-control-lg text-secondary" id="form-validator" name="minPurchaseValue"
+                      type="number" placeholder="Min Purchace Value" />
+                      </div>
+                  <div class="col-6 ">
+                    <label for="" class="form-label">Discount</label>
+                    <input class="form-control   form-control-lg text-secondary" id="form-validator" name="discount"
+                      type="number" placeholder="Discount" />
+                      <div class="form-check mt-1 form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="isPercentage">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">%</label>
+                      </div>
+                      
+                      </div>
+               <button class="btn btn-outline-dark rounded-pill btn-lg" type="submit"> Add </button>
+              </div>
+              </form>
+            </div>
+        </section>
 
-            </section>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-                crossorigin="anonymous"></script>
-            <script src="/scripts/admin/admin.js"></script>
-    </body>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+        <script src="/scripts/adminScript.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+          crossorigin="anonymous"></script>
+  </body>
 
 </html>

@@ -6,32 +6,102 @@
 
     <%- include('../partials/user/guest-navbar.ejs') %>
 
-      <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img src="..." class="d-block vh-100 w-100" alt="...">
-          </div>
-          <div class="carousel-item">
-            <img src="..." class="d-block vh-100 w-100" alt="...">
-          </div>
-          <div class="carousel-item">
-            <img src="..." class="d-block vh-100 w-100" alt="...">
-          </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
-          data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying"
-          data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
+    <div id="carouselExampleAutoplaying"  class="carousel slide widget " data-bs-ride="carousel">
+
+      <div class="carousel-inner">
+        <% if(banner.length>0){ %>
+          <% banner.forEach((item, index)=> { %>
+            <div class="carousel-item banner <%= index == 0 ? 'active' : '' %>">
+              <img style="object-fit: contain;" class="image-fluid w-100" src="<%= item.images %>" class="image-fluid d-block w-100 banner">
+              <div class="carousel-caption ">
+                <h1 style="font-size: 2vw;font-stretch: normal; " class="text-black  h-100 text-center"><%= item.bannerTitle %></h1>
+              </div>
+            </div>
+        
+        
+        <% }) %>
+        <% } %>
+     
       </div>
-
-
-      <%- include('../partials/user/footer.ejs') %>
-  </body>
-
-</html>
+  
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  
+        <section class="shop_section mt-3 ">
+  
+  
+          <h2 class="ms-5 fw-bold widget">
+            Best Of
+          </h2>
+  
+          <% if(category.length>0){ %>
+            
+            <% category.forEach(items=>{ %>
+              <% if(items.products.length>0){ %>
+                <div class="container ">
+                  
+                  <div class="row widget">
+                    <div class="col-12 mb-2   col-xl-3">
+                      <div class="box pt-5">
+                        <h5 class="mt-5 text-center">
+                          <%= items.categoryName %>
+                        </h5>
+  
+                        <div class="btn  border-0 btn-box">
+                          <a href="/products">
+                            View All
+                          </a>
+                        </div>
+  
+                      </div>
+                    </div>
+                    <% items.products.forEach(item=>{ %>
+                      <div class="col-12 mb-2 widget  col-xl-3">
+                        <div class="box">
+                          <a href="/singleview/<%= item._id %>">
+                            <div class="img-box ">
+                              <img src="/<%= item.images[0] %>" alt="">
+                            </div>
+  
+                            <h6 class="productName">
+                              <%= items.productName %>
+                            </h6>
+                            <div class="detail-box">
+                              <h6>
+                                <%=item.brand %>
+                              </h6>
+                              <h6>
+                                Price:
+                                <span>
+                                  ₹<%= item.price %>
+                                </span>
+                              </h6>
+                            </div>
+                          </a>
+  
+                        </div>
+                      </div>
+               
+                <% }) %>
+                  <% } %>
+     </div>
+                </div>
+                    <% }) %>
+                      <% } %>
+  
+  
+  
+  
+        </section>
+  
+        <%- include('../partials/user/footer.ejs') %>
+    </body>
+  
+  </html>

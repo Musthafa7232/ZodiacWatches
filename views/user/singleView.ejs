@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../partials/head') %>
+
+	<body >
+		<% if(user){ %> 
+			<%- include('../partials/user/user-navbar') %>
+			<% }else{ %>
+			<%- include('../partials/user/guest-navbar') %>
+			<% } %> 
+	
+			<main class="ecomrhny-content-inf container">
+				<div class="mt-5 pb-5">
+					<!--/row1-->
+					<div class="sp-store-single-page row">
+						<div class="col-lg-5  ">
+							<div class="flexslider1">
+								<div class="overflow-hidden mb-3">
+									<div id="img-container" class=" mx-auto " style="width:24rem; height: 25rem;">
+										<img id="main-image" class="" src="/<%= product.images[0] %>" alt=" "
+											width="400" />
+
+									</div>
+								</div>
+								<div class="d-flex">
+<% product.images.forEach(items=>{ %>
+
+
+									<div class="mx-5"> <img onclick="change_image(this)" src="/<%= items %>"
+											class="img-fluid" alt=" ">
+									</div>
+									<%}) %>
+
+									
+								</div>
+								<% if(product.totalStock>0){ %>
+									<div id="liveAlertPlaceholder"></div>
+									<div class="d-flex mt-5 mx-3">
+
+
+										<button onclick="addTocart('<%= product._id %>')"
+											class="btn w-50 btn-outline-warning btn-lg  rounded-pill me-1"
+											id="addTocart" type="button">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+												fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
+												<path
+													d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+											</svg> Add to Cart
+										</button>
+										<a href="/cart"
+											class="btn w-50 btn-outline-warning button btn-lg rounded-pill me-1"
+											id="goTocart">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+												fill="currentColor" class="bi bi-bag-check-fill" viewBox="0 0 16 16">
+												<path fill-rule="evenodd"
+													d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zm-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z" />
+											</svg> Go to Cart
+										</a>
+										<% }else{ %>
+											<div class="d-flex mt-5 mx-3">
+												<div class="text-center pt-2 me-5 w-50 text-danger">
+													<h4 class="text-center  fw-bold">Out of Stock</h4>
+												</div>
+												<% } %>
+
+
+
+													<button id="addTowishlist"
+														class="AddWishlist ms-1 btn w-50 btn-outline-danger rounded-pill btn-lg "
+														onclick="addTowishlist('<%= product._id %>')">
+														<%= wishlist?"Remove From Wishlist":"Add To Wishlist"%>
+													</button>
+											</div>
+
+									</div>
+							</div>
+							<div class="col-lg-5 mx-auto  my-3 pl-lg-4">
+							<h4 class="text-dark"><%= product.brand %></h4>
+								<h1>
+									<%= product.productName %>
+			
+								</h1>
+								
+								<div class="my-3">
+									<h6>
+										<span class="fs-3 text-primary">
+											<% if(product.offer){ %>
+												<del>₹<%= product.price %></del><span class="text-success">	₹<%= product.price- product.price *product.offer/100 %></span>
+												<% }else{ %>
+													₹<%= product.price %>
+												<% } %>
+											
+											
+											</span>
+										<span class="text-danger">Free Delivery</span>
+										<p class="fs-5 text-secondary">Inclusive of all taxes</p>
+									</h6>
+								</div>
+
+								<div class="desc_single mb-4">
+									<h5>Description:</h5>
+									<p>
+										<%= product.discription %>
+									</p>
+								</div>
+								<div class="description-apt d-grid mb-4">
+									<div class="occasional">
+										<h5 class="sp_title mb-3">Highlights:</h5>
+										<p class="single_specific">
+											<%= product.highlights %>
+										</p>
+
+									</div>
+
+									<div class="color-quality">
+										<h5 class="sp_title">Services:</h5>
+										<ul class="single_serv">
+											<li>
+												<p class="">30 Day Return Policy</p>
+											</li>
+											<li class="gap">
+												<p class="">Cash on Delivery available</p>
+											</li>
+											<li class="gap">
+												<p class="">Razorpay Payment available</p>
+											</li>
+											<li class="gap">
+												<p class="">Paypal Payment available</p>
+											</li>
+											<li class="gap">
+												<p class="">Card Payment available</p>
+											</li>
+										</ul>
+									</div>
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+
+
+
+			<%- include('../partials/user/footer.ejs') %>
+				<script src="https://unpkg.com/js-image-zoom/js-image-zoom.js"></script>
+				<script src="https://cdn.jsdelivr.net/npm/js-image-zoom/js-image-zoom.min.js"></script>
+				<script>
+
+					const container = document.getElementById("main-image");
+
+					function change_image(image) {
+						container.src = image.src;
+						new ImageZoom(document.getElementById("img-container"), options);
+					}
+
+					var options = {
+						width: 300,
+						zoomWidth: 180,
+					};
+					new ImageZoom(document.getElementById("img-container"), options);
+
+
+				</script>
+	</body>
+
+</html>

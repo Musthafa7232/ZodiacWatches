@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../partials/head') %>
+
+    <body>
+        <%- include('../partials/user/user-navbar.ejs') %>
+    <main class="container">
+    <div class="row">
+        <div class="col-lg-12 col-9 mt-5">
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <div class="card mb-4">
+                        <div class="card-header bg-black text-white text-center py-3">
+                            <h5 class="mb-0">Biling details</h5>
+                        </div>
+                        <div class="card-body text-black">
+                            <form action="/addAddress" method="post">
+                                <!-- 2 column grid layout with text inputs for the first and last names -->
+                                <div class="row mb-4">
+                                    <div id="liveAlertPlaceholder" >
+                                        <% if(message){ %>
+                                            <div class="alert alert-danger alert-dismissible w-50 d-block" role="alert">
+                                                  <div><%= message %></div>
+                                                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                            <% } %>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-outline">
+                                            <input type="text" id="form7Example1" value="<%= address.state %>"
+                                                name="state" class="form-control" />
+                                            <label class="form-label"
+                                                for="form7Example1">state</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-outline">
+                                            <input type="text" id="form7Example2" value="<%= address.city %>"
+                                                name="city" class="form-control" />
+                                            <label class="form-label"
+                                                for="form7Example2">city</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Text input -->
+                                <div class="form-outline mb-4">
+                                    <input type="text" id="form7Example4" name="address" value="<%= address.address %>"
+                                        class="form-control" />
+                                    <label class="form-label"
+                                        for="form7Example4">Address(Area and Street)</label>
+                                </div>
+
+                                <!-- Email input -->
+                                <div class="form-outline mb-4">
+                                    <input type="number" id="form7Example5" name="zip" value="<%= address.zip %>"
+                                        class="form-control" />
+                                    <label class="form-label"
+                                        for="form7Example5">zip</label>
+                                </div>
+
+                                <!-- Number input -->
+                                <div class="form-outline mb-4">
+                                    <input type="text" id="form7Example6" name="landmark" value="<%= address.landmark %>"
+                                        class="form-control" />
+                                    <label class="form-label"
+                                        for="form7Example6">landmark</label>
+                                </div>
+
+                                <button type="submit"
+                                    class="btn btn-outline-dark btn-lg btn m-auto ">
+                                    Add Address
+                                </button>
+                                <!-- Checkbox -->
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.row -->
+        </div>
+    </div>
+    </main>
+    <%-include('../partials/user/footer.ejs') %>
+</body>
+
+</html>

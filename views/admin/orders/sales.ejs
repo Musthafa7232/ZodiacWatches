@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../../partials/head.ejs') %>
+<body>
+    <div class=" p-3 container-fluid bg-black text-white  d-flex align-items-center py-auto">
+        <p class="x">Z</p> 
+        <p class="time">odiac</p><br>
+     <span class="text-white fs-6">Watches</span> 
+      </div>
+
+                <table  class="table  table-borderless table-hover">
+                    <thead>
+
+                        <tr class="px-3 ">
+                            <th class="" scope="col">#</th>
+                            <th class="" scope="col">Ordered on</th>
+                            <th class="" scope="col">orderID</th>
+                            <th class="" scope="col">Product Name</th>
+                            <th class="" scope="col">Quantity</th>
+                            <th class="" scope="col">Payment Method</th>
+                            <th class="" scope="col">Billing address</th>
+                            <th class="" scope="col">orderStatus </th>
+                            <th class="" scope="col">total price</th>
+                            
+                    </thead>
+                    <% if(orders.length>0){ %>
+                        <% var count=1 %>
+                            <% orders.forEach(order=> { %>
+                                <tbody>
+
+                                    <tr>
+                                        <th class="" scope="row">
+                                            <%= count++ %>
+                                        </th>
+                                        <td class="">
+                                            <%= order.createdAt.toString().slice(0,16) %>
+
+                                        </td>
+                                        <td class="">
+                                            #<%= order._id%>
+                                        </td>
+                                
+                                        <td class="">
+                                            <% order.items.forEach(item=> { %>
+                                                <p class="my-5 pt-3">
+                                                    <%= item.productName %>
+                                                </p>
+                                                <% }) %>
+                                        </td>
+                                        
+                                        <td class="">
+                                            <% order.items.forEach(item=> { %>
+                                                <p class="my-5 pt-3">
+                                                    <%= item.quantity %>
+                                                </p>
+                                                <% }) %>
+                                        </td>
+
+                                        <td class="">
+                                            <%= order.paymentMethod %>
+                                        </td>
+                                        <td class="">
+                                            <address>
+                                                <strong>
+                                                    <%= order.userId?.name %>
+                                                </strong><br>
+                                                Address: <%= order.userAddress[0].address %> <br>
+                                                    Landmark: <%= order.userAddress[0].landmark %><br>
+                                                        <%= order.userAddress[0].state %>, <%=
+                                                                order.userAddress[0].city %>, <%=
+                                                                    order.userAddress[0].state %><br>
+                                                                    <abbr title="Phone">
+                                                                        <%= order.userId?.phone %>
+                                                                    </abbr>
+                                            </address>
+                                        </td>
+                                        <td class="">
+                                            <div class="pt-auto my-5 d-flex">
+                                              <p class="fw-bold"><%= order.orderStatus %></p>
+                                            </div>
+                                        </td>
+                                        <td class="">
+                                            ₹ <%= order.totalAmount %>
+                                        </td>
+                                      
+                                    </tr>
+
+                                </tbody>
+                               
+                                <% }) %>
+                                    <% } %>
+                </table>
+          
+   
+</body>
+</html>

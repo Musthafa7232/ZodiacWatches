@@ -1,21 +1,33 @@
-<div class="sidebar  position-fixed start-0">
-    <div class="vh-100  row row-cols-1 d-flex flex-column justify-content-center align-items-center g-2 bg-black">
-        <div class="col py-4 text-center">
-            <a class="text-decoration-none text-white" href="/admin/home">Dashboard</a>
-        </div>
-        <div class="col py-4 text-center ">
-            <a class="text-decoration-none text-white" href="/admin/products">products</a>
-        </div>
-        <div class="col py-4 text-center">
-            <a class="text-decoration-none  text-white" href="/admin/users">Users</a>
-        </div>
-        <div class="col py-4 text-center">
-            <a class="text-decoration-none fw-bold text-white" href="/admin/category">Category</a>
-        </div>
-        <div class="col py-4 text-center">
-            <a class="text-decoration-none  text-white" href="/admin/Coupons">Coupons</a>
-        </div>
-        <div class="col py-4 text-center">
-            <a class="text-decoration-none    text-white" href="/admin/banners">Banners</a>
-        </div>
+<div class="sidebar mt-2 position-fixed  start-0">
+    <div class="vh-100  d-flex flex-column justify-content-center align-items-center g-2 bg-black">
+      <div class="col-12 pb-3 mb-3 text-center">
+        <a class="text-decoration-none  <%= dashboard?"fw-bold text-white":"" %> text-light" href="/admin/home">Dashboard</a>
+      </div>
+      <div class="col-12 py-3 my-3  text-center">
+        <a class="text-decoration-none  <%= sale?"fw-bold text-white":"" %></a> text-light" href="/admin/sales">Sales Report</a>
+      </div>
+      <div class="col-12 py-3 my-3  text-center ">
+        <a class="text-decoration-none <%= product?"fw-bold text-white":"" %> text-light" href="/admin/products">Products</a>
+      </div>
+      <div class="col-12 py-3 my-3  text-center">
+        <a class="text-decoration-none <%= user?"fw-bold text-white":"" %> text-light" href="/admin/users">Users</a>
+      </div>
+      <div class="col-12 py-3 my-3  text-center">
+        <a class="text-decoration-none <%= order?"fw-bold text-white":"" %></a>  text-light" href="/admin/orders">Orders</a>
+      </div>
+      <div class="col-12 py-3 my-3  text-center">
+        <a class="text-decoration-none <%= returns?"fw-bold text-white":"" %></a>  text-light" href="/admin/returns">Returns</a>
+      </div>
+      <div class="col-12 py-3 my-3  text-center">
+        <a class="text-decoration-none <%= categorys?"fw-bold text-white":"" %></a> text-light" href="/admin/category">Category</a>
+      </div>
+      <div class="col-12 py-3 my-3  text-center">
+        <a class="text-decoration-none <%= coupons?"fw-bold text-white":"" %></a> text-light" href="/admin/coupons">Coupons</a>
+      </div>
+      <div class="col-12 py-3 my-3  text-center">
+        <a class="text-decoration-none  <%= banner?"fw-bold text-white":"" %></a> text-light" href="/admin/banners">Banners</a>
+      </div>
+
     </div>
+
+  </div>

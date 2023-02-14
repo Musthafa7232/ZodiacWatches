@@ -13,15 +13,20 @@
                 <div class="text-center text-black">
                   <h1 class="my-5">Otp has sent to your PhoneNumber</h5>
                 </div>
-                <p class="text-danger">
-                  <%= message %>
-                </p>
+                <div id="liveAlertPlaceholder" >
+                  <% if(message){ %>
+                      <div class="alert alert-danger alert-dismissible " role="alert">
+                            <div><%= message %></div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                      <% } %>
+              </div>
 
                 <form id="form" action="/register/otp" method="post">
                   <div class="form-outline input-control mb-1">
                     <label class="form-label mb-2" for="form2Example27">Enter the Otp</label>
                     <div class="error"></div>
-                    <input class="form-control form-control-lgmt-2 " type="text" name="otp" id="otp">
+                    <input class="form-control form-control-lgmt-2 " max="999999" type="number" name="otp" id="otp">
                   </div>
                   <button class="btn btn-outline-dark btn-lg mt-2 d-flex justify-content-center" type="submit"
                     onclick="validOtp()" value="submit">Sent</button>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+
+  <body>
+    <% if(user){ %> 
+			<%- include('../partials/user/user-navbar') %>
+			<% }else{ %>
+			<%- include('../partials/user/guest-navbar') %>
+			<% } %> 
+
+      <!-- Contact -->
+      <section id="contact" class="container-fluid mt-5 text-center text-lg-start  ">
+        <div class="row align-items-center mt-5 pb-5 justify-content-center ">
+          <div class="col-12 mt-5 text-center">
+            <h1 class="pt-4 pb-4">Contact Us</h1>
+          </div>
+          <div id="liveAlertPlaceholder"></div>
+          <div class="col-12 col-lg-8 col-md-10">
+            <form id="gform">
+              <div class="form-floating mb-3 text-dark">
+                <input type="text" value="" class="form-control" name="fullname" id="fullname" placeholder="Name" />
+                <label for="fullname">Full name</label>
+                <div class="form-error"></div>
+              </div>
+              <div class="form-floating mb-3 text-dark">
+                <input type="email" value="" class="form-control" name="email" id="email"
+                  placeholder="name@example.com" />
+                <label for="email">Email</label>
+                <div class="form-error"></div>
+              </div>
+              <div class="form-floating mb-3 text-dark">
+                <textarea class="form-control" placeholder="Leave a comment here" name="message" id="message"
+                  style="height: 100px"></textarea>
+                <label for="message">Write your message...</label>
+                <div class="form-error"></div>
+              </div>
+              <button id="formSubmitBtn" class="btn btn-outline-secondary" type="submit">
+                Submit
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+      <%- include('../partials/user/footer.ejs') %> 
+      <script async src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- jQery -->
+        <script>
+           const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+
+const alert = (message, type) => {
+  alertPlaceholder.innerHTML = [
+    `<div class="alert alert-${type}  alert-dismissible" role="alert">`,
+    `   <div>${message}</div>`,
+    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+    '</div>'
+  ].join('')
+
+
+}
+   
+          const form = document.getElementById("gform");
+          const fullname = document.getElementById("fullname");
+          const email = document.getElementById("email");
+          const message = document.getElementById("message");
+
+          const setSuccess = (element) => {
+            const inputElement = element.parentElement.querySelector(".form-control");
+            const errorDisplay = element.parentElement.querySelector(".form-error");
+            errorDisplay.innerText = "";
+            inputElement.classList.remove("error");
+            inputElement.classList.add("success");
+          };
+
+          const setError = (element, message) => {
+            const inputElement = element.parentElement.querySelector(".form-control");
+            const errorDisplay = element.parentElement.querySelector(".form-error");
+            errorDisplay.innerText = message;
+            inputElement.classList.add("error");
+            inputElement.classList.remove("success");
+          };
+
+          const isValidEmail = (email) => {
+            const regularEx =
+              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return regularEx.test(String(email).toLowerCase());
+          };
+
+          const validateInput = () => {
+            const nameValue = fullname.value.trim();
+            const emailValue = email.value.trim();
+            const messageValue = message.value.trim();
+            if (nameValue === "") {
+              setError(fullname, "Full name is required");
+            } else {
+              setSuccess(fullname);
+            }
+            if (emailValue === "") {
+              setError(email, "Email is required");
+            } else if (!isValidEmail(emailValue)) {
+              setError(email, "Provide a valid email address");
+            } else {
+              setSuccess(email);
+            }
+            if (messageValue === "") {
+              setError(message, "Message is required");
+            } else {
+              setSuccess(message);
+            }
+          };
+          const onSubmitForm = (e) => {
+            e.preventDefault();
+            validateInput();
+            if (
+              !email.classList.contains("error") &&
+              !fullname.classList.contains("error") &&
+              !message.classList.contains("error")
+            ) {
+
+              $.ajax({
+                url: "https://script.google.com/macros/s/AKfycbxeRKWTHX4PSRNp0kKwBXk_KMC-jVWH8unnONqvG6EXKva_I9FAIxRDMGax3wYD9P3O/exec",
+                data: $("#gform").serialize(),
+                method: "post",
+                success: function (responses) {
+                  const alertTrigger = document.getElementById('razorpay')
+
+    alert("Form Submited Successfully ",'success')
+
+                 setTimeout(() => {
+                   window.location.reload();
+                 }, 2000);
+                 
+                },
+                error: function (err) {
+                  const alertTrigger = document.getElementById('razorpay')
+
+    alert("Some error Occured ",'danger')
+
+                },
+              });
+
+            }
+          };
+
+          form.addEventListener("submit", onSubmitForm);
+        </script>
+        <!-- End Google Map -->
+
+  </body>
+
+</html>

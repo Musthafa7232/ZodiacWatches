@@ -8,7 +8,7 @@
         <div class="container-fluid h-100">
           <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col col-xl-10 d-flex align-items-center">
-              <div class="card form-card w-50 m-auto p-auto">
+              <div class="card  w-50 m-auto p-auto">
                 <div class="row">
 
                   <div class=" d-flex align-items-center">
@@ -16,9 +16,14 @@
 
                       <form id="form" action='/admin' method='POST'>
                         <h5 class="fw-bold mb-3 pb-3 sign text-center">AdminLogin</h5>
-                        <span class="text-danger">
-                          <%= message %>
-                        </span>
+                        <div id="liveAlertPlaceholder" >
+                          <% if(message){ %>
+                              <div class="alert alert-danger alert-dismissible w-50 d-block" role="alert">
+                                    <div><%= message %></div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                  </div>
+                              <% } %>
+                      </div>
                         <div class="form-outline input-control mb-3 ">
                           <input type="text" id="email" class="form-control form-control-lg " name="email" />
                           <label class="form-label">Enter an Email </label>

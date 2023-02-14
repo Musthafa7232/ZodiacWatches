@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../partials/head') %>
+
+<body>
+
+  <%- include('../partials/user/user-navbar.ejs') %>
+
+    <div class="container vh-100 my-5 py-5">
+      
+
+        <% if(user.wishlist.length>0){ %>
+          <div class="row my-3  g-6"> 
+            <h4 class="text-center mb-3">My Wishlist</h4>
+        <% var count=0 %>
+          <% user.wishlist.forEach(item=>{ %> 
+            <% count ++%>
+           
+            
+              
+              <div class="card bg-light  col-6 mb-3 me-2 " style="max-width: 50rem;max-height:15rem">
+                <div class="row row-cols-5 row-cols-md-3 g-4">
+
+                  <div class="col-6 my-auto">
+                    <img src="/<%=item.productId.images[0] %> " class="img-fluid  productImage rounded-start" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body text-black">
+                      <h5 class="card-title productName  ">
+                        <%= item.productId.productName %>
+                      </h5>
+                      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                        additional content. This content is a little bit longer.</p>
+                      <span class="fs-2 text-black"> ₹<%= item.productId.price %></span>
+                      <% if(item.productId.totalStock>0){ %>
+                        <div class="btn  btn-outline-dark border-0 d-block" id='addTocart<%= count %>'
+                          data-url="<%= item.productId._id %>" data-wishid="<%= item._id %>"
+                          onclick="wishTocart(this.id)">
+                          Add to Cart
+                        </div>
+                        <% }else{ %>
+
+                          <div class=" text-danger border-0 d-block">
+                            Out of stock
+                          </div>
+
+                          <% } %>
+
+                            <!-- Button trigger modal -->
+                            <div class="btn btn-outline-danger border-0 d-block" type="button" data-bs-toggle="modal"
+                              data-bs-target="#staticBackdrop<%= count %>">
+                              Remove From Wishlist
+                            </div>
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+           
+              <div class="modal  fade" id="staticBackdrop<%= count %>" data-bs-backdrop="static"
+                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog  modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="staticBackdropLabel">Are you sure you want to remove this product
+                        ?</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button onclick='removeWish(this.id)' class="btn btn-danger" id="removeWish<%= count %>"
+                        data-url="<%= item.productId._id %>">Yes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <% }) %>
+              <% }else{ %>
+                
+<lottie-player  class="mx-auto" src="https://assets10.lottiefiles.com/packages/lf20_D6OHyBy8aY.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+                <div class=" vh-100"><h4 class="text-center">No items in your Wishlist</h4></div>
+                <% } %>
+                <!-- Modal -->
+
+      </div>
+    </div>
+
+
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+    <%-include('../partials/user/footer.ejs') %>
+</body>
+
+</html>

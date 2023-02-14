@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+
+  <body>
+    <%- include('../partials/user/user-navbar.ejs') %>
+      <div class="container">
+        <div class=" ">
+          <div class="row justify-content-between g-4 ">
+            <!-- Details -->
+
+
+            <div class="card position-relative my-5  col-12  col-12 text-black mb-3">
+              <div class="card-body ">
+                <div class="mb-3 d-flex justify-content-between">
+                  <div>
+                    <span class="me-3">
+                      ordered on: <%= order.createdAt.toString().slice(0,16) %>
+                    </span><br>
+                    <span class="me-3">
+                      orderId:#<%= order._id%>
+                    </span>
+                    <div class=""> 
+                     
+                       
+                        <% if(order.isCancelled==true) { %>
+                          <span class="fw-bold text-danger">Order Status:Cancelled</span>
+                          <% } else if(order.orderStatus=="Delivered"){ %>
+                            <span class=" fw-bold  text-success">Order Status: <%= order.orderStatus %></span>
+                            <% }else{ %>
+                               <span class=" fw-bold ">Order Status:<%= order.orderStatus %></span>
+                              <% } %>
+                       
+                    </div>
+                    <% if(order.isCancelled==true) { %>
+                    
+                      <% } else if(order.returnStatus=="Requested"){ %>
+                        <span class=" fw-bold  ">Return Status: <%= order.returnStatus %></span>
+                        <% }else if(order.return==true){ %>
+                          <span class=" fw-bold  ">Return Status: <%= order.returnStatus %></span>
+                          <% }else{ %>
+                            
+                            <% } %>
+                  </div>
+
+                </div>
+
+
+                <table class="table table-borderless">
+                
+                    <% order.items.forEach(item=> { %>
+                      <tr>
+                        <td colspan="2">
+                          <div class="d-flex mb-2">
+                            <div class="flex-shrink-0">
+                              <img src="/<%= item.image %>" alt="" width="35" class="img-fluid">
+                            </div>
+                            <div class="flex-lg-grow-1 ms-3">
+                              <h6 class="smallmb-0">
+                                <%= item.productName %>
+                              </h6>
+                            </div>
+                          </div>
+                        </td>
+                        
+                        <td class="text-end">
+                          <% if(item.offer){ %>
+
+                         <% }else{ %>
+₹<%= item.price %>
+                        <% } %>
+                          
+                        </td>
+                      </tr>
+                  
+                    
+                
+    <tr>
+                         <td colspan="2">
+                          quantity
+                        </td> 
+                        <td class="text-end">
+                          <%= item.quantity %>
+                        </td>
+                      </tr>
+                  <tr
+                    class="                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ">
+                    <td class=" fs-6" colspan="2">Subtotal</td>
+                    <td class="text-end">
+                      ₹ <%= item.price * item.quantity %>
+                    </td>
+                  </tr>
+                  <% }) %>
+                    <tfoot>
+                      <tr>
+                        <td class=" fs-6" colspan="2">Shipping</td>
+                        <td class="text-end  fs-5">₹50</td>
+                      </tr>
+                      <% if(order.couponId.length>0) { %>
+                      <tr class="text-success">
+                        <td class=" fs-6" colspan="2">Coupon Applied:(<%=order.couponId[0].code %>)</td>
+                        <td class="text-end  fs-5">
+                          <%  if(order.couponId[0].isPercentage){ %>
+                            -₹<%= order.totalAmount * order.couponId[0].discount/100 %>
+                               <% }else{ %>
+                             -₹<%=  order.couponId[0].discount %>
+                               <% } %>
+                        </td>
+                      </tr>
+<% } %>
+                      <tr>
+                        <td class="fw-bold fs-5" colspan="2">
+                          CART TOTAL
+                        </td>
+
+
+
+                        <td class="text-end fw-bold fs-5">
+                        
+                          <% if(order.couponId.length>0){ %>
+                            <%  if(order.couponId[0].isPercentage){ %>
+                              ₹<%= order.totalAmount -  order.totalAmount * order.couponId[0].discount/100  %>
+                            <% }else{ %>
+                              ₹<%= order.totalAmount- order.couponId[0].discount %>
+                                <% } %>
+                                <% }else{ %>
+                                  ₹<%= order.totalAmount %>
+                                    <% } %>
+                        </td>
+                      </tr>
+                      <tr class="fw-bold">
+                        <td colspan="2">Payment Method</td>
+                        <td class="text-end">
+                          <%= order.paymentMethod %>
+                        </td>
+
+                      </tr>
+                      <tr class="fw-bold">
+                        <td colspan="2">Billing address</td>
+                        <td class="text-end">
+                          <address>
+                            <strong>
+                              <%= order.userId?.name %>
+                            </strong><br>
+                            Address: <%= order.userAddress[0].address %> <br>
+                              Landmark: <%= order.userAddress[0].landmark %><br>
+                                <%= order.userAddress[0].state %>, <%= order.userAddress[0].city %>, <%=
+                                      order.userAddress[0].state %><br>
+                                      <abbr title="Phone">
+                                        <%= order.userId?.phone %>
+                                      </abbr>
+                          </address>
+                        </td>
+                      </tr>
+                    </tfoot>
+                </table>
+                <a href="/invoice-download/<%= order._id %>" class="btn btn-dark me-2 text-decoration-none">Download
+                  Invoice</a>
+                  <% if(order.orderStatus=="Delivered"){ %>
+                    <button type="button" class="btn btn-danger position-absolute bottom-0 mb-3 "
+                    data-bs-target="#staticBackdrop1" id="cancel" data-bs-toggle="modal" <%= order.return==false?'':'disabled' %>><%= order.orderStatus=="Delivered"?'Return':order.returnStatus %>
+                      </button>
+                      <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false"
+                      tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Do you want to Return thid order?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+        
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" onclick="returnOrder('<%= order._id%>')">yes</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                 <% }else{ %>
+<button type="button" class="btn btn-danger position-absolute bottom-0 mb-3 "
+                  data-bs-target="#staticBackdrop1" id="cancel" data-bs-toggle="modal"
+                  <%=order.isCancelled==true?'disabled':'' %>><%= order.isCancelled==false?'Cancel Order':'Cancelled' %>
+                    </button>
+
+
+
+   <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false"
+              tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Do you want to cancel this order?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" onclick="cancelOrder('<%= order._id%>')">yes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+                  <% } %>
+                
+              </div>
+            </div>
+            <!-- Button trigger modal -->
+
+            <!-- Modal -->
+         
+
+
+          </div>
+        </div>
+      </div>
+
+
+      <%- include('../partials/user/footer.ejs') %>
+
+
+        </script>
+  </body>
+
+</html>

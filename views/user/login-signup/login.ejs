@@ -5,53 +5,63 @@
   <body>
 
     <%- include('../../partials/user/guest-navbar.ejs') %>
-      <section>
+
+      <section id="loginPage">
+
         <div class="container h-100" id="register-card">
           <div class="row h-100 d-flex justify-content-center align-items-center">
             <div class="col-md-5">
-              <div class="login-card p-5 mb-4">
-                <div class="text-center text-black">
-                  <h1 class="sign-in">Sign In</h5>
-                </div>
-                <p class="text-danger">
-                  <%= message %>
-                </p>
-                <form id="form" action='/login' method='POST'>
-                  <span class="text-danger">
+              <div class="login-card">
+                <div class="form">
+                  <span class="form__title">Sign In</span>
 
-                  </span>
-                  <div class="form-outline input-control mb-3 ">
-                    <input type="text" id="email" value="<%= user %>" class="form-control form-control-lg "
-                      name="email" />
-                    <label class="form-label">Enter an Email </label>
-                    <div class="error"></div>
+                  <form id="Form" action='/login' method='POST'>
+                    <div id="liveAlertPlaceholder" >
+                      <% if(message){ %>
+                          <div class="alert alert-danger alert-dismissible " role="alert">
+                                <div><%= message %></div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                              </div>
+                          <% } %>
                   </div>
-                  <div class="d-flex justify-content-center">
-                    <div class=" form-outline input-control mb-3  align-items-center ">
-                      <input type="password" id="password" class="form-control form-control-lg" name="password"
-                        aria-describedby="passwordHelpInline" />
-                      <label class="form-label" for="form2Example27">Password</label>
+                    <div class="form__input input-control ">
+
+                      <i class="ri-mail-line"></i>
+                      <input type="text" placeholder="Email" value="<%= user %>" name="email" id="email1"
+                        onfocusout="validateEmail()">
+                      <span class="bar"></span>
                       <div class="error"></div>
                     </div>
-                    <div class="ps-2 align-items-center">
-                      <span id="passwordHelpInline" class="form-text">
-                        Must be minimum of 6 characters long.
-                      </span>
+
+                    <div class="form__input input-control">
+                      <i class="ri-lock-line"></i>
+                      <input type="password" placeholder="Password" type="password" name="password" id="password"
+                        onfocusout="validatePassword()">
+                      <span class="bar"></span>
+                      <div class="error"></div>
                     </div>
-                  </div>
 
-                  <button class="btn btn-dark btn-lg " type="submit" onclick="validateLogin()">LogIn</button>
+                    <a class=" btn text-secondary " onclick="forgetPass()">Forgot Password?</a>
 
-
-                  <p class="mb-5 pb-lg-2 text-primary mt-2">Don't have an account? <a href="/register"
-                      class="text-primary mt-2">signup here</a></p>
-                </form>
+                    <button type="submit" class="form__button">Sign
+                      up</button>
+                    <span class="form__switch">
+                      Don't have an account? <a href="/register">Register</a>
+                    </span>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      
+
+
       <%- include('../../partials/user/footer.ejs') %>
+
+     
   </body>
 
 </html>

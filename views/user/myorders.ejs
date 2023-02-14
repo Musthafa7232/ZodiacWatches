@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+
+  <body>
+
+    <%- include('../partials/user/user-navbar.ejs') %>
+      <div class="container-fluid  ">
+        <div class="row ">
+          <div class="col-12 col-lg-3">
+            <div class=" row text-center   " id="navbar-example3">
+              <div class="col-12  mt-4  bg-light text-center border-black border border-2 mb-5 py-5">
+                <h4 class="w-100">Hi
+                <span class="w-100 fw-bold fs-6"><%= user.name %></span>
+              </h4>
+              </div>
+              <div class="col-12  bg-light border-black border border-2 py-5"><a class="text-decoration-none text-black"
+                  href="/myAccount">
+                  <p>Dashboard</p>
+                </a></div>
+              <div class="col-12  bg-light border border-2 py-5"><a class="text-decoration-none text-black"
+                  href="/addresses">
+                  <p>My Address</p>
+                </a> </div>
+              <div class="col-12  bg-light border-black fw-bold  border border-2 py-5"><a class="text-decoration-none text-black"
+                  href="/myOrders">
+                  <p>My Orders</p>
+                </a></div>
+            
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-9  ">
+            <h2 class="text-center my-5">My Orders</h2>
+            <a class="text-decoration-none text-black" href="/orders/<%= order. _id %>">
+              <% if(order.length>0){ %>
+                <% var count="0" %>
+                  <% order.forEach(order=> { %>
+                    <% count ++ %>
+                      <% order.items.forEach(item=> { %>
+                        <div class="card my-3">
+                          <a class="text-decoration-none text-black" href="/orders/<%= order. _id %>">
+                          <div class="card-body">
+                            <div class="d-flex "> 
+                              <span class="text-start">ordered on:<%= order.createdAt.toString().slice(0,16) %></span> 
+                               
+                                <% if(order.isCancelled==true) { %>
+                                  <span class="ms-auto text-end fw-bold text-danger">Order Status:Cancelled</span>
+                                  <% } else if(order.orderStatus=="Delivered"){ %>
+                                    <span class=" ms-auto fw-bold text-end text-success">Order Status: <%= order.orderStatus %></span>
+                                    <% }else{ %>
+                                       <span class="ms-auto fw-bold text-end">Order Status:<%= order.orderStatus %></span>
+                                      <% } %>
+                               
+                            </div>
+                          
+                            
+                            <table class="table table-borderless">
+                              <tbody>
+                                <% order.items.forEach(item=> { %>
+                                  <tr>
+                                    <td>
+                                      <div class="d-flex mb-2">
+                                        <div class="flex-shrink-0">
+                                          <img src="<%= item.image %>" alt="" width="35" class="img-fluid">
+                                        </div>
+                                        <div class="flex-lg-grow-1 ms-3">
+                                          <h6 class="smallmb-0">
+                                            <%= item.productName %>
+                                          </h6>
+                                        </div>
+                                      </div>
+                                    </td>
+                                    <td>
+                                     Quantity: <%= item.quantity %>
+                                    </td>
+                                    <td class="text-end">
+                                      ₹ <%= item.price * item.quantity %>
+                                    </td>
+                                  </tr>
+                              </tbody>
+        
+                             
+                              <% }) %>
+                                <tfoot>
+        <tr>
+          <td class=" fs-5" colspan="2">Shipping</td>
+          <td class="text-end  fs-5">+₹50</td>
+        </tr>
+        
+        <tr>
+          <td class="fw-bold fs-5" colspan="2">CART TOTAL</td>
+                                  
+                                   
+        
+          <td class="text-end fw-bold fs-5">
+            <%= order.totalAmount %>
+          </td>
+        </tr>
+        
+                                
+                              
+                              
+                                </tfoot>
+                            </table>
+                          </div>
+                         </a>  
+                        </div>
+                        <% }) %>
+                          <% }) %>
+                            <% } %>
+                     
+
+          </div>
+        </div>
+
+      </div>
+
+      <%-include('../partials/user/footer.ejs') %>
+
+
+  </body>
+
+</html>

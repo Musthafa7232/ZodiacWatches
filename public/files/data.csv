@@ -1,0 +1,8 @@
+﻿label,value
+Customer Name,customerId.fname
+Email,customerId.email
+Payment Method,paymentMethod
+Product,items.productName
+Color,items.color
+Quantity,items.quantity
+Ordered On,createdAt

@@ -1,49 +1,11 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 
-const addressSchema = new mongoose.Schema({
-    state: {
-        type: String,
-    },
-    street1: {
-        type: String
-    },
-    street2: {
-        type: String
-    },
-    city: {
-        type: String
-    },
-    landmark: {
-        type: String
-    },
-    zip: {
-        type: Number
-    }
-})
-const cartSchema = new mongoose.Schema({
-    productId: {
-      type: String,
-    },
-    quantity: {
-      type: Number
-    }
-  })
-  
-  const wishlistSchema = new mongoose.Schema({
-    productId: {
-      type: String
-    }
-  })
 
 const userSchema = new mongoose.Schema({
-    fname: {
+    name: {
         type: String,
-        required: [true, 'First name cannot be empty'],
-    },
-    lname: {
-        type: String,
-        required: [true, 'Last name cannot be empty']
+        required: [true, 'name cannot be empty'],
     },
     email: {
         type: String,
@@ -75,12 +37,51 @@ const userSchema = new mongoose.Schema({
     createdOn: {
         type: String,
     },
-    updatedOn:{
-        type:String
+    updatedOn: {
+        type: String
     },
-    shippingAddress: [addressSchema],
-    cart: [cartSchema],
-    wishlist: [wishlistSchema]
+    shippingAddress: {
+        type: [{
+            state: {
+                type: String,
+            },
+            city: {
+                type: String
+            },
+            address: {
+                type: String
+            },
+            zip: {
+                type: Number
+            },
+            landmark: {
+                type: String
+            }
+        }]
+    },
+    cart: {
+        type: [{
+            productId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Products'
+            },
+            quantity: {
+                type: Number
+            }
+        }]
+    },
+    cartTotal: {
+        type: Number,
+        default: 0
+    },
+    wishlist: [{
+        type: {
+            productId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Products'
+            }
+        }
+    }]
 })
 userSchema.pre('save', async function (next) {
     try {

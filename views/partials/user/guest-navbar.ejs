@@ -1,71 +1,39 @@
-<nav class="navbar navbar-expand-lg sticky-top bg-black ">
-  <div class="container-fluid text-white">
-    <a class="navbar-brand p-auto" href="/">
-      <div class=" logo d-flex align-items-center py-auto">
-        <p class="time">Time</p>
-        <p class="x">X</p>
-      </div>
-    </a>
-    <div class="ps-5"></div>
-    <button class="navbar-toggler border border-0" type="button" data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-      aria-label="Toggle navigation">
-      <svg class="border border-0" width="30" height="30" viewBox="0 0 32 42" xmlns="http://www.w3.org/2000/svg"
-        onclick="this.classList.toggle('active')">
-        <g transform="matrix(1,0,0,1,-438.286,-264.004)">
-          <g id="arrow_left1">
-            <g transform="matrix(-1,-1.22465e-16,1.22465e-16,-1,858.787,564.935)">
-              <path id="top"
-                d="M390,270L420,270L420,270C420,270 420.195,250.19 405,265C389.805,279.81 390,279.967 390,279.967" />
-            </g>
-            <g transform="matrix(-1,-2.44929e-16,-2.44929e-16,1,858.786,5)">
-              <path id="bottom"
-                d="M390,270L420,270L420,270C420,270 420.195,250.19 405,265C389.805,279.81 390,279.967 390,279.967" />
-            </g>
-            <g transform="matrix(-1,-1.22465e-16,1.22465e-16,-1,858.787,569.935)">
-              <path id="middle" d="M390,284.967L420,284.967" />
-            </g>
-          </g>
-        </g>
-      </svg>
-    </button>
 
-    <div class="collapse navbar-collapse border border-0 text-white" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active  text-white" aria-current="page" href="#">Home</a>
-        </li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle  text-white" href="#" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Shop
-          </a>
-          <ul class="dropdown-menu" data-bs-theme="dark">
-            <li><a class="dropdown-item " href="#">Mens</a></li>
-            <li><a class="dropdown-item " href="#">Womens</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active  text-white " aria-current="page" href="#">About us</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active  text-white" aria-current="page" href="#">Contact us</a>
-        </li>
-
-      </ul>
-    </div>
-    <div class="nav-item  dropdown">
-      <a class="nav-link dropdown-toggle d-flex align-items-center w-50 text-white" href="#" role="button"
-        data-bs-toggle="dropdown" aria-expanded="false">
-        <img class=" account" src="icons/icons8-account-48.png">Account
+<nav class="navbar logo   fixed-top">
+  <a class="navbar-brand " href="/">
+    <div class=" ms-5 d-flex align-items-center py-auto">
+      <p class="x">Z</p> 
+      <p class="time">odiac</p><br>
+   <span class="text-white fs-6">Watches</span>    
+  </div>
+     
+  </a>
+  <button id="searchBtn">
+    <i class="bi bi-search text-xl text-white hover:text-turquoise"></i>
+  </button>
+  <input type="checkbox" id="toggler" />
+  <label for="toggler"><i class="ri-menu-line me-4 mb-5 text-secondary"></i></label>
+  <div class="menu me-3 ">
+      <ul class="list">
+          <li><a href="/">Home</a></li>
+          <li><a href="/products">Shop</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+  
+    <li>  <a class="nav-link dropdown-toggle href="#" role="button"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          Account
       </a>
       <div class="dropdown-menu dropdown-menu-end" data-bs-theme="dark">
         <a class="dropdown-item" href="/login">Already have an Account? Sign In</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="/register">New around here? Sign up</a>
-      </div>
-    </div>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/register">New around here? Sign up</a>
+  </div>
+</li>
+      </ul>
   </div>
   </div>
 </nav>
+
+
+

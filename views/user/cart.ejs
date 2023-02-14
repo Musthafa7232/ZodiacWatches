@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+
+  <body>
+
+    <%- include('../partials/user/user-navbar.ejs') %>
+
+
+
+      <div class="site-section">
+        <div class="container">
+          
+          <div class="row mb-5">
+            <form class="col-md-12" method="post">
+              <div class="site-blocks-table">
+
+                <table class="table table-borderless  ">
+                  <% if(product.cart.length>0){ %>
+                    <thead>
+                      <tr>
+                        <th class="product-thumbnail">Image</th>
+                        <th class="product-name">Product</th>
+                        <th class="product-quantity">Price</th>
+                        <th class="product-total">Total</th>
+                        <th class="product-remove">Remove</th>
+                      </tr>
+                    </thead>
+                    <% } %>
+                      <tbody>
+                        <% if(product.cart.length>0){ %>
+                          <% count=0 %>
+                            <% product.cart.forEach(item=> { %>
+                              <% count++ %>
+                                <tr>
+                                  <td class="product-thumbnail">
+                                    <img src="/<%= item.productId.images[0] %>" alt="Image"
+                                      class="img-fluid productImage">
+                                  </td>
+                                  <td class="product-name">
+                                    <h2 class="h5 ">
+                                      <%= item.productId.productName %>
+                                    </h2>
+                                  </td>
+                                  <td>
+                                    <%= item.productId.price %>
+                                  </td>
+                                  <td style="width:7.9rem;">
+                                    <div class="input-group mb-1">
+                                      <div class="input-group-prepend">
+
+                                        <button class="btn btn-outline-dark " id="dec<%= count %>"
+                                          data-url="<%= item.productId._id %>"
+                                          onclick="changeQuantity(this.id,'<%= item._id %>',-1,'<%= count%>')"
+                                          <%=item.quantity==1? 'disabled' : '' %> type="button">-</button>
+
+                                      </div>
+                                      <input type="text" class="form-control text-center bg-black text-white"
+                                        id="<%= item._id %>" value="<%= item.quantity %>" placeholder=""
+                                        aria-label="Example text with button addon" disabled
+                                        aria-describedby="button-addon1">
+                                      <div class="input-group-append">
+                                        <button class="btn btn-outline-dark " type="button" id="inc<%= count %>"
+                                          data-url="<%= item.productId._id %>"
+                                          <%=item.productId.totalStock==item.quantity?'disabled': '' %>
+                                          onclick="changeQuantity(this.id,'<%= item._id %>',1,'<%= count%>')">+</button>
+                                      </div>
+                                      <% if(item.productId.totalStock==item.quantity){ %>
+                                        <p id="error<%= count %>" class="m-auto text-center text-danger">Out Of Stock
+                                        </p>
+                                        <% }else{ %>
+                                          <p id="error<%= count %>" class="m-auto text-center text-danger"></p>
+                                          <% } %>
+                                    </div>
+
+                                  </td>
+                                  <td class="m-auto p-auto ">
+                                    <button type="button" class="btn  text-black  btn-sm"  data-bs-toggle="modal"
+                                      data-bs-target="#staticBackdrop<%= count %>"><img
+                                        class="mx-auto"
+                                        src="https://img.icons8.com/glyph-neue/25/null/delete-forever.png" /></button>
+
+
+                                  
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="staticBackdrop<%= count %>" data-bs-backdrop="static"
+                                      data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                      aria-hidden="true">
+                                      <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Are you sure you want to remove this product? </h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                              aria-label="Close"></button>
+                                          </div>
+                                          <div class="modal-body">
+                                           You can add to Wishlist if you wish to buy it later..
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                              data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-outline-danger" data-url="<%= item.productId._id %>"  id="remove<%= count %>" onclick="removeQuantity(this.id,'<%= item._id %>')">Yes</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+
+
+
+
+
+                                  </td>
+                                </tr>
+                                <% }) %>
+                                  <% }else{ %>
+                                    <div class="container-fluid  mt-100">
+                                      <div class="row">
+
+                                        <div class="col-md-12">
+
+                                          <div class="card">
+
+                                            <div class="card-body cart">
+                                              <div class="col-sm-12  empty-cart-cls text-center">
+                                                <lottie-player
+                                                  src="https://assets10.lottiefiles.com/packages/lf20_15TIGR.json"
+                                                  class="mx-auto" background="transparent" speed="1"
+                                                  style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+                                                <h3><strong>Your Cart is Empty</strong></h3>
+                                                <h4>Add something to make me happy &#128521;</h4>
+
+
+
+                                              </div>
+                                            </div>
+                                          </div>
+
+
+                                        </div>
+
+                                      </div>
+
+                                    </div>
+
+                                    <% } %>
+                      </tbody>
+                </table>
+              </div>
+            </form>
+          </div>
+
+          <div class="row mt-end">
+            <div class="col-md-6">
+              <div class="row mb-2">
+
+                <div class="col-md-6">
+                  <a href="/" class="btn btn-outline-dark btn-lg btn-block">Continue Shopping</a>
+                </div>
+              </div>
+            </div>
+
+            <% if(product.cart.length>0){ %>
+
+              <div class="col-md-6 pl-5 ">
+                <div class="row justify-content-end ">
+                  <div class="col-md-7 border2 border p-2">
+                    <div class="row">
+                      <div class="col-md-12 bg-black text-right border-bottom mb-5">
+                        <h3 class="text-white bg-black h4 text-center text-uppercase">Cart Total</h3>
+                      </div>
+                    </div>
+
+                    <div class="row mb-5 text-center">
+                      <div class="col-md-6">
+                        <span class="text-dark">Total ₹</span>
+                      </div>
+                      <div class="col-md-6 text-right">
+                        <h5 class="text-dark" id='totalPrice'>
+                          ₹<%= product.cartTotal %>
+                        </h5>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12 d-flex justify-contents-center ">
+                        <button class="btn btn-outline-dark  btn-lg m-auto btn-block "
+                          onclick="window.location='/checkout'">Proceed To Checkout</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <%- include('../partials/user/footer.ejs') %>
+        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+  </body>
+
+</html>
