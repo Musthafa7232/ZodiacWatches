@@ -15,7 +15,7 @@ const oneWeek =1000 * 60 * 60 * 24 * 7
 //session store
 const sessionStore = MongoStore.create({
   mongoUrl: process.env.URL,
-  dbName: 'TimeX',
+  dbName: 'zodiacWatches',
   collectionName: 'sessions'
 })
 

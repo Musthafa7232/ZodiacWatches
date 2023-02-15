@@ -10,7 +10,7 @@ $(document).ready(function() {
 
 function blockUser(id) {
     const data = document.getElementById(id).dataset.url;
-    const url = "http://localhost:3000/admin/users/" + data;
+    const url = "/admin/users/" + data;
     const body = {
         id: data
     }
@@ -32,7 +32,7 @@ function blockUser(id) {
 
 function deleteCategory(id) {
     const data = document.getElementById(id).dataset.url;
-    const url = "http://localhost:3000/admin/category/" + data;
+    const url = "/admin/category/" + data;
     const body = {
         id: data
     }
@@ -56,7 +56,7 @@ function editProducts(id) {
     const form = document.getElementById('form')
     const formData = new FormData(form)
     const data = document.getElementById(id).dataset.url;
-    const url = "http://localhost:3000/admin/editProducts/" + data;
+    const url = "/admin/editProducts/" + data;
     fetch(url, {
         method: 'PUT',
         body: formData
@@ -74,7 +74,7 @@ function editProducts(id) {
 function deleteProducts(id) {
     console.log('hi')
     const data = document.getElementById(id).dataset.url;
-    const url = "http://localhost:3000/admin/deleteProducts/" + data;
+    const url = "/admin/deleteProducts/" + data;
     const body = {
         id: data
     }
@@ -96,7 +96,7 @@ function deleteProducts(id) {
 
 function deleteBanner(id) {
     const data = document.getElementById(id).dataset.url;
-    const url = "http://localhost:3000/admin/deleteBanners/" + data;
+    const url = "/admin/deleteBanners/" + data;
     const body = {
         id: data
     }
@@ -122,7 +122,7 @@ function viewImage(event,id){
 
 
   function cancelOrder(id){
-    const url = "http://localhost:3000/admin/cancelOrder/"+id;
+    const url = "/admin/cancelOrder/"+id;
     fetch(url, {
         method: 'put',
     }).then((response) => response.json())
@@ -138,7 +138,7 @@ function viewImage(event,id){
   function saveChanges(count,id){
     console.log(document.getElementById(id));
     const data = document.getElementById(id).dataset.url;
-    const url = "http://localhost:3000/admin/saveChanges/"+data;
+    const url = "/admin/saveChanges/"+data;
     fetch(url, {
         method: 'PATCH',
         headers: {
@@ -159,7 +159,7 @@ function viewImage(event,id){
 
 function deleteCoupon(id) {
     const data = document.getElementById(id).dataset.url;
-    const url = "http://localhost:3000/admin/coupon/" + data;
+    const url = "/admin/coupon/" + data;
     const body = {
         id: data
     }
@@ -180,7 +180,7 @@ function deleteCoupon(id) {
 }
 
 function cancelReturn(id) {
-    const url = "http://localhost:3000/admin/cancelReturn/" + id;
+    const url = "/admin/cancelReturn/" + id;
     const body = {
         id: id
     }
@@ -201,7 +201,7 @@ function cancelReturn(id) {
 }
 
 function approveReturn(id) {
-    const url = "http://localhost:3000/admin/approveReturn/" + id;
+    const url = "/admin/approveReturn/" + id;
     const body = {
         id: id
     }
@@ -224,7 +224,7 @@ function approveReturn(id) {
 function save(count,id){
     console.log(document.getElementById(id));
     const data = document.getElementById(id).dataset.url;
-    const url = "http://localhost:3000/admin/saveReturnstatus/"+data;
+    const url = "/admin/saveReturnstatus/"+data;
     fetch(url, {
         method: 'PATCH',
         headers: {

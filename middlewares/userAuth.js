@@ -27,7 +27,6 @@ const isUserBlocked = async(req, res, next) => {
   try {
     if(req.session.user){
       const user = await userModel.findById(req.session.user._id)
-      console.log(user)
       if(user.isBlocked){
         req.session.user = null
       }
@@ -36,7 +35,7 @@ const isUserBlocked = async(req, res, next) => {
       next()
     }
   } catch (error) {
-    
+    console.log(error);
   }
 }
 

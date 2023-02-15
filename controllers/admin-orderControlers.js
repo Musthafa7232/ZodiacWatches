@@ -235,7 +235,18 @@ const saveReturnStatus = async (req, res) => {
   try {
     const id = req.params.id
     console.log(req.body.returnStatus);
-    await orderModel.findOneAndUpdate({ _id: id }, {
+    if(req.body.returnStatus==='Refund Initiated'){
+console.log('hi');
+const order=await orderModel.findById(id)
+console.log(order.totalAmount);
+await userModel.findOneAndUpdate({ _id: order.userId }, {
+  $inc: {
+wallet:order.totalAmount
+  },
+})
+
+    }
+      await orderModel.findOneAndUpdate({ _id: id }, {
       $set: {
         returnStatus: req.body.returnStatus
       }
@@ -244,6 +255,10 @@ const saveReturnStatus = async (req, res) => {
       successStatus: true,
       redirect: '/admin/returns'
     })
+    
+    
+      
+    
   } catch (err) {
 
     console.log(err);
