@@ -61,7 +61,7 @@ const validateAddress = (req, res, next) => {
       landmark: req.body.landmark,
       address: req.body.address
     }
-    next()
+  res.redirect('/addAddress')
   }else{
     next()
   }
