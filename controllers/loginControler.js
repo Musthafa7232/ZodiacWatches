@@ -39,7 +39,7 @@ const login = async (req, res) => {
             } else {
                 req.session.user = user[0];
                 req.session.viewproducts = true;
-                console.log(req.session.user)
+                
                 return res.redirect('/home')
             }
         }
@@ -124,7 +124,7 @@ const changePassword = (req, res) => {
 const resetPassword = async (req, res) => {
     try {
         const { password, Confirmpassword } = req.body
-        console.log(password, Confirmpassword)
+        
         if (Confirmpassword != password) {
             req.session.message = "password do not match"
             res.redirect('/changePassword')

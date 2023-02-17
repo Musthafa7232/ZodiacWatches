@@ -8,39 +8,56 @@
       <div class="container-fluid ">
         <div class="row mb-5">
           <div class="col-lg-3 col-12 ">
-            <div class=" row text-center   " id="navbar-example3">
-              <div class="col-12 mt-4  bg-light text-center border-black border border-2 mb-5 py-5">
-                <h4 class="w-100">Hi
-                  <span class="w-100 fw-bold fs-6"><%= user.name %></span>
-                </h4>
-              </div>
-              <div class="col-12 bg-light border-black  border border-2 py-5"><a class="text-decoration-none fw-bold text-black"
-                  href="/myAccount">
-                  <p>Dashboard</p>
-                </a></div>
-              <div class="col-12 bg-light border  border-2 py-5"><a class="text-decoration-none text-black"
-                  href="/addresses">
-                  <p>My Address</p>
-                </a> </div>
-              <div class="col-12 bg-light border-black  border border-2 py-5"><a class="text-decoration-none text-black"
-                  href="/myorders">
-                  <p>My Orders</p>
-                </a></div>
-              
+            <div class="info">
+              <span class="w-100">Hello,</span>
+                <span class="w-100 fw-bold fs-6"><%= user.name %></span>
+            </div>
+            <div class="info">
+              <a class="text-decoration-none fw-bold text-black"
+              href="/myAccount">
+              <p>Dashboard</p>
+            </a>
+            </div>
+            <div class="info">
+              <a class="text-decoration-none text-black"
+              href="/addresses">
+              <p>My Address</p>
+            </a> 
+            </div>
+            <div class="info">
+              <a class="text-decoration-none text-black"
+              href="/myorders">
+              <p>My Orders</p>
+            </a>
+            </div>
+            <div class="info ">
+            
+                <p type="button" class=" text-black " data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop">
+                <svg width="20" height="20" class="" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#2874F0" stroke-width="0.3" stroke="#2874F0" d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"></path></svg> Logout
+            </p>
+ 
             </div>
           </div>
 
           <div class="col-9 mx-auto my-5 my-lg-auto ">
+            <div class="ms-start"> 
+            <div class="infos  ms-start w-50 mb-5  bg-white border border-0 ">
+              
+                <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_sifvozg6.json" class="mx-auto w-50 "  background="transparent"  speed="1"  style="width: 50px; height: 50px;"  loop  autoplay></lottie-player><h6 class="text-center">My wallet </h6> <h5 class=" fs-5 text-success">₹<%= user.wallet %></h5>
+               
+              </div>
+            </div>
             <div class="row  mx-auto">
               <div class=" border  mx-auto border-2 ">
                 <div class=" py-2 "><h5 class="me-2">Name</h5>
-                <input type="text" id="form6Example1" class="w-50 form-control bg-light" disabled value="<%= user.name %>" />
-              </div>
+             <p    ><%= user.name %></p>
+              </p>
               <div class=" py-2 "><h5 class="me-2">Phone</h5>
-                <input type="number" id="form6Example1" class="w-50 form-control bg-light" disabled value="<%= user.phone %>" />
+                <p    ><%= user.phone %></p>
               </div>
               <div class=" py-2 "><h5 class="me-2">Email</h5>
-                <input type="text" id="form6Example1" class="w-50 form-control bg-light" disabled value="<%= user.email %>" />
+              <p    ><%= user.email %></p>
               </div>
                 <a href="/editUser" class="text-decoration-none  btn btn-dark my-3 w-100">Edit</a >
               </div>
@@ -51,6 +68,8 @@
         </div>
 
       </div>
+      </div>
+      <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
         <%-include('../partials/user/footer.ejs') %>
 
 

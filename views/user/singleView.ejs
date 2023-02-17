@@ -36,7 +36,7 @@
 								</div>
 								<% if(product.totalStock>0){ %>
 									<div id="liveAlertPlaceholder"></div>
-									<div class="d-flex mt-5 mx-3">
+									<div class="d-flex  mt-5 mx-3">
 
 
 										<button onclick="addTocart('<%= product._id %>')"
@@ -86,32 +86,31 @@
 									<h6>
 										<span class="fs-3 text-primary">
 											<% if(product.offer){ %>
-												<del>₹<%= product.price %></del><span class="text-success">	₹<%= product.price- product.price *product.offer/100 %></span>
+												<del>₹<%= product.price %></del><span class="text-success ms-1"><%= product.offer %>% off</span><br><span >	₹<%=  Math.round(product.price - product.price * product.offer/100) %></span>
 												<% }else{ %>
 													₹<%= product.price %>
 												<% } %>
 											
 											
 											</span>
-										<span class="text-danger">Free Delivery</span>
 										<p class="fs-5 text-secondary">Inclusive of all taxes</p>
 									</h6>
 								</div>
 								<div class="desc_single mb-4">
-									<h4>Colour:</h4>
+									<h4 class="fw-bold">Colour:</h4>
 									<p>
 										<%= product.colour %>
 									</p>
 								</div>
 								<div class="desc_single mb-4">
-									<h5>Description:</h5>
+									<h5 class="fw-bold">Description:</h5>
 									<p>
 										<%= product.discription %>
 									</p>
 								</div>
 								<div class="description-apt d-grid mb-4">
 									<div class="occasional">
-										<h5 class="sp_title mb-3">Highlights:</h5>
+										<h5 class="sp_title fw-bold mb-3">Highlights:</h5>
 										<p class="single_specific">
 											<%= product.highlights %>
 										</p>
@@ -119,7 +118,7 @@
 									</div>
 
 									<div class="color-quality">
-										<h5 class="sp_title">Services:</h5>
+										<h5 class="sp_title fw-bold">Services:</h5>
 										<ul class="single_serv">
 											<li>
 												<p class="">30 Day Return Policy</p>

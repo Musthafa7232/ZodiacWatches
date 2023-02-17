@@ -30,34 +30,34 @@
                       <input type="text" type="text" name="name" id="Name"  value="<%= register.name %>" 
                         placeholder="Name">
                       <span class="bar"></span>
-                      <div class="error"></div>
+                     
                     </div>
                     <div class="form__input input-control ">
                       <i class="ri-mail-line"></i>
                       <input type="text" placeholder="Email" name="email" id="email" value="<%= register.email %>" onfocusout="validateEmail()">
                       <span class="bar"></span>
-                      <div class="error"></div>
+                      <span class="error text-end"></span>
                     </div>
                     <div class="form__input input-control ">
                       <i class="ri-phone-line"></i>
-                      <input type="tel" name="phone"   value="<%= register.phone %>" id="phone" placeholder="Phonenumber"
+                      <input type="tel" name="phone"   value="<%= register.phone %>" id="phone" placeholder="Phone number"
                         onfocusout="validatePhone()" />
                       <span class="bar"></span>
-                      <div class="error"> </div>
+                      <span class="error text-end"> <span>
                     </div>
                     <div class="form__input input-control">
                       <i class="ri-lock-line"></i>
                       <input type="password" placeholder="Password"  name="password" id="password"
                        >
                       <span class="bar"></span>
-                      <div class="error"></div>
+                     
                     </div>
                     <div class="form__input input-control">
                       <i class="ri-lock-line"></i>
                       <input type="password" placeholder="Confirm password" name="confirmPassword" id="password2"
                        >
                       <span class="bar"></span>
-                      <div class="error"></div>
+                      
                     </div>
                     <button type="submit" class="form__button" id="submit" >Sign
                       up</button>

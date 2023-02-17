@@ -82,9 +82,6 @@ const getAbout = (req, res) => {
   return res.render("user/about",{user:req.session?.user?.name})
 }
 
-const getContactus = (req, res) => {
-  return res.render("user/contact",{user:req.session?.user?.name})
-}
 
 
 const getProducts = async (req, res) => {
@@ -137,7 +134,7 @@ const getProducts = async (req, res) => {
       let productName = -1
       if (req.session.sort == 1) {
         productName = 1
-        console.log(productName);
+       
       } else if (req.session.sort == -1) {
         productName = -1
       }
@@ -153,11 +150,11 @@ const getProducts = async (req, res) => {
       let categoryies = []
       if (req.session.categoryId) {
         categoryies.push(mongoose.Types.ObjectId(req.session.categoryId))
-        console.log(req.session.categoryId);
+        
         req.session.categoryId = null
       } else {
         categoryies = categoryArray
-        console.log(categoryies,)
+       
       }
 
 
@@ -193,21 +190,20 @@ const getProducts = async (req, res) => {
   
 let products=product.slice(startIndex,endIndex)
 
-console.log(endIndex,product.length);
-console.log();
+
 if(startIndex>0){
   prev={page:page-1}
-   console.log(prev);
+   
 }
    
 
 if(endIndex<product.length){
    next={page:page+1}
-  console.log(next);
+ 
 }
  
 
-console.log(prev,next);
+
     res.render('user/watches', { products, searched, category,page,prev,next,user:req.session?.user?.name})
   } catch (err) {
     console.log(err);
@@ -221,9 +217,7 @@ const filter = async (req, res) => {
   req.session.to = req.body.to
   req.session.categoryId = req.body.categoryId
 
-  console.log(req.session.sort);
-
-  console.log(req.body);
+  
   res.redirect('/products')
 
 }
@@ -271,7 +265,7 @@ const getAddress = async (req, res) => {
         }
       }
     ])
-    console.log(address);
+   
     res.render('user/address', { address })
   } catch (err) {
     console.log(err);
@@ -458,7 +452,7 @@ const addAddress = async (req, res) => {
 const deleteAdddress = async (req, res) => {
   try {
     const id = req.params.id
-    console.log(id);
+  
     await userModel.findOneAndUpdate({ _id: req.session.user._id }, { $pull: { shippingAddress: { _id: id } } })
     res.json({
       successStatus: true,
@@ -480,7 +474,7 @@ const geteditAdddress = async (req, res) => {
         address = item
       }
     })
-    console.log(address);
+    
     res.render('user/editAddress', { address })
   } catch (err) {
     console.log(err)
@@ -490,8 +484,7 @@ const geteditAdddress = async (req, res) => {
 const editAdddress = async (req, res) => {
   try {
     const id = req.params.id
-    console.log(id);
-    console.log(req.body)
+ 
     const { state, city, address, zip, landmark } = req.body
     await userModel.findOneAndUpdate({
       shippingAddress: {
@@ -533,7 +526,6 @@ module.exports = {
   addAddress,
   orderDetails,
   getAccount,
-  getContactus,
   cancelOrder,
   myOrders,
   dowloadInvoice,

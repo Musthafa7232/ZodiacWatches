@@ -26,12 +26,19 @@ const razorpaySuccess=async(req,res)=>{
       if (req.session.address == item._id)
         userAddress.push(item)
     })
-
+    let totalAmount
+    if(couponId?.isPercentage){
+      totalAmount = user.cartTotal+50 - user.cartTotal * couponId.discount/100
+   }else if(couponId?.discount){
+    totalAmount = user.cartTotal +50-couponId.discount
+   }else{
+    totalAmount = user.cartTotal+50
+   }
     const order = new orderModel({
       userId: req.session.user._id,
       userAddress,
       phone: user.phone,
-      totalAmount: user.cartTotal + 50,
+      totalAmount,
       paymentMethod: 'RAZORPAY',
       paymentVerified: true,
       couponId
@@ -43,7 +50,7 @@ const razorpaySuccess=async(req,res)=>{
         productName: item.productId.productName,
         colour: item.productId.colour,
         quantity: item.quantity,
-        price: item.productId.price,
+        price: item.productId.offer? Math.round(item.productId.price - item.productId.price * item.productId.offer/100): item.productId.price,
         image: item.productId.images[0]
       }
       order.items.push(items)
@@ -62,7 +69,7 @@ const razorpaySuccess=async(req,res)=>{
           _id: mongoose.Types.ObjectId(user._id)
         }, {
           $inc: {
-            totalSpent: user.cartTotal + 50,
+            totalSpent: totalAmount,
             totalOrders: 1,
           }
         })
@@ -91,7 +98,100 @@ const razorpaySuccess=async(req,res)=>{
   }
 }
 
+const wallet=async(req,res)=>{
+  try{
+    const user = await userModel.findById(req.session.user._id).populate('cart.productId')
+    const couponId=req.session.discount
+   
+    let totalAmount
+    if(couponId?.isPercentage){
+      totalAmount = user.cartTotal+50 - user.cartTotal * couponId.discount/100
+   }else if(couponId?.discount){
+    totalAmount = user.cartTotal +50-couponId.discount
+   }else{
+    totalAmount = user.cartTotal+50
+   } 
+if(user.wallet<totalAmount){
+res.json({
+  successStatus:false,
+  message:'Insufficient Wallet Balance'
+})
+}else{
+  const user = await userModel.findById(req.session.user._id).populate('cart.productId')
+ 
+  let userAddress = []
+  user.shippingAddress.forEach(item => {
+    if (req.body.address == item._id)
+      userAddress.push(item)
+  })
 
+  const order = new orderModel({
+    userId: req.session.user._id,
+    userAddress,
+    phone: user.phone,
+    totalAmount,
+    paymentMethod: 'Wallet',
+    paymentVerified: true,
+    couponId
+  })
+
+  user.cart.forEach(item => {
+    const items = {
+      productId: item.productId._id,
+      productName: item.productId.productName,
+      colour: item.productId.colour,
+      quantity: item.quantity,
+      price: item.productId.offer? Math.round(item.productId.price - item.productId.price * item.productId.offer/100): item.productId.price,
+      image: item.productId.images[0]
+    }
+    order.items.push(items)
+  })
+
+  for (let item of user.cart) {
+    await productModel.findOneAndUpdate({
+      _id: mongoose.Types.ObjectId(item.productId._id)
+    },
+      {
+        $inc: {
+          totalStock: -item.quantity,
+        }
+      }),
+      await userModel.findOneAndUpdate({
+        _id: mongoose.Types.ObjectId(user._id)
+      }, {
+        $inc: {
+          totalSpent: totalAmount,
+          totalOrders: 1,
+          wallet:-totalAmount
+        }
+      })
+  }
+
+  await order.save()
+  await userModel.findOneAndUpdate({
+    _id: req.session.user._id
+  },
+    {
+      $set: {
+        cart: [],
+        cartTotal: 0
+      }
+    })
+
+  await couponModel.findByIdAndUpdate(req.session.discount,{$push:{
+    users:req.session.user._id
+  }})
+    req.session.discount=null
+  req.session.order = true
+  res.json({
+    successStatus:true,
+   redirect:'/orderSuccess'
+  })
+}
+  }catch(err){
+console.log(err);
+  }
+}
 const razorPay=async(req,res)=>{
   try{
     if(!req.body.address){
@@ -102,7 +202,7 @@ const razorPay=async(req,res)=>{
       req.session.address=req.body.address
 const coupon=req.session.discount
   const user = await userModel.findById(req.session.user._id).populate('cart.productId')
-  console.log(user);
+ 
   let total
 if(coupon?.isPercentage){
    total = (user.cartTotal+50 - user.cartTotal * coupon.discount/100 )*100
@@ -117,12 +217,13 @@ let options = {
   receipt:'order12'
 }
 instance.orders.create(options, function(err, order) {
-  console.log(order);
+
 res.json({successStatus:true, orders:order})
 })
     }
   }catch(err){
 console.log(err)
+return res.redirect('/orderFailed')
   }
   
 }
@@ -140,12 +241,19 @@ const cashOndelivery = async (req, res) => {
         if (req.body.address == item._id)
           userAddress.push(item)
       })
-  
+      let totalAmount
+      if(couponId?.isPercentage){
+        totalAmount = user.cartTotal+50 - user.cartTotal * couponId.discount/100
+     }else if(couponId?.discount){
+      totalAmount = user.cartTotal +50-couponId.discount
+     }else{
+      totalAmount = user.cartTotal+50
+     }
       const order = new orderModel({
         userId: req.session.user._id,
         userAddress,
         phone: user.phone,
-        totalAmount: user.cartTotal + 50,
+        totalAmount,
         paymentMethod: 'COD',
         paymentVerified: true,
         couponId
@@ -157,7 +265,7 @@ const cashOndelivery = async (req, res) => {
           productName: item.productId.productName,
           colour: item.productId.colour,
           quantity: item.quantity,
-          price: item.productId.price,
+          price: item.productId.offer? Math.round(item.productId.price - item.productId.price * item.productId.offer/100): item.productId.price,
           image: item.productId.images[0]
         }
         order.items.push(items)
@@ -176,7 +284,7 @@ const cashOndelivery = async (req, res) => {
             _id: mongoose.Types.ObjectId(user._id)
           }, {
             $inc: {
-              totalSpent: user.cartTotal + 50,
+              totalSpent: totalAmount,
               totalOrders: 1,
             }
           })
@@ -223,7 +331,7 @@ const cashOndelivery = async (req, res) => {
       const coupon=req.session.discount
     const request = new paypal.orders.OrdersCreateRequest()
     const user = await userModel.findById(req.session.user._id).populate('cart.productId')
-    console.log(user);
+  
     let total
   if(coupon?.isPercentage){
      total = user.cartTotal+50 - user.cartTotal * coupon.discount/100
@@ -233,7 +341,7 @@ const cashOndelivery = async (req, res) => {
      total = user.cartTotal+50
   }
     
-    console.log(total);
+    
     request.prefer("return=representation")
     request.requestBody({
       intent: "CAPTURE",
@@ -256,11 +364,11 @@ const cashOndelivery = async (req, res) => {
   
     try {
       const order = await client.execute(request)
-      console.log(order.result);
+     
       
       res.json({id: order.result.id})
   
-      console.log(`Order: ${(order.result)}`);
+     
   
     } catch (err) {
       console.log(err);
@@ -278,12 +386,19 @@ const cashOndelivery = async (req, res) => {
         if (req.session.address == item._id)
           userAddress.push(item)
       })
-  
+  let totalAmount
+  if(couponId?.isPercentage){
+    totalAmount = user.cartTotal+50 - user.cartTotal * couponId.discount/100
+ }else if(couponId?.discount){
+  totalAmount = user.cartTotal +50-couponId.discount
+ }else{
+  totalAmount = user.cartTotal+50
+ }
       const order = new orderModel({
         userId: req.session.user._id,
         userAddress,
         phone: user.phone,
-        totalAmount: user.cartTotal + 50,
+        totalAmount,
         paymentMethod: 'PAYPAL',
         paymentVerified: true,
         couponId
@@ -295,7 +410,7 @@ const cashOndelivery = async (req, res) => {
           productName: item.productId.productName,
           colour: item.productId.colour,
           quantity: item.quantity,
-          price: item.productId.price,
+          price: item.productId.offer? Math.round(item.productId.price - item.productId.price * item.productId.offer/100): item.productId.price,
           image: item.productId.images[0]
         }
         order.items.push(items)
@@ -314,7 +429,7 @@ const cashOndelivery = async (req, res) => {
             _id: mongoose.Types.ObjectId(user._id)
           }, {
             $inc: {
-              totalSpent: user.cartTotal + 50,
+              totalSpent: totalAmount,
               totalOrders: 1,
             }
           })
@@ -350,5 +465,6 @@ const cashOndelivery = async (req, res) => {
     paymentPaypal,
     paypalSuccess,
     razorPay,
-    razorpaySuccess
+    razorpaySuccess,
+    wallet
   }

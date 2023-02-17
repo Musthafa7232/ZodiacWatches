@@ -1,7 +1,6 @@
 const productModel = require('../Models/productSchema')
 const categoryModel = require('../Models/categorySchema');
 const fs = require('fs');
-const { log } = require('console');
 const { findById } = require('../Models/userSchema');
 
 const getproducts = async (req, res) => {
@@ -50,13 +49,13 @@ const addProducts = async (req, res) => {
             prod = await productModel.find({ productName: productName })
 
 
-            console.log(prod);
+          
             if (prod[0]?.productName == productName) {
                 req.session.message = "Product already exists"
                 res.redirect('/admin/addProducts')
             }
         }
-        console.log(req.body)
+        
         const newProduct = new productModel({
             productName,
             brand,

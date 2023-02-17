@@ -147,7 +147,7 @@ const products=await orderModel.aggregate([
     }
   }
 ])
-console.log(products);
+
 res.json({ products })
 }catch(err){
 console.log(err);
@@ -224,7 +224,7 @@ const downloadExcel = async (req, res) => {
       }
       fields.push(item)
     })
-    console.log(fields);
+   
 
     let newWb = xlsx.utils.book_new()
     let newWs = xlsx.utils.json_to_sheet(fields)

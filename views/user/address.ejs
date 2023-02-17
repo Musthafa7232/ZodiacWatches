@@ -6,29 +6,40 @@
         <%- include('../partials/user/user-navbar.ejs') %>
             <div class="container-fluid ">
                 <div class="row mb-5">
-                    <div class="col-12 col-lg-3">
-                        <div class=" row text-center   " id="navbar-example3">
-                            <div class="col-12   mt-4 bg-light text-center border-black border border-2 mb-5 py-5">
-                                <h4 class="w-100">Hi
-                                  <span class="w-100 fw-bold fs-6"><%= address[0].name %></span>
-                                </h4>
-                            </div>
-                            <div class="col-12  bg-light border-black border border-2 py-5"><a
-                                    class="text-decoration-none text-black" href="/myAccount">
-                                    <p>Dashboard</p>
-                                </a></div>
-                            <div class="col-12  bg-light border border-2 py-5"><a class="text-decoration-none fw-bold  text-black"
-                                    href="/addresses">
-                                    <p>My Address</p>
-                                </a> </div>
-                            <div class="col-12  bg-light border-black border border-2 py-5"><a
-                                    class="text-decoration-none text-black" href="/myOrders">
-                                    <p>My Orders</p>
-                                </a></div>
-                            
-                        </div>
-                    </div>
-                    <div class="col-9 my-5 pt-5 ">
+                   <div class="col-lg-3 col-12 ">
+            <div class="info">
+                <span class="w-100">Hello,</span>
+                <span class="w-100 fw-bold fs-6"><%= address[0].name %></span>
+            </div>
+            <div class="info">
+              <a class="text-decoration-none  text-black"
+              href="/myAccount">
+              <p>Dashboard</p>
+            </a>
+            </div>
+            <div class="info">
+              <a class="text-decoration-none fw-bold text-black"
+              href="/addresses">
+              <p>My Address</p>
+            </a> 
+            </div>
+            <div class="info">
+              <a class="text-decoration-none text-black"
+              href="/myorders">
+              <p>My Orders</p>
+            </a>
+            </div>
+            <div class="info ">
+            
+              <p type="button" class=" text-black " data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop">
+              <svg width="20" height="20" class="" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#2874F0" stroke-width="0.3" stroke="#2874F0" d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"></path></svg> Logout
+          </p>
+
+          </div>
+        </div>
+                    <div class="col-lg-9 col-12 my-5 pt-5 ">
+                        <h3 class="text-center">My Addresses</h3>
                         <div class="d-flex justify-content-end">
                             <button type="button" onclick="window.location='/addAddress'"
                         class=" my-2 btn rounded-pill btn-outline-dark btn-md btn-block">
@@ -41,15 +52,15 @@
                             <% var count=0 %>
 
                             <% if(address[0].shippingAddress.length>0){ %>
-                                <h3 class="text-center">My Addresses</h3>
+
      <% address[0].shippingAddress.forEach(item=> { %>
-                                <div class="col-7 col-lg-4">
+                                <div class="col-12 col-lg-4">
 <% count++ %>
-                                    <div class=" card mt-3" style="width: 20rem;max-height: 20rem;">
+                                    <div class=" card mt-3">
 
                                         <div class="card-body ">
                                             <p class="card-text productName">
-                                                Address(Area and Street):-  <%= item.address %>
+                                             <%= item.address %>
                                             </p>
                                             <p class="card-text">
                                                 <%= item.landmark %>

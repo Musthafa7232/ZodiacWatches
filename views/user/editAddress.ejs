@@ -18,6 +18,14 @@
                                                         <form action="/editAddress/<%= address._id %>" method="post">
                                                             <!-- 2 column grid layout with text inputs for the first and last names -->
                                                             <div class="row mb-4">
+                                                                <div id="liveAlertPlaceholder" >
+                                                                    <% if(message){ %>
+                                                                        <div class="alert alert-danger alert-dismissible  d-block" role="alert">
+                                                                              <div><%= message %></div>
+                                                                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                                            </div>
+                                                                        <% } %>
+                                                                </div>
                                                                 <div class="col">
                                                                     <div class="form-outline">
                                                                         <input type="text" id="form7Example1" value="<%= address.state%>"

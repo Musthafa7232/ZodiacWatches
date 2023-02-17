@@ -21,7 +21,7 @@ const getCoupon = async (req, res) => {
 }
 
 const addCoupon = async (req, res) => {
-    console.log(req.body);
+    
     try {
         const existing = await couponModel.find({code:req.body.code})
 
@@ -35,7 +35,7 @@ const addCoupon = async (req, res) => {
             if (req.body.isPercentage) {
                 isPercentage = true
             }
-            console.log(code, expiry, description, minPurchaseValue, discount, isPercentage);
+           
 
             const coupon = new couponModel({
                 code,
@@ -82,7 +82,7 @@ const deleteCoupon = async (req, res) => {
             redirect: '/admin/coupons'
         })
     } catch (err) {
-
+console.log(err);
     }
 }
 module.exports = {

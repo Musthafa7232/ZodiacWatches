@@ -10,7 +10,7 @@ const getCheckout = async (req, res) => {
       discount=req.session.discount
     }
  const address = await userModel.findById(req.session.user._id) .populate('cart.productId')
- console.log(address)
+ 
  const coupons=await couponModel.aggregate([
   {
     '$match': {
@@ -26,12 +26,12 @@ const getCheckout = async (req, res) => {
 ])
 
 
-console.log(coupons)
+
  
   if(req.session.message){
     const message=req.session.message
     req.session.message=""
-     console.log(address);
+    
   res.render('user/checkout', { address,message,coupons,discount})
   }else{
     const message=""
@@ -46,10 +46,9 @@ console.log(coupons)
 const applyCoupon=async(req,res)=>{
 try{
 const id=req.params.id
-console.log(id+'hi');
+
 const discount=await couponModel.findById(id)
 
-console.log(discount);
 req.session.discount=discount
 res.json({
   successStatus:true,

@@ -110,22 +110,13 @@
 <% } %>
                       <tr>
                         <td class="fw-bold fs-5" colspan="2">
-                          CART TOTAL
+                          ORDER TOTAL
                         </td>
 
 
 
                         <td class="text-end fw-bold fs-5">
-                        
-                          <% if(order.couponId.length>0){ %>
-                            <%  if(order.couponId[0].isPercentage){ %>
-                              ₹<%= order.totalAmount -  order.totalAmount * order.couponId[0].discount/100  %>
-                            <% }else{ %>
-                              ₹<%= order.totalAmount- order.couponId[0].discount %>
-                                <% } %>
-                                <% }else{ %>
-                                  ₹<%= order.totalAmount %>
-                                    <% } %>
+                                  ₹<%= order.totalAmount %>        
                         </td>
                       </tr>
                       <tr class="fw-bold">

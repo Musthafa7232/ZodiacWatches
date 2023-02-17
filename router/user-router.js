@@ -94,6 +94,8 @@ router.post('/paypal', userAuth.isLoggedIn, paymentControls.paymentPaypal)
 
 router.post('/razorPay', userAuth.isLoggedIn, paymentControls.razorPay)
 
+router.post('/wallet', userAuth.isLoggedIn, paymentControls.wallet)
+
 router.get('/paypalSuccess', userAuth.isLoggedIn, paymentControls.paypalSuccess)
 
 router.get('/razorpaySuccess', userAuth.isLoggedIn, paymentControls.razorpaySuccess)
@@ -104,7 +106,7 @@ router.get('/addAddress', userAuth.isLoggedIn, userControls.getNewaddress)
 
 router.get('/addresses', userAuth.isLoggedIn, userControls.getAddress)
 
-router.post('/addAddress',userAuth.validateAddress, userControls.addAddress)
+router.post('/addAddress',userAuth.isLoggedIn,userAuth.validateAddress, userControls.addAddress)
 
 router.delete('/deleteAddress/:id', userAuth.isLoggedIn, userControls.deleteAdddress)
 
@@ -122,11 +124,10 @@ router.put('/returnOrder/:id', userAuth.isLoggedIn, orderControls.returnProduct)
 router.get('/myorders', userAuth.isLoggedIn, userControls.myOrders)
 
 router.get('/invoice-download/:id', userAuth.isLoggedIn, invoice.makeInvoice, userControls.dowloadInvoice)
+
 //about
 router.get('/about', userControls.getAbout)
 
-//contactUs
-router.get('/contact', userControls.getContactus)
 
 //logout
 router.get('/logout', userAuth.isLoggedIn, userControls.getLogout)

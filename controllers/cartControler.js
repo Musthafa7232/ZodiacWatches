@@ -20,7 +20,9 @@ const addTocart = async (req, res) => {
             const productId = req.params.id
             const user = await userModel.findById(req.session.user._id)
             const product = await productModel.findById(productId)
-            const total = product.price
+            
+          const total= product.offer ? Math.round(product.price - product.price * product.offer/100): product.price 
+          
             const cartItem = {
                 productId,
                 quantity: 1,
@@ -69,12 +71,12 @@ const addTocart = async (req, res) => {
 const changeQuantity = async (req, res) => {
     try {
         const productId = req.params.id
-        console.log(productId);
+        
         const amount = req.body.amount
         const user = await userModel.findById(req.session.user._id)
         const product = await productModel.findById(productId)
-        console.log(product);
-        const total = product.price * amount
+       
+        const total = (product.offer ? Math.round(product.price - product.price * product.offer/100): product.price) * amount
         const cartId = req.body.cartId
 
         let quantity
@@ -82,7 +84,7 @@ const changeQuantity = async (req, res) => {
             if (item._id == cartId)
                 quantity = item.quantity
         })
-        console.log(quantity);
+        
         await userModel.findOneAndUpdate({
             _id: user._id, cart: {
                 $elemMatch: {
@@ -91,7 +93,7 @@ const changeQuantity = async (req, res) => {
             }
         },
             { $inc: { "cart.$.quantity": amount, cartTotal: total } })
-        console.log(user.cartTotal);
+        
 
         res.json({
             successStatus: true,
@@ -110,13 +112,12 @@ const changeQuantity = async (req, res) => {
 
 const removeQuantity = async (req, res) => {
     try {
-        console.log('hey');
-        console.log(req.body.quantity);
+      
         const productId = req.params.id
         const user = await userModel.findById(req.session.user._id)
         const product = await productModel.findById(productId)
-        const total = -product.price * req.body.quantity
-        console.log(total);
+        const total = -(product.offer ? Math.round(product.price - product.price * product.offer/100): product.price) * req.body.quantity
+      
         const cartId = req.body.cartId
         const blah = await userModel.findOneAndUpdate({
             _id: user._id
@@ -130,8 +131,7 @@ const removeQuantity = async (req, res) => {
             })
 
         await userModel.findOneAndUpdate({ _id: user._id }, { $inc: { cartTotal: total } })
-        console.log(user.cartTotal);
-        console.log(blah);
+       
         res.json({
             successStatus: true,
             redirect: '/cart'

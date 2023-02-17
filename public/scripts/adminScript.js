@@ -72,7 +72,7 @@ function editProducts(id) {
 }
 
 function deleteProducts(id) {
-    console.log('hi')
+   
     const data = document.getElementById(id).dataset.url;
     const url = "/admin/deleteProducts/" + data;
     const body = {
@@ -136,7 +136,7 @@ function viewImage(event,id){
 }
 
   function saveChanges(count,id){
-    console.log(document.getElementById(id));
+  
     const data = document.getElementById(id).dataset.url;
     const url = "/admin/saveChanges/"+data;
     fetch(url, {
@@ -222,7 +222,7 @@ function approveReturn(id) {
 }
 
 function save(count,id){
-    console.log(document.getElementById(id));
+   
     const data = document.getElementById(id).dataset.url;
     const url = "/admin/saveReturnstatus/"+data;
     fetch(url, {
@@ -242,7 +242,7 @@ function save(count,id){
         }).catch((err) => console.log(err))
 }
 function deleteImage(path,id) {
-    console.log(path)
+
     const url = "/admin/deleteImage"
     fetch(url, {
         method: 'PATCH',

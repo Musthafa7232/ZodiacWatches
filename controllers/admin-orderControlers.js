@@ -16,7 +16,7 @@ const orders = async (req, res) => {
 const cancelOrder = async (req, res) => {
   try {
     const id = req.params.id
-    console.log(id);
+  
     await orderModel.findOneAndUpdate({ _id: id }, {
       $set: {
         isCancelled: true
@@ -56,7 +56,7 @@ const saveChanges = async (req, res) => {
 const getReturn = async (req, res) => {
   try {
     const orders = await orderModel.find({ return: true }).sort({createdAt:-1})
-    console.log(orders);
+   
     res.render('admin/return/return', { orders,dashboard:false,product:false,user:false,returns:true,categorys:false,coupons:false,banner:false,order:false,sale:false })
 
   } catch (err) {
@@ -94,7 +94,7 @@ let sales=[]
      req.session.to=null
     
   }
-  console.log(sales.length);
+ 
   res.render('admin/salesReport/sales', { orders,dashboard:false,product:false,user:false,returns:false,categorys:false,coupons:false,banner:false,order:false,sale:true,sales})
 
   }catch(err){
@@ -114,8 +114,6 @@ const dateFilter=(req,res)=>{
 
 const filteredExcel = async (req, res) => {
   try {
-    console.log(req.session.fromm);
-    console.log(req.session.too);
     const from=req.session.fromm
     const to=req.session.too
     const orders = await orderModel.aggregate([
@@ -177,7 +175,7 @@ const filteredExcel = async (req, res) => {
       }
       fields.push(item)
     })
-    console.log(fields);
+    
 
     let newWb = xlsx.utils.book_new()
     let newWs = xlsx.utils.json_to_sheet(fields)
@@ -234,11 +232,11 @@ const approveReturn = async (req, res) => {
 const saveReturnStatus = async (req, res) => {
   try {
     const id = req.params.id
-    console.log(req.body.returnStatus);
+    
     if(req.body.returnStatus==='Refund Initiated'){
-console.log('hi');
+
 const order=await orderModel.findById(id)
-console.log(order.totalAmount);
+
 await userModel.findOneAndUpdate({ _id: order.userId }, {
   $inc: {
 wallet:order.totalAmount

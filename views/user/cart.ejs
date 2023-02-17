@@ -8,27 +8,21 @@
 
 
 
-      <div class="site-section">
+      
         <div class="container">
           
           <div class="row mb-5">
             <form class="col-md-12" method="post">
-              <div class="site-blocks-table">
-
-                <table class="table table-borderless  ">
-                  <% if(product.cart.length>0){ %>
-                    <thead>
-                      <tr>
-                        <th class="product-thumbnail">Image</th>
-                        <th class="product-name">Product</th>
-                        <th class="product-quantity">Price</th>
-                        <th class="product-total">Total</th>
-                        <th class="product-remove">Remove</th>
-                      </tr>
-                    </thead>
-                    <% } %>
-                      <tbody>
-                        <% if(product.cart.length>0){ %>
+              <% if(product.cart.length>0){ %>
+              <div class=" card mb-5 w-100 " style="min-height: 8rem;">
+                <div class="card-header bg-black text-white text-center">
+                 Cart
+                </div>
+                
+                       
+                          <table class="table table-borderless  ">
+             
+                            <tbody>
                           <% count=0 %>
                             <% product.cart.forEach(item=> { %>
                               <% count++ %>
@@ -43,7 +37,7 @@
                                     </h2>
                                   </td>
                                   <td>
-                                    <%= item.productId.price %>
+                                    <%= item.productId.offer? Math.round(item.productId.price - item.productId.price * item.productId.offer/100): item.productId.price  %>
                                   </td>
                                   <td style="width:7.9rem;">
                                     <div class="input-group mb-1">
@@ -114,8 +108,11 @@
                                   </td>
                                 </tr>
                                 <% }) %>
+                              </tbody>
+                            </table>
+                          </div>
                                   <% }else{ %>
-                                    <div class="container-fluid  mt-100">
+                                    <div class="container mt-100">
                                       <div class="row">
 
                                         <div class="col-md-12">
@@ -145,11 +142,10 @@
                                     </div>
 
                                     <% } %>
-                      </tbody>
-                </table>
-              </div>
+                      
+             
             </form>
-          </div>
+          
 
           <div class="row mt-end">
             <div class="col-md-6">
@@ -160,21 +156,20 @@
                 </div>
               </div>
             </div>
-
+          </div>
             <% if(product.cart.length>0){ %>
-
-              <div class="col-md-6 pl-5 ">
-                <div class="row justify-content-end ">
-                  <div class="col-md-7 border2 border p-2">
-                    <div class="row">
-                      <div class="col-md-12 bg-black text-right border-bottom mb-5">
-                        <h3 class="text-white bg-black h4 text-center text-uppercase">Cart Total</h3>
-                      </div>
-                    </div>
+              <div class="col-md-6  ">
+                </div>
+              <div class="col-md-6 ">
+                <div class=" card mb-5 w-100 ">
+                  <div class="card-header bg-black text-white text-center">
+                    Cart Total
+                  </div>
+                  <div class="card-body  text-black">
 
                     <div class="row mb-5 text-center">
                       <div class="col-md-6">
-                        <span class="text-dark">Total ₹</span>
+                        <p class="text-dark fs-5">Total ₹</p>
                       </div>
                       <div class="col-md-6 text-right">
                         <h5 class="text-dark" id='totalPrice'>
@@ -189,14 +184,15 @@
                           onclick="window.location='/checkout'">Proceed To Checkout</button>
                       </div>
                     </div>
-                  </div>
+                    </div>
                 </div>
+              
               </div>
               <% } %>
 
           </div>
         </div>
-      </div>
+     
 
 
 
