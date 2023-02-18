@@ -7,7 +7,7 @@
     <%- include('../partials/user/user-navbar.ejs') %>
       <div class="container-fluid  ">
         <div class="row ">
-          <div class="col-lg-3 col-12 ">
+          <div class="col-lg-3 mt-4 mt-lg-0 col-12 ">
             <div class="info">
               <span class="w-100">Hello,</span>
               <span class="w-100 fw-bold fs-6"><%= user.name %></span>
@@ -40,7 +40,7 @@
           </div>
         </div>
 
-          <div class="col-12 col-lg-9  ">
+          <div class="col-12   col-lg-9  ">
             <h2 class="text-center my-5">My Orders</h2>
               <% if(order.length>0){ %>
                 <% var count="0" %>

@@ -8,12 +8,12 @@
 
 
 
-   <div id="carouselExampleAutoplaying"  class="carousel slide widget " data-bs-ride="carousel">
+   <div id="carouselExampleAutoplaying"  class="carousel slide widget mt-5 mt-lg-0" data-bs-ride="carousel">
 
-    <div class="carousel-inner">
+    <div class="carousel-inner mt-5 mt-lg-0">
       <% if(banner.length>0){ %>
         <% banner.forEach((item, index)=> { %>
-          <div class="carousel-item banner position-relative <%= index == 0 ? 'active' : '' %>">
+          <div class="carousel-item banner mt-4 mt-lg-0 position-relative <%= index == 0 ? 'active' : '' %>">
             <img style="object-fit: contain;" class="image-fluid w-100" src="<%= item.images %>" class="image-fluid d-block w-100 banner">
             <div class="position-absolute top-50 ms-3 ms-lg-5  ">
               <h1 style="font-size: 2vw;font-stretch: normal; " class="text-black text-center"><%= item.bannerTitle %></h1>
