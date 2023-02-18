@@ -84,15 +84,15 @@
 								
 								<div class="my-3">
 									<h6>
-										<span class="fs-3 text-primary">
+										
 											<% if(product.offer){ %>
-												<del>₹<%= product.price %></del><span class="text-success ms-1"><%= product.offer %>% off</span><br><span >	₹<%=  Math.round(product.price - product.price * product.offer/100) %></span>
+												<del class="text-danger fs-3">₹<%= product.price %></del><span class="text-success fs-5 ms-1"><%= product.offer %>% off</span><span class="fs-3 text-success ms-3" >	₹<%=  Math.round(product.price - product.price * product.offer/100) %></span>
 												<% }else{ %>
-													₹<%= product.price %>
+													<span class="fs-3 text-primary">	₹<%= product.price %></span>
 												<% } %>
 											
 											
-											</span>
+											
 										<p class="fs-5 text-secondary">Inclusive of all taxes</p>
 									</h6>
 								</div>

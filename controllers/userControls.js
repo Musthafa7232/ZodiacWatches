@@ -56,8 +56,6 @@ const getHome = async (req, res) => {
                 '$match': {
                   'isDeleted': false
                 }
-              }, {
-                '$limit': 3
               }
             ],
             'as': 'products'

@@ -260,3 +260,22 @@ function deleteImage(path,id) {
             }
         }).catch((err) => console.log(err))
 }
+
+function removeOffer(id) {
+    const url = "/admin/category/removeOffer/"+id
+    fetch(url, {
+        method: 'PATCH',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({ id })
+    }).then((response) => response.json())
+        .then((response) => {
+            if (response.successStatus) {
+             window.location.href = response.redirect
+            } else {
+                window.location.href = response.redirect
+                document.querySelector('#error').innerHTML = "An error has occured please try again"
+            }
+        }).catch((err) => console.log(err))
+}

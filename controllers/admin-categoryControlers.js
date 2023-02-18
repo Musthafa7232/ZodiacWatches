@@ -59,9 +59,98 @@ const deleteCategory = async (req, res) => {
         console.log(err);
     }
 }
+const addOffer=async(req,res)=>{
+try{
+    const id=req.params.id
+const category=await categoryModel.aggregate([
+    {
+      '$lookup': {
+        'from': 'products', 
+        'localField': '_id', 
+        'foreignField': 'categoryId', 
+        'pipeline': [
+          {
+            '$match': {
+              'isDeleted': false
+            }
+          }
+        ], 
+        'as': 'products'
+      }
+    }, {
+      '$match': {
+        '_id':  mongoose.Types.ObjectId(id)
+      }
+    }, {
+      '$unwind': {
+        'path': '$products'
+      }
+    }
+  ])
+  for (let item of  category) {
+    await productModel.findOneAndUpdate({_id:item.products._id},{$set:{
+        offer:req.body.offer
+    }})
+  }
+  await categoryModel.findOneAndUpdate({_id:id},{$set:{
+    offer:req.body.offer
+  }})
+  res.redirect('/admin/category')
+}catch(err){
+    console.log(err);
+}
+}
+
+const removeOffer=async(req,res)=>{
+    try{
+        const id=req.params.id
+    const category=await categoryModel.aggregate([
+        {
+          '$lookup': {
+            'from': 'products', 
+            'localField': '_id', 
+            'foreignField': 'categoryId', 
+            'pipeline': [
+              {
+                '$match': {
+                  'isDeleted': false
+                }
+              }
+            ], 
+            'as': 'products'
+          }
+        }, {
+          '$match': {
+            '_id':  mongoose.Types.ObjectId(id)
+          }
+        }, {
+          '$unwind': {
+            'path': '$products'
+          }
+        }
+      ])
+    
+      for (let item of  category) {
+        await productModel.findOneAndUpdate({_id:item.products._id},{$set:{
+            offer:null
+        }})
+      }
+      await categoryModel.findOneAndUpdate({_id:id},{$set:{
+        offer:null
+      }})
+      res.json({
+        successStatus:true,
+        redirect:'/admin/category'
+      })
+    }catch(err){
+        console.log(err);
+    }
+    }
 
 module.exports = {
     getCategory,
     addCategory,
-    deleteCategory
+    deleteCategory,
+    addOffer,
+    removeOffer
 }

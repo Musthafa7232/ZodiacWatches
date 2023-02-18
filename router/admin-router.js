@@ -15,7 +15,7 @@ const invoice=require('../utils/puppeteer')
 router.get('/', adminAuth.isLoggedOut, adminControls.getLogin)
 
 
-router.post('/', adminControls.login)
+router.post('/',adminAuth.isLoggedOut,adminControls.login)
 
 //Dashboard
 
@@ -41,7 +41,7 @@ router.get('/products', adminAuth.isLoggedIn, productControls.getproducts)
 
 router.get('/addProducts', adminAuth.isLoggedIn, productControls.newProducts)
 
-router.post('/addProducts', upload.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 }, { name: 'image3', maxCount: 1 },]), productControls.addProducts)
+router.post('/addProducts',adminAuth.isLoggedIn, upload.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 }, { name: 'image3', maxCount: 1 },]), productControls.addProducts)
 
 router.get('/editproducts/:id', adminAuth.isLoggedIn, productControls.viewProducts)
 
@@ -49,41 +49,45 @@ router.put('/editProducts/:id', adminAuth.isLoggedIn,upload.fields([{name: 'imag
 
 router.patch('/deleteProducts/:id', adminAuth.isLoggedIn, productControls.deleteProducts)
 
-router.patch('/deleteImage',productControls.deleteImage)
+router.patch('/deleteImage',adminAuth.isLoggedIn,productControls.deleteImage)
 
 //category
 router.get('/category', adminAuth.isLoggedIn, categoryControls.getCategory)
 
-router.post('/category/add', categoryControls.addCategory)
+router.post('/category/add',adminAuth.isLoggedIn, categoryControls.addCategory)
 
-router.patch('/category/:id', categoryControls.deleteCategory)
+router.patch('/category/:id',adminAuth.isLoggedIn, categoryControls.deleteCategory)
+
+router.post('/addOffer/:id',adminAuth.isLoggedIn,categoryControls.addOffer)
+
+router.patch('/category/removeOffer/:id',adminAuth.isLoggedIn,categoryControls.removeOffer)
 
 //coupons
 router.get('/coupons', adminAuth.isLoggedIn, couponControls.getCoupon)
 
-router.post('/coupon/add', couponControls.addCoupon)
+router.post('/coupon/add',adminAuth.isLoggedIn, couponControls.addCoupon)
 
-router.patch('/coupon/:id', couponControls.deleteCoupon)
+router.patch('/coupon/:id',adminAuth.isLoggedIn, couponControls.deleteCoupon)
 
 //banners
 router.get('/banners', adminAuth.isLoggedIn, bannerControls.getBanner)
 
-router.post('/banners',upload.single('banner'), bannerControls.addBanner)
+router.post('/banners',adminAuth.isLoggedIn,upload.single('banner'), bannerControls.addBanner)
 
-router.patch('/deleteBanners/:id',  bannerControls.deleteBanner)
+router.patch('/deleteBanners/:id',adminAuth.isLoggedIn, bannerControls.deleteBanner)
 
 //orders
 router.get('/orders', adminAuth.isLoggedIn, orderControls.orders)
 
-router.patch('/approveReturn/:id', orderControls.approveReturn)
+router.patch('/approveReturn/:id',adminAuth.isLoggedIn, orderControls.approveReturn)
 
-router.patch('/cancelReturn/:id', orderControls.cancelReturn)
+router.patch('/cancelReturn/:id',adminAuth.isLoggedIn, orderControls.cancelReturn)
 
-router.put('/cancelOrder/:id', orderControls.cancelOrder)
+router.put('/cancelOrder/:id',adminAuth.isLoggedIn, orderControls.cancelOrder)
 
-router.patch('/saveChanges/:id', orderControls.saveChanges)
+router.patch('/saveChanges/:id',adminAuth.isLoggedIn, orderControls.saveChanges)
 
-router.patch('/saveReturnstatus/:id', orderControls.saveReturnStatus)
+router.patch('/saveReturnstatus/:id',adminAuth.isLoggedIn,orderControls.saveReturnStatus)
 
 //return
 router.get('/returns', adminAuth.isLoggedIn, orderControls.getReturn)

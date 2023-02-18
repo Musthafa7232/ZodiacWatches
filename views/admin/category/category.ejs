@@ -15,6 +15,7 @@
                 <tr>
                   <th class="" scope="col">#</th>
                   <th class="" scope="col">Category Name</th>
+                  <th class="" scope="col">Offer</th>
                   <th class="" scope="col">Action</th>
 
 
@@ -31,6 +32,14 @@
                         </th>
                         <td>
                           <%= items.categoryName %>
+                        </td>
+                        <td>
+                          <form class="d-flex " action="/admin/addOffer/<%= items._id %>" method="post">
+                          <input class="form-control  form-control w-50 text-secondary" value="<%= items.offer %>" id="form-validator" name="offer" max="99"  type="text" inputmode="numeric"
+                  placeholder="Offer in %" />
+                  <button class="btn btn-outline-dark mx-4" type="submit"> Add </button>
+                  <a onclick="removeOffer('<%= items._id%>')" class="btn btn-outline-dark " type="submit"> Remove  </a>
+                  </form>
                         </td>
                         <td>
                           <div>

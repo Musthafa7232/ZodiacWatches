@@ -8,7 +8,10 @@ const categorySchema = new mongoose.Schema({
   isDeleted: {
     type: Boolean,
     default: false
-  }
+  },
+  offer:{
+    type:Number
+  } 
 }, 
 )
 
