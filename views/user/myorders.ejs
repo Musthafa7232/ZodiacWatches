@@ -42,7 +42,6 @@
 
           <div class="col-12 col-lg-9  ">
             <h2 class="text-center my-5">My Orders</h2>
-            <a class="text-decoration-none text-black" href="/orders/<%= order. _id %>">
               <% if(order.length>0){ %>
                 <% var count="0" %>
                   <% order.forEach(order=> { %>
@@ -118,14 +117,18 @@
                         </div>
                         <% }) %>
                           <% }) %>
-                            <% } %>
+                            <% }else{ %>
+                              <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_vsaoi7iz.json" class="mx-auto"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+                              <h3 class="text-center">No order History Available</h3>
+                              <h4 class="text-center">Buy something to make me happy</h4>
+                              <% } %>
                      
-
+ 
           </div>
         </div>
 
       </div>
-
+      <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
       <%-include('../partials/user/footer.ejs') %>
 
 

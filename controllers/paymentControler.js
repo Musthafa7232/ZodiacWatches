@@ -105,7 +105,7 @@ const wallet=async(req,res)=>{
    
     let totalAmount
     if(couponId?.isPercentage){
-      totalAmount = user.cartTotal+50 - user.cartTotal * couponId.discount/100
+      totalAmount = Math.round(user.cartTotal+50 - user.cartTotal * couponId.discount/100)
    }else if(couponId?.discount){
     totalAmount = user.cartTotal +50-couponId.discount
    }else{
@@ -247,7 +247,7 @@ const cashOndelivery = async (req, res) => {
       })
       let totalAmount
       if(couponId?.isPercentage){
-        totalAmount = user.cartTotal+50 - user.cartTotal * couponId.discount/100
+        totalAmount = Math.round(user.cartTotal+50 - user.cartTotal * couponId.discount/100)
      }else if(couponId?.discount){
       totalAmount = user.cartTotal +50-couponId.discount
      }else{
@@ -338,7 +338,7 @@ const cashOndelivery = async (req, res) => {
   
     let total
   if(coupon?.isPercentage){
-     total = user.cartTotal+50 - user.cartTotal * coupon.discount/100
+     total = Math.round(user.cartTotal+50 - user.cartTotal * coupon.discount/100)
   }else if(coupon?.discount){
      total = user.cartTotal +50-coupon.discount
   }else{
@@ -392,7 +392,7 @@ const cashOndelivery = async (req, res) => {
       })
   let totalAmount
   if(couponId?.isPercentage){
-    totalAmount = user.cartTotal+50 - user.cartTotal * couponId.discount/100
+    totalAmount = Math.round(user.cartTotal+50 - user.cartTotal * couponId.discount/100)
  }else if(couponId?.discount){
   totalAmount = user.cartTotal +50-couponId.discount
  }else{
