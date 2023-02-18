@@ -177,7 +177,11 @@ res.json({
         cartTotal: 0
       }
     })
-
+    await userModel.findOneAndUpdate({ _id:user._id }, { $push: { walletStatus: {
+      history:"Debited",
+      amount:order.totalAmount,
+      createdOn: Date(),
+    }}})
   await couponModel.findByIdAndUpdate(req.session.discount,{$push:{
     users:req.session.user._id
   }})

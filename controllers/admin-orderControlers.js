@@ -242,6 +242,11 @@ await userModel.findOneAndUpdate({ _id: order.userId }, {
 wallet:order.totalAmount
   },
 })
+await userModel.findOneAndUpdate({ _id:order.userId }, { $push: { walletStatus: {
+  history:"Credited",
+  amount:order.totalAmount,
+  createdOn: Date(),
+} } })
 
     }
       await orderModel.findOneAndUpdate({ _id: id }, {

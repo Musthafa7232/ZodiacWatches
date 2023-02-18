@@ -361,19 +361,6 @@ function forgetPass() {
 }
 
 
-const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
-
-const alert = (message, type) => {
-alertPlaceholder.innerHTML = [
-`<div class="alert alert-${type} alert-dismissible" role="alert">`,
-`   <div>${message}</div>`,
-'   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-'</div>'
-].join('')
-
-
-}
-// Render the PayPal button into #paypal-button-container
 function payWithwallet(){
     const address=document.querySelector('input[name="address"]:checked')?.value
         if(!address){
@@ -402,60 +389,4 @@ document.getElementById('errors').innerText=response.message
         }
 }
 
-function razorPayCheckout(user,email) {
-    const address=document.querySelector('input[name="address"]:checked')?.value
-        if(!address){
-            const alertTrigger = document.getElementById('razorpay')
-if (alertTrigger) {
-alert("Please add an address ",'danger')
-}
-        }else{
-    fetch("/razorpay", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            address: document.querySelector('input[name="address"]:checked').value
-        }),
-    }).then((response) => response.json())
-        .then((response) => {
-            if(response.successStatus){
 
-            const options = {
-                "key": 'rzp_test_WDR1VAx50ZaE9E', // Enter the Key ID generated from the Dashboard
-                "amount": response.orders.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-                "currency": "INR",
-                "name": "Zodiac watches",
-                "description": "Test Transaction",
-                "image": "/icons/Zodiac-1.png",
-                "order_id":response.orders.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                "handler": function (response) {
-                    window.location = ("/razorpaySuccess")
-                },
-                "prefill": {
-                    "name": user,
-                    "email": email,
-                    "contact": "9000090000"
-                },
-                "notes": {
-                    "address": "Razorpay Corporate Office"
-                },
-                "theme": {
-                    "color": "#000000"
-                }
-            };
-            var rzp1 = new Razorpay(options);
-            rzp1.open();
-            }else{
-window.location.href=response.redirect
-            }
-            
-         
-           
-        })
-        .catch((err)=>{
-console.log(err);
-        })
-}
-}

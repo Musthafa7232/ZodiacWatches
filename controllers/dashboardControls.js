@@ -149,7 +149,15 @@ const checkUserotp = async (req, res) => {
         console.log(err);
     }
 }
+const myWallet=async(req,res)=>{
+    try{
+        const user = await userModel.findById(req.session.user._id)
+    res.render('user/myWallet',{user})
+    }catch(err){
+console.log(err);
+    }
 
+}
 module.exports = {
     cancelOrder,
     orderDetails,
@@ -160,5 +168,5 @@ module.exports = {
     editUser,
     userEditOtp,
     checkUserotp,
-
+myWallet
 }

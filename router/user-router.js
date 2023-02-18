@@ -103,6 +103,8 @@ router.get('/paypalSuccess', userAuth.isLoggedIn, paymentControls.paypalSuccess)
 
 router.get('/razorpaySuccess', userAuth.isLoggedIn, paymentControls.razorpaySuccess)
 
+//myWallet
+router.get('/mywallet',userAuth.isLoggedIn,dashboardControls.myWallet)
 
 //address
 router.get('/addAddress', userAuth.isLoggedIn, addressControls.getNewaddress)

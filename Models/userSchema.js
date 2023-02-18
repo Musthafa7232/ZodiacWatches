@@ -40,9 +40,23 @@ const userSchema = new mongoose.Schema({
     updatedOn: {
         type: String
     },
-    wallet:{
-        type:Number,
-        default: 0
+    wallet: {
+        type: Number,
+        default: 0,
+    },
+     walletStatus: {
+        type: [{
+            history: {
+                type: String
+            },
+            amount: {
+                type: Number
+            },
+            createdOn: {
+                type: String,
+            },
+           
+        }]
     },
     shippingAddress: {
         type: [{
