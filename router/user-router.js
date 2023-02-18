@@ -9,6 +9,9 @@ const orderControls = require('../controllers/orderControler')
 const wishlistControls = require('../controllers/wishlistControler')
 const invoice = require('../utils/puppeteer')
 const paymentControls = require('../controllers/paymentControler')
+const dashboardControls=require('../controllers/dashboardControls')
+const addressControls=require('../controllers/addressControls')
+const productControls=require('../controllers/productControls')
 
 router.use(userAuth.isUserBlocked)
 //guest
@@ -32,15 +35,15 @@ router.post('/changePassword', userAuth.isLoggedOut, loginControls.resetPassword
 
 router.get('/forgotPass/otp', userAuth.isLoggedOut, loginControls.passwordOtp)
 
-router.get('/myAccount', userAuth.isLoggedIn, userControls.getAccount)
+router.get('/myAccount', userAuth.isLoggedIn, dashboardControls.getAccount)
 
-router.get('/editUser', userAuth.isLoggedIn, userControls.getEdituser)
+router.get('/editUser', userAuth.isLoggedIn, dashboardControls.getEdituser)
 
-router.get('/editUser/otp', userAuth.isLoggedIn, userControls.userEditOtp)
+router.get('/editUser/otp', userAuth.isLoggedIn, dashboardControls.userEditOtp)
 
-router.post('/editUser', userAuth.isLoggedIn, userControls.editUser)
+router.post('/editUser', userAuth.isLoggedIn, dashboardControls.editUser)
 
-router.post('/editUser/otp', userAuth.isLoggedIn, userControls.checkUserotp)
+router.post('/editUser/otp', userAuth.isLoggedIn, dashboardControls.checkUserotp)
 
 //register
 router.get('/register', userAuth.isLoggedOut, loginControls.getRegister)
@@ -54,13 +57,13 @@ router.post('/register/otp',userAuth.isLoggedOut,registerAuth.isRegistered, logi
 router.get('/register/resendOtp', userAuth.isLoggedOut, registerAuth.isRegistered, loginControls.resendOtp)
 
 //products
-router.get('/products', userControls.getProducts)
+router.get('/products', productControls.getProducts)
 
-router.post('/products', userControls.filter)
+router.post('/products', productControls.filter)
 
-router.patch('/products', userControls.filter)
+router.patch('/products', productControls.filter)
 
-router.get('/singleView/:id', userControls.productSingleview)
+router.get('/singleView/:id', productControls.productSingleview)
 
 //wishlist
 
@@ -102,28 +105,28 @@ router.get('/razorpaySuccess', userAuth.isLoggedIn, paymentControls.razorpaySucc
 
 
 //address
-router.get('/addAddress', userAuth.isLoggedIn, userControls.getNewaddress)
+router.get('/addAddress', userAuth.isLoggedIn, addressControls.getNewaddress)
 
-router.get('/addresses', userAuth.isLoggedIn, userControls.getAddress)
+router.get('/addresses', userAuth.isLoggedIn, addressControls.getAddress)
 
-router.post('/addAddress',userAuth.isLoggedIn,userAuth.validateAddress, userControls.addAddress)
+router.post('/addAddress',userAuth.isLoggedIn,userAuth.validateAddress, addressControls.addAddress)
 
-router.delete('/deleteAddress/:id', userAuth.isLoggedIn, userControls.deleteAdddress)
+router.delete('/deleteAddress/:id', userAuth.isLoggedIn, addressControls.deleteAdddress)
 
-router.get('/editAddress/:id', userAuth.isLoggedIn, userControls.geteditAdddress)
+router.get('/editAddress/:id', userAuth.isLoggedIn, addressControls.geteditAdddress)
 
-router.post('/editAddress/:id', userAuth.isLoggedIn, userControls.editAdddress)
+router.post('/editAddress/:id', userAuth.isLoggedIn, addressControls.editAdddress)
 
 // user Orders
-router.get('/orders/:id', userAuth.isLoggedIn, userControls.orderDetails)
+router.get('/orders/:id', userAuth.isLoggedIn, dashboardControls.orderDetails)
 
-router.put('/cancelOrder/:id', userAuth.isLoggedIn, userControls.cancelOrder)
+router.put('/cancelOrder/:id', userAuth.isLoggedIn, dashboardControls.cancelOrder)
 
 router.put('/returnOrder/:id', userAuth.isLoggedIn, orderControls.returnProduct)
 
-router.get('/myorders', userAuth.isLoggedIn, userControls.myOrders)
+router.get('/myorders', userAuth.isLoggedIn, dashboardControls.myOrders)
 
-router.get('/invoice-download/:id', userAuth.isLoggedIn, invoice.makeInvoice, userControls.dowloadInvoice)
+router.get('/invoice-download/:id', userAuth.isLoggedIn, invoice.makeInvoice, dashboardControls.dowloadInvoice)
 
 //about
 router.get('/about', userControls.getAbout)

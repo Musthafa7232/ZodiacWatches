@@ -38,7 +38,6 @@ const login = async (req, res) => {
                 return res.redirect('/login')
             } else {
                 req.session.user = user[0];
-                req.session.viewproducts = true;
                 
                 return res.redirect('/home')
             }

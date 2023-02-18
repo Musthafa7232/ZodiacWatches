@@ -7,7 +7,7 @@
     <%- include('../partials/user/user-navbar.ejs') %>
       <div class="container-fluid ">
         <div class="row mb-5">
-          <div class="col-lg-3 col-12 ">
+          <div class="col-lg-3 mt-4 mt-lg-0 col-12 ">
             <div class="info">
               <span class="w-100">Hello,</span>
                 <span class="w-100 fw-bold fs-6"><%= user.name %></span>
@@ -42,10 +42,13 @@
 
           <div class="col-9 mx-auto my-5 my-lg-auto ">
             <div class="ms-start"> 
-            <div class="infos  ms-start w-50 mb-5  bg-white border border-0 ">
-              
-                <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_sifvozg6.json" class="mx-auto w-50 "  background="transparent"  speed="1"  style="width: 50px; height: 50px;"  loop  autoplay></lottie-player><h6 class="text-center">My wallet </h6> <h5 class=" fs-5 text-success">₹<%= user.wallet %></h5>
-               
+            <div class="infos row  mb-5  bg-white border border-0 " style="vertical-align: middle;"> 
+              <div class="col-6">
+                <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_sifvozg6.json" class="mx-auto  "  background="transparent"  speed="1"  style="width: 50px; height: 50px;"  loop  autoplay></lottie-player><h6 class="text-center">My wallet </h6> <h5 class=" fs-5 text-success">₹<%= user.wallet %></h5>
+               </div>
+               <div class="col-6">
+                <img src="https://img.icons8.com/external-kmg-design-flat-kmg-design/50/null/external-logistics-shipping-delivery-kmg-design-flat-kmg-design-2.png"><br><h6>Total Orders</h6><h5 class=" fs-5">₹<%= user.totalOrders %></h5>
+               </div>
               </div>
             </div>
             <div class="row  mx-auto">

@@ -11,7 +11,7 @@
 			<% } %> 
 	
 			<main class="ecomrhny-content-inf container">
-				<div class="mt-5 pb-5">
+				<div class=" pb-5">
 					<!--/row1-->
 					<div class="sp-store-single-page row">
 						<div class="col-lg-5  ">
@@ -23,12 +23,12 @@
 
 									</div>
 								</div>
-								<div class="d-flex">
+								<div class="d-flex justify-content-between row">
 <% product.images.forEach(items=>{ %>
 
 
-									<div class="mx-5"> <img onclick="change_image(this)" src="/<%= items %>"
-											class="img-fluid" alt=" ">
+									<div class="col-3" > <img onclick="change_image(this)" src="/<%= items %>"
+											class="img-fluid imageHeight" alt=" " >
 									</div>
 									<%}) %>
 
