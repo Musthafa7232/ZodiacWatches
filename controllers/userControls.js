@@ -39,7 +39,7 @@ const getLandingPage = async (req, res) => {
 const getHome = async (req, res) => {
   try {
     const banner = await bannerModel.find({ isDeleted: false })
-
+console.log("kkk");
     const category = await categoryModel.aggregate(
       [
         {
