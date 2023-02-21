@@ -55,6 +55,19 @@ const dowloadInvoice = (req, res) => {
 const cancelOrder = async (req, res) => {
     try {
         const id = req.params.id
+        const order =await orderModel.findById(id)
+        if(order.paymentMethod=="RAZORPAY"||order.paymentMethod=="PAYPAL"||order.paymentMethod=="Wallet"){
+            await userModel.findOneAndUpdate({ _id: order.userId }, {
+                $inc: {
+              wallet:order.totalAmount
+                },
+              })
+            await userModel.findOneAndUpdate({ _id:req.session.user._id }, { $push: { walletStatus: {
+                history:"Credited",
+                amount:order.totalAmount,
+                createdOn: Date(),
+              } } })
+        }
         await orderModel.findOneAndUpdate({ _id: id }, {
             $set: {
                 isCancelled: true

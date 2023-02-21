@@ -911,3 +911,15 @@ border: 1px solid rgba( 255, 255, 255, 0.18 );
 .mycard::-webkit-scrollbar {
   display: none !important;
 }
+
+
+.orders {
+  overflow-y: scroll;
+  max-height: 37rem;
+  scrollbar-width: none !important;
+  overflow-x: hidden;
+}
+
+.orders::-webkit-scrollbar {
+  display: none !important;
+}
