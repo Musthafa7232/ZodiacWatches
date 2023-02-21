@@ -3,7 +3,11 @@
     <%- include('../partials/head') %> 
 <body>
 
-    <%- include('../partials/user/guest-navbar.ejs') %> 
+    <% if(user){ %> 
+        <%- include('../partials/user/user-navbar') %>
+        <% }else{ %>
+        <%- include('../partials/user/guest-navbar') %>
+        <% } %> 
 
     <div class="orderSuccess  m-auto"></div>      
     <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_rz0hyab1.json"  background="transparent"  speed="1" class="mx-auto"  style="width: 500px; height: 500px;"  loop  autoplay></lottie-player>

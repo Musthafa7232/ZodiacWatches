@@ -49,6 +49,7 @@
                 <table class="table table-borderless">
                 
                     <% order.items.forEach(item=> { %>
+                      <tbody>
                       <tr>
                         <td colspan="2">
                           <div class="d-flex mb-2">
@@ -87,7 +88,7 @@
                       ₹ <%= item.price * item.quantity %>
                     </td>
                   </tr>
-                 
+                </tbody>
                     <tfoot>
                       <tr>
                         <td class=" fs-6" colspan="2">Shipping</td>
@@ -131,10 +132,10 @@
                             <strong>
                               <%= order.userId?.name %>
                             </strong><br>
-                            Address: <%= order.userAddress[0].address %> <br>
-                              Landmark: <%= order.userAddress[0].landmark %><br>
-                                <%= order.userAddress[0].state %>, <%= order.userAddress[0].city %>, <%=
-                                      order.userAddress[0].state %><br>
+                            Address: <%= order.userAddress[0]?.address %> <br>
+                              Landmark: <%= order.userAddress[0]?.landmark %><br>
+                                <%= order.userAddress[0].state %>, <%= order.userAddress[0]?.city %>, <%=
+                                      order.userAddress[0]?.state %><br>
                                       <abbr title="Phone">
                                         <%= order.userId?.phone %>
                                       </abbr>
@@ -143,6 +144,7 @@
                       </tr>
                     </tfoot>
                 </table>
+                
                 <a href="/invoice-download/<%= order._id %>" class="btn btn-dark me-2 text-decoration-none">Download
                   Invoice</a>
                   <% if(order.orderStatus=="Delivered"){ %>

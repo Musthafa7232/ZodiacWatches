@@ -9,20 +9,20 @@ const orderControls = require('../controllers/orderControler')
 const wishlistControls = require('../controllers/wishlistControler')
 const invoice = require('../utils/puppeteer')
 const paymentControls = require('../controllers/paymentControler')
-const dashboardControls=require('../controllers/dashboardControls')
-const addressControls=require('../controllers/addressControls')
-const productControls=require('../controllers/productControls')
+const dashboardControls = require('../controllers/dashboardControls')
+const addressControls = require('../controllers/addressControls')
+const productControls = require('../controllers/productControls')
 
 router.use(userAuth.isUserBlocked)
-//guest
+// guest
 router.get('/', userAuth.isLoggedOut, userControls.getLandingPage)
 
-//login
+// login
 router.get('/login', userAuth.isLoggedOut, loginControls.getLogin)
 
 router.post('/login', userAuth.isLoggedOut, loginControls.login)
 
-//home
+// home
 router.get('/home', userAuth.isLoggedIn, userControls.getHome)
 
 router.post('/forgetPassword', userAuth.isLoggedOut, loginControls.getForgetpass)
@@ -45,18 +45,18 @@ router.post('/editUser', userAuth.isLoggedIn, dashboardControls.editUser)
 
 router.post('/editUser/otp', userAuth.isLoggedIn, dashboardControls.checkUserotp)
 
-//register
+// register
 router.get('/register', userAuth.isLoggedOut, loginControls.getRegister)
 
-router.post('/register', userAuth.isLoggedOut,registerAuth.validateRegister, loginControls.register)
+router.post('/register', userAuth.isLoggedOut, registerAuth.validateRegister, loginControls.register)
 
 router.get('/register/otp', userAuth.isLoggedOut, registerAuth.isRegistered, loginControls.getotp)
 
-router.post('/register/otp',userAuth.isLoggedOut,registerAuth.isRegistered, loginControls.checkotp)
+router.post('/register/otp', userAuth.isLoggedOut, registerAuth.isRegistered, loginControls.checkotp)
 
 router.get('/register/resendOtp', userAuth.isLoggedOut, registerAuth.isRegistered, loginControls.resendOtp)
 
-//products
+// products
 router.get('/products', productControls.getProducts)
 
 router.post('/products', productControls.filter)
@@ -65,26 +65,25 @@ router.patch('/products', productControls.filter)
 
 router.get('/singleView/:id', productControls.productSingleview)
 
-//wishlist
+// wishlist
 
-router.patch('/addTowishlist/:id',  wishlistControls.addTowishlist)
+router.patch('/addTowishlist/:id', wishlistControls.addTowishlist)
 
 router.get('/wishlist', userAuth.isLoggedIn, wishlistControls.getWishlist)
 
 router.patch('/wishTocart/:id', userAuth.isLoggedIn, wishlistControls.wishTocart)
 
 router.patch('/removeWishlist/:id', userAuth.isLoggedIn, wishlistControls.removeWishlist)
-//cart
+// cart
 router.get('/cart', userAuth.isLoggedIn, cartControls.getCart)
 
 router.patch('/addTocart/:id', cartControls.addTocart)
-
 
 router.put('/changeQuantity/:id', userAuth.isLoggedIn, cartControls.changeQuantity)
 
 router.delete('/removeQuantity/:id', userAuth.isLoggedIn, cartControls.removeQuantity)
 
-//checkout
+// checkout
 router.get('/checkout', userAuth.isLoggedIn, orderControls.getCheckout)
 
 router.post('/applyCoupon/:id', userAuth.isLoggedIn, orderControls.applyCoupon)
@@ -103,15 +102,15 @@ router.get('/paypalSuccess', userAuth.isLoggedIn, paymentControls.paypalSuccess)
 
 router.get('/razorpaySuccess', userAuth.isLoggedIn, paymentControls.razorpaySuccess)
 
-//myWallet
-router.get('/mywallet',userAuth.isLoggedIn,dashboardControls.myWallet)
+// myWallet
+router.get('/mywallet', userAuth.isLoggedIn, dashboardControls.myWallet)
 
-//address
+// address
 router.get('/addAddress', userAuth.isLoggedIn, addressControls.getNewaddress)
 
 router.get('/addresses', userAuth.isLoggedIn, addressControls.getAddress)
 
-router.post('/addAddress',userAuth.isLoggedIn,userAuth.validateAddress, addressControls.addAddress)
+router.post('/addAddress', userAuth.isLoggedIn, userAuth.validateAddress, addressControls.addAddress)
 
 router.delete('/deleteAddress/:id', userAuth.isLoggedIn, addressControls.deleteAdddress)
 
@@ -130,16 +129,14 @@ router.get('/myorders', userAuth.isLoggedIn, dashboardControls.myOrders)
 
 router.get('/invoice-download/:id', userAuth.isLoggedIn, invoice.makeInvoice, dashboardControls.dowloadInvoice)
 
-//about
+// about
 router.get('/about', userControls.getAbout)
 
-
-//logout
+// logout
 router.get('/logout', userAuth.isLoggedIn, userControls.getLogout)
 
 router.all('*', (req, res) => {
-  res.render('user/404error')
+  res.render('user/404error',{user: req.session?.user?.name})
 })
 
-
-module.exports = router;
+module.exports = router

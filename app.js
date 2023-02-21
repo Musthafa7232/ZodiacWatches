@@ -9,10 +9,9 @@ const middleware = require('./middlewares/middleware')
 const path = require('path')
 const MongoStore = require('connect-mongo')
 
+const oneWeek = 1000 * 60 * 60 * 24 * 7
 
-const oneWeek =1000 * 60 * 60 * 24 * 7
-
-//session store
+// session store
 const sessionStore = MongoStore.create({
   mongoUrl: process.env.URL,
   dbName: 'zodiacWatches',
@@ -22,35 +21,35 @@ const sessionStore = MongoStore.create({
 // Nocache
 app.use(middleware.Cache)
 
-//session middleware
+// session middleware
 app.use(session({
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge:oneWeek },
+  cookie: { maxAge: oneWeek },
   store: sessionStore
 }))
 
-//port
-const PORT = process.env.PORT || 3000;
+// port
+const PORT = process.env.PORT || 3000
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-//Routers
-app.use(express.static(path.join(__dirname,('./public'))));
+// Routers
+app.use(express.static(path.join(__dirname, ('./public'))))
 app.use('/admin', adminrouter)
 app.use('/', userrouter)
 
-
-//view-Engine
+// view-Engine
 app.set('view engine', 'ejs')
 
-//Static file
-app.use("/uploads", express.static("uploads"));
+// Static file
+app.use('/uploads', express.static('uploads'))
 
-// server Connection 
-
+// server Connection and database
+db.once('open', () => {
   app.listen(PORT, () => {
     console.log(`server is listening on port ${PORT}`)
   })
+})

@@ -8,11 +8,11 @@
 
   <%- include('../partials/user/user-navbar.ejs') %>
 
-    <div class="container vh-100 my-5 py-5">
+    <div class="container mt-md-0 mt-5">
       
 
         <% if(user.wishlist.length>0){ %>
-          <div class="row my-3  g-6"> 
+          <div class="row my-md-3 mt-5 justify-content-between mx-auto"> 
             <h4 class="text-center mb-3">My Wishlist</h4>
         <% var count=0 %>
           <% user.wishlist.forEach(item=>{ %> 
@@ -20,20 +20,19 @@
            
             
               
-              <div class="card bg-light  col-6 mb-3 me-2 " style="max-width: 50rem;max-height:15rem">
-                <div class="row row-cols-5 row-cols-md-3 g-4">
+              <div class="card bg-light  col-12 col-md-6 mb-3 " >
+                <div class="row">
 
-                  <div class="col-6 my-auto">
+                  <div class="col-4 my-auto">
                     <img src="/<%=item.productId.images[0] %> " class="img-fluid  productImage rounded-start" alt="...">
                   </div>
-                  <div class="col-md-8">
+                  <div class=" col-8 ">
                     <div class="card-body text-black">
-                      <h5 class="card-title productName  ">
+                      <span class="fs-6"> <%= item.productId.brand %></span>
+                      <h5 class="my-auto productName  ">
                         <%= item.productId.productName %>
                       </h5>
-                      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                        additional content. This content is a little bit longer.</p>
-                      <span class="fs-2 text-black"> ₹<%= item.productId.price %></span>
+                      <span class="fs-4 text-black"> ₹<%= item.productId.price %></span>
                       <% if(item.productId.totalStock>0){ %>
                         <div class="btn  btn-outline-dark border-0 d-block" id='addTocart<%= count %>'
                           data-url="<%= item.productId._id %>" data-wishid="<%= item._id %>"

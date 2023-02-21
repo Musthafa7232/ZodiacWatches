@@ -39,6 +39,7 @@ const getLandingPage = async (req, res) => {
 const getHome = async (req, res) => {
   try {
     const banner = await bannerModel.find({ isDeleted: false })
+
     const category = await categoryModel.aggregate(
       [
         {
@@ -55,6 +56,8 @@ const getHome = async (req, res) => {
                 '$match': {
                   'isDeleted': false
                 }
+              }, {
+                '$limit': 3
               }
             ],
             'as': 'products'

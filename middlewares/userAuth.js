@@ -1,4 +1,3 @@
-const { login } = require('../controllers/loginControler')
 const userModel = require('../Models/userSchema')
 const isLoggedIn = (req, res, next) => {
   if (req.session.user) {
@@ -23,37 +22,37 @@ const isLoggedOut = (req, res, next) => {
   }
 }
 
-const isUserBlocked = async(req, res, next) => {
+const isUserBlocked = async (req, res, next) => {
   try {
-    if(req.session.user){
+    if (req.session.user) {
       const user = await userModel.findById(req.session.user._id)
-      if(user.isBlocked){
+      if (user.isBlocked) {
         req.session.user = null
       }
       next()
-    }else{
+    } else {
       next()
     }
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 }
 
 const validateAddress = (req, res, next) => {
-  if(!req.body.state){
+  if (!req.body.state) {
     req.session.message = 'state cannot be empty'
-  }else if(!req.body.city){
+  } else if (!req.body.city) {
     req.session.message = 'City cannot be empty'
-  }else if(!req.body.address){
+  } else if (!req.body.address) {
     req.session.message = 'address cannot be empty'
-  }else if(!req.body.zip){
+  } else if (!req.body.zip) {
     req.session.message = 'Zip cannot be empty'
-  }else if(!req.body.landmark){
+  } else if (!req.body.landmark) {
     req.session.message = 'landmark cannot be empty'
-  }else if(!(req.body.zip).match(/^[6]\d{5}$/)){
+  } else if (!(req.body.zip).match(/^[6]\d{5}$/)) {
     req.session.message = 'Enter valid zip code'
   }
-  if(req.session.message){
+  if (req.session.message) {
     req.session.address = {
       state: req.body.state,
       city: req.body.city,
@@ -61,8 +60,8 @@ const validateAddress = (req, res, next) => {
       landmark: req.body.landmark,
       address: req.body.address
     }
-  res.redirect('/addAddress')
-  }else{
+    res.redirect('/addAddress')
+  } else {
     next()
   }
 }

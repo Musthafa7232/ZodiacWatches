@@ -901,3 +901,13 @@ border: 1px solid rgba( 255, 255, 255, 0.18 );
 .imageHeight{
   max-height: 92%
 }
+.mycard{
+  overflow-y: scroll;
+  max-height: 16rem;
+  scrollbar-width: none !important;
+  overflow-x: hidden;
+}
+
+.mycard::-webkit-scrollbar {
+  display: none !important;
+}
