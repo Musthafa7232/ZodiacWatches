@@ -70,8 +70,7 @@ const addTocart = async (req, res) => {
 
 const changeQuantity = async (req, res) => {
     try {
-        const productId = req.params.id
-        
+        const productId = req.params.id    
         const amount = req.body.amount
         const user = await userModel.findById(req.session.user._id)
         const product = await productModel.findById(productId)
@@ -85,6 +84,15 @@ const changeQuantity = async (req, res) => {
                 quantity = item.quantity
         })
         
+        if (quantity+amount >=product.totalStock+1){
+            res.json({
+                successStatus: true,
+                stock: product.totalStock,
+                quantity: quantity,
+                totalAmount: user.cartTotal + total
+            })
+        }else{
+           
         await userModel.findOneAndUpdate({
             _id: user._id, cart: {
                 $elemMatch: {
@@ -94,13 +102,36 @@ const changeQuantity = async (req, res) => {
         },
             { $inc: { "cart.$.quantity": amount, cartTotal: total } })
         
-
+if(quantity + amount==0){
+    await userModel.findOneAndUpdate({
+        _id: user._id
+    },
+        {
+            $pull: {
+                cart: {
+                    _id: cartId
+                }
+            }
+        })
         res.json({
+            successStatus: true,
+           redirect:'/cart',
+           stock: product.totalStock,
+           quantity: quantity,
+           totalAmount: user.cartTotal + total
+        })
+    await userModel.findOneAndUpdate({ _id: user._id }, { $inc: { cartTotal: total } })
+}else{
+      res.json({
             successStatus: true,
             stock: product.totalStock,
             quantity: quantity + amount,
             totalAmount: user.cartTotal + total
         })
+}
+        }
+
+      
     } catch (err) {
         console.log(err);
         res.json({
@@ -119,7 +150,7 @@ const removeQuantity = async (req, res) => {
         const total = -(product.offer ? Math.round(product.price - product.price * product.offer/100): product.price) * req.body.quantity
       
         const cartId = req.body.cartId
-        const blah = await userModel.findOneAndUpdate({
+       await userModel.findOneAndUpdate({
             _id: user._id
         },
             {

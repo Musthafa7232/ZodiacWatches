@@ -64,11 +64,11 @@
                                                 <strong>
                                                     <%= order.userId?.name %>
                                                 </strong><br>
-                                                Address: <%= order.userAddress[0].address %> <br>
-                                                    Landmark: <%= order.userAddress[0].landmark %><br>
-                                                        <%= order.userAddress[0].state %>, <%=
-                                                                order.userAddress[0].city %>, <%=
-                                                                    order.userAddress[0].state %><br>
+                                                Address: <%= order.userAddress[0]?.address %> <br>
+                                                    Landmark: <%= order.userAddress[0]?.landmark %><br>
+                                                        <%= order.userAddress[0]?.state %>, <%=
+                                                                order.userAddress[0]?.city %>, <%=
+                                                                    order.userAddress[0]?.state %><br>
                                                                     <abbr title="Phone">
                                                                         <%= order.userId?.phone %>
                                                                     </abbr>

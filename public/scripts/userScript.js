@@ -116,6 +116,7 @@ function timer(remaining) {
     if (!timerOn) {
         return;
     }
+    document.getElementById("countdown").innerHTML = ""
     document.getElementById("resend").innerHTML = `Don't receive the code? 
   <span class="font-weight-bold text-secondary cursor" onclick="timer(20)"><a class="text-decoration-none text-secondary" href="/register/resendOtp">Resend<a>
   </span>`;
@@ -123,6 +124,8 @@ function timer(remaining) {
 timer(10);
 
 function addTocart(id) {
+    const button= document.getElementById('addTocart')
+    button.removeAttribute("onclick");
     const url = "/addTocart/" + id;
     const body = {
         id: id
@@ -149,6 +152,7 @@ function addTocart(id) {
 
 
 function addTowishlist(id) {
+
     const url = "/addTowishlist/" + id;
     const body = {
         id: id
@@ -236,11 +240,14 @@ function changeQuantity(id, cartId, amount, count) {
     }).then((response) => response.json())
         .then((response) => {
             if (response.successStatus) {
-                document.getElementById(cartId).value = response.quantity,
+                 if (response.redirect) {
+                    window.location.href = response.redirect
+                }else{
+                     document.getElementById(cartId).value = response.quantity,
                     document.getElementById('totalPrice').innerHTML = response.totalAmount
-                if (response.quantity == 1) {
-                    deleteBtn.disabled = true
-                } else if (response.quantity == response.stock) {
+                }
+               
+              if (response.quantity === response.stock) {
                     addBtn.disabled = true
                     document.getElementById(`error${count}`).innerHTML = "Out Of Stock"
                 } else {

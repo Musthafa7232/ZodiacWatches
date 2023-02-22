@@ -167,6 +167,7 @@ if (req.session.user) {
      }
       
     } catch (err) {
+      res.redirect('/404')
       console.log(err);
     }
   
